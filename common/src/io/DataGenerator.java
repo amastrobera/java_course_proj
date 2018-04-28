@@ -86,6 +86,14 @@ public class DataGenerator {
     }
     
     
+    public static void prepareMenuPlan(String filePath) {
+        DSVWriter writer = new DSVWriter(filePath, ",", true);
+                
+        System.out.println("generated " + filePath);
+
+        writer.close();
+    }
+    
     
     public static void generateMeals(String filePath) {
         
@@ -228,6 +236,8 @@ public class DataGenerator {
         DataGenerator.generateUsers(args[0] + "/people.csv");
         
         DataGenerator.generateMeals(args[0] + "/meals.csv");
+        
+        DataGenerator.prepareMenuPlan(args[0] + "/menu_plan.csv");
         
     }
     

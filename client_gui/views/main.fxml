@@ -1,0 +1,10 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane fx:controller="main_gui.Controller.java" 
+          xmlns:fx="http://javafx.com/fxml"
+          alignment="center" hgap="10" vgap="10">
+          <Button text="Users" onAction="#getUsers" />
+          <Label GridPane.rowIndex="1" fx:id="labelUsers" />
+</GridPane>
