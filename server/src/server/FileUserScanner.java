@@ -11,10 +11,12 @@ import java.util.Iterator;
 
 public class FileUserScanner extends UserScanner{
     
+    private final String mDataPath;
     private final DSVReader mReader;
     
-    public FileUserScanner() {
-        mReader = new DSVReader("data/people.csv", ",", true, true);
+    public FileUserScanner(String dataPath) {
+        mDataPath = dataPath;
+        mReader = new DSVReader(mDataPath + "/people.csv", ",", true, true);
     }
     
     @Override
@@ -52,7 +54,7 @@ public class FileUserScanner extends UserScanner{
         
         ArrayList<CanteenUser> users = getUsers();
         
-        MealScanner meals = new FileMealScanner();
+        MealScanner meals = new FileMealScanner(mDataPath);
         
         ArrayList<Course> courses = meals.findMenu(menu.courses());
         
@@ -80,7 +82,7 @@ public class FileUserScanner extends UserScanner{
     
     public static void main(String[] args) {
         
-        FileUserScanner scanner = new FileUserScanner();
+        FileUserScanner scanner = new FileUserScanner("../data");
         
         System.out.println("--- scanning data file ---");
         ArrayList<CanteenUser> users = scanner.getUsers();

@@ -1,11 +1,12 @@
 package canteen;
 
 import io.Packable;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-public class Menu implements Packable{
+public class Menu implements Packable, Serializable{
     
     private String mName;
     private ArrayList<String> mCourseNames;

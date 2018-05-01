@@ -1,10 +1,11 @@
 package canteen;
 
 import io.Packable;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Course implements Packable {
+public class Course implements Packable, Serializable {
     
     public static enum Type {First, Second, Dessert, Fruit, Unknown};
     

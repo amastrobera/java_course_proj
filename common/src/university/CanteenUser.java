@@ -6,7 +6,6 @@ import java.util.HashSet;
 public class CanteenUser extends Person  {
     // not "abstract" to allow people other than Student or Professor
     // to eat in the canteen
-    
     protected final HashSet<String> mFoodAllergies; 
     protected String mType;
 
@@ -22,6 +21,10 @@ public class CanteenUser extends Person  {
     
     public String type() {
         return mType;
+    }
+    
+    public HashSet<String> allergies() {
+        return mFoodAllergies;
     }
     
     public void addAllergy(String food) {

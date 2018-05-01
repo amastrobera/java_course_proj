@@ -1,9 +1,10 @@
 package university;
 
 import io.Packable;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Person implements Packable {
+public class Person implements Packable, Serializable {
 
     protected String mName, mSurname, mPhone;
     protected Address mAddress;
@@ -11,8 +12,8 @@ public class Person implements Packable {
     public Person(String name, String surname) {
         mName = name;
         mSurname = surname;
-        mPhone = null;
-        mAddress = null;
+        mPhone = new String();
+        mAddress = new Address();
     }
     
     public void setPhone(String phone) {
@@ -26,11 +27,16 @@ public class Person implements Packable {
     public String name() { return mName; }
     public String surname() { return mSurname; }
     public String phone() { return mPhone; }
+    public Address address() { return mAddress; }
     
     @Override
     public String toString(){
-        return "name: " + mName + " " + mSurname + 
-                "\ntel: " + mPhone + "\naddress: " + mAddress;
+        String ret = mName + " " + mSurname;
+        if (!mPhone.isEmpty())
+            ret += " " + mPhone;
+        if (!mAddress.isEmpty())
+            ret += " " + mAddress;
+        return ret;
     }
     
     @Override
