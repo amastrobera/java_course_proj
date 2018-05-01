@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import gui.MenuController?>
+
+<AnchorPane id="APaneMenu" prefHeight="500" prefWidth="800" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="gui.MenuController">
+    <children>
+         <ComboBox fx:id="cboFirst" layoutX="30" layoutY="30" prefWidth="200" 
+                   promptText="Primo piatto" onAction="#onFirstChanged" /> 
+         
+         <ComboBox fx:id="cboSecond" layoutX="30" layoutY="60" prefWidth="200" 
+                   promptText="Secondo piatto" onAction="#onSecondChanged" /> 
+
+         <ComboBox fx:id="cboDessert" layoutX="30" layoutY="90" prefWidth="200" 
+                   promptText="Dolce" onAction="#onDessertChanged" /> 
+
+         <ComboBox fx:id="cboFruit" layoutX="30" layoutY="120" prefWidth="200" 
+                   promptText="Frutta" onAction="#onFruitChanged" /> 
+
+        <Button fx:id="btnUsers" layoutX="30" layoutY="150" 
+                text="Users" />  
+        
+        <Label fx:id="labMenuNotification" layoutX="300" layoutY="300" />
+    </children>
+</AnchorPane>
+
