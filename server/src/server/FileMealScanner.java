@@ -14,7 +14,7 @@ public class FileMealScanner extends MealScanner {
     
     public FileMealScanner(String dataPath){
         mDataPath = dataPath;
-        mReader = new DSVReader(mDataPath + "/meals.csv", ",", true, true);
+        mReader = new DSVReader(mDataPath + "/courses.csv", ",", true, true);
     }
     
     @Override

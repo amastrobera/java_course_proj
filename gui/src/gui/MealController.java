@@ -22,7 +22,7 @@ public class MealController implements Initializable {
     private Client mClient;
     
     public void updateMealInfo(String name) {
-        Course course = mClient.findMeal(name);
+        Course course = mClient.getCourseInfo(name);
         System.out.println("updateMealInfo: " + course);
     }
 

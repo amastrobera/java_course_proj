@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/UsersController.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Gui.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Controller.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/MealController.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/MenuController.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/GuiCanteenUser.java</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Main.fxml</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Menu.fxml</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Meal.fxml</file>
-            <file>file:/home/angelo/development/java/PI1/gui/src/gui/Users.fxml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

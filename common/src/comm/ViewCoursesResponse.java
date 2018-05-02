@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ViewMealsResponse extends Response{
+public class ViewCoursesResponse extends Response{
     
     private HashMap<String, ArrayList<String>> mMeals;
     
-    public ViewMealsResponse() {
-        super("ViewMeals");
+    public ViewCoursesResponse() {
+        super("ViewCoures");
         mMeals = new HashMap<>();
     }
    
-    public HashMap<String, ArrayList<String>> getMealsLists() {
+    public HashMap<String, ArrayList<String>> getCouresLists() {
         return mMeals;
     }
     

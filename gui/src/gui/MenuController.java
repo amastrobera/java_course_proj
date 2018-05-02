@@ -28,7 +28,7 @@ public class MenuController implements Initializable {
     private Client mClient;
     
     private void initItems() {
-        HashMap<String, ArrayList<String>> val = mClient.getMeals();
+        HashMap<String, ArrayList<String>> val = mClient.getCourses();
         
         cboFirst.getItems().clear();
         cboFirst.setItems(FXCollections.observableList(val.get("First")));

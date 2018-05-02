@@ -24,6 +24,27 @@ public class Menu implements Packable, Serializable{
         return mCourseNames;
     }
     
+    public String getCourse(Course.Type type) {
+        int idx;
+        switch(type){
+            case First:
+                idx = 0;
+                break;
+            case Second:
+                idx = 1;
+                break;
+            case Dessert:
+                idx = 2;
+                break;
+            case Fruit:
+                idx = 3;
+                break;
+            default: 
+                return "";
+        }
+        return mCourseNames.get(idx);
+    }
+    
     public void setCourse(String name, Course.Type type) {
         int idx;
         switch(type){
@@ -40,11 +61,9 @@ public class Menu implements Packable, Serializable{
                 idx = 3;
                 break;
             default: 
-                idx = -1;
-                break;
+                return;
         }
-        if (idx >= 0)
-            mCourseNames.add(idx, name);
+        mCourseNames.add(idx, name);
     }
 
     @Override

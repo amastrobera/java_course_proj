@@ -18,12 +18,9 @@ public class DSVWriter {
         mSeparator = separator;
         mEncloseInBrackets = encloseInBrackets;
         mNewLine = System.getProperty("line.separator");
-//        System.out.println("DSVWriter(): filePath(" + filePath + ")" + 
-//                            ", newline(" + mNewLine + 
-//                            "), separator(" + mSeparator + ")");
         try {
             mFile = new File(filePath);
-            mWriter = new FileWriter(mFile);
+            mWriter = new FileWriter(mFile, true); //append-mode for 2+ threads
         } catch (IOException ex) {
             System.err.println(ex);
             return;

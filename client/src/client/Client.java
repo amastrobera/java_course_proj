@@ -1,14 +1,14 @@
 package client;
 
 import comm.*;
-import canteen.Course;
+import canteen.*;
+import university.CanteenUser;
 
 import java.net.Socket;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import university.CanteenUser;
 
 public class Client {
 
@@ -72,81 +72,59 @@ public class Client {
         }
         return new ArrayList<CanteenUser>();
     }
+
+    public ArrayList<CanteenUser> getAllergicUsers(Menu menu) {
+        try {
+            Request req = new Request("ViewAllergicUsers");
+            req.setParam("Name", menu.name());
+            req.setParam("First", menu.getCourse(Course.Type.First));
+            req.setParam("Second", menu.getCourse(Course.Type.Second));
+            req.setParam("Dessert", menu.getCourse(Course.Type.Dessert));
+            req.setParam("Fruit", menu.getCourse(Course.Type.Fruit));
+            System.out.println("sending " + req);
+            mOutput.writeObject(req);
+
+            // unpack the result
+            ViewAllergicUsersResponse response = 
+                                (ViewAllergicUsersResponse)mInput.readObject();
+            System.out.println("received response: " + response);
+            return response.getUserList();
+        } catch (Exception ex) {
+            System.err.println("getUsers failed: " + ex);
+        }
+        return new ArrayList<CanteenUser>();
+    }
     
-    public HashMap<String, ArrayList<String>> getMeals() {
-        sendRequestNoParam("ViewMeals");
+    public HashMap<String, ArrayList<String>> getCourses() {
+        sendRequestNoParam("ViewCourses");
         try {
             // unpack the result
-            ViewMealsResponse response = (ViewMealsResponse)mInput.readObject();
+            ViewCoursesResponse response = 
+                                (ViewCoursesResponse)mInput.readObject();
             System.out.println("received response: " + response);
-            return response.getMealsLists();
+            return response.getCouresLists();
         } catch (Exception ex) {
-            System.err.println("getMeals failed: " + ex);
+            System.err.println("getCourses failed: " + ex);
         }
         return new HashMap<>();
 
     }
 
-    public Course findMeal(String name) {
+    public Course getCourseInfo(String name) {
         try {
-            Request req = new Request("FindMeal");
+            Request req = new Request("ViewCourseInfo");
             req.setParam("Name", name);
             System.out.println("sending " + req);
             mOutput.writeObject(req);
-        } catch (Exception ex) {
-            System.err.println("sendRequest exception: " + ex);
-        }
 
-        try {
             // unpack the result
-            FindMealResponse response = (FindMealResponse)mInput.readObject();
+            ViewCourseInfoResponse response = 
+                                (ViewCourseInfoResponse)mInput.readObject();
             System.out.println("received response: " + response);
             return response.getCouse();
         } catch (Exception ex) {
-            System.err.println("getMeals failed: " + ex);
+            System.err.println("getCourseInfo failed: " + ex);
         }
         return new Course();
-    }
-
-    
-    public static void main(String args[]) {
-
-        System.out.println("--- Client --- ");
-        
-        if (args.length < 2) {
-            System.err.println("missing arguments");
-            System.out.println("$ java Client host-name port-number");
-            System.exit(1);
-        }
-                
-        String host = args[0];
-        int port = Integer.valueOf(args[1]);
-        
-        for (int j = 0; j < 2; ++j) {
-            Client c1 = new Client(host, port);
-            
-            ArrayList<CanteenUser> users = c1.getUsers();
-            for (int i = 0; i < 2; ++i) {
-                System.out.println(users.get(i));
-            }
-            
-            HashMap<String, ArrayList<String>> meals = c1.getMeals();
-            ArrayList<String> first = meals.get("First");
-            ArrayList<String> dessert = meals.get("Dessert");
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(first.get(i));
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(dessert.get(i));
-            
-            meals = c1.getMeals();
-            ArrayList<String> second = meals.get("Second");
-            ArrayList<String> fruit = meals.get("Fruit");
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(second.get(i));
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(fruit.get(i));
-            
-        }
-    }
-    
+    }    
 }

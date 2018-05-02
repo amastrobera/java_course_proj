@@ -8,9 +8,9 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="gui.jar" size="10368" download="eager" />
-    <jar href="lib/client.jar" size="6321" download="eager" />
-    <jar href="lib/common.jar" size="56656" download="eager" />
+    <jar href="gui.jar" size="10369" download="eager" />
+    <jar href="lib/client.jar" size="6391" download="eager" />
+    <jar href="lib/common.jar" size="56704" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="gui" >
     <param name="requiredFXVersion" value="8.0+"/>

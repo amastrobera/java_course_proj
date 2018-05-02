@@ -8,10 +8,12 @@ public class Response implements Serializable {
     
     private final String mType;
     private Status mStatus;
+    private String mError;
     
     public Response(String type) {
         mType = type;
         mStatus = Status.SUCCESS;
+        mError = new String();
     }
     
     public Status status() {
@@ -22,6 +24,14 @@ public class Response implements Serializable {
         mStatus = status;
     }
 
+    public String error() {
+        return mError;
+    }
+    
+    public void setError(String msg) {
+        mError = msg;
+    }
+    
     @Override
     public String toString(){
         return "Response " + mType + ", status: " + 

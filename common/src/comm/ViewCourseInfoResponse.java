@@ -2,12 +2,12 @@ package comm;
 
 import canteen.Course;
 
-public class FindMealResponse extends Response {
+public class ViewCourseInfoResponse extends Response {
     
     private Course mFound;
     
-    public FindMealResponse() {
-        super("FindMeal");
+    public ViewCourseInfoResponse() {
+        super("ViewCourseInfo");
         mFound = new Course();
     }
    

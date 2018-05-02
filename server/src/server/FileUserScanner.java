@@ -16,7 +16,7 @@ public class FileUserScanner extends UserScanner{
     
     public FileUserScanner(String dataPath) {
         mDataPath = dataPath;
-        mReader = new DSVReader(mDataPath + "/people.csv", ",", true, true);
+        mReader = new DSVReader(mDataPath + "/users.csv", ",", true, true);
     }
     
     @Override

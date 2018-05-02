@@ -233,11 +233,11 @@ public class DataGenerator {
         
         System.out.println("... writing data into " + args[0]);
         
-        DataGenerator.generateUsers(args[0] + "/people.csv");
+        DataGenerator.generateUsers(args[0] + "/users.csv");
         
-        DataGenerator.generateMeals(args[0] + "/meals.csv");
+        DataGenerator.generateMeals(args[0] + "/courses.csv");
         
-        DataGenerator.prepareMenuPlan(args[0] + "/menu_plan.csv");
+        DataGenerator.prepareMenuPlan(args[0] + "/menus.csv");
         
     }
     
