@@ -5,7 +5,7 @@ public class Professor extends CanteenUser {
         
     public Professor(String name, String surname) {
         super(name, surname);
-        mType = "Professor";
+        mType = "professor";
     }
         
     public Professor() {

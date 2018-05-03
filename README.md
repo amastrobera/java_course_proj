@@ -28,11 +28,13 @@ Arguments are *path/to/data* and *port-number*.
 
 #### Run the client
 
-This just a test the client can communicate with server. We use the gui to work. Client is eventually a library used by the client gui below.
+This **just a tests** to see whether the client can communicate with server properly. We use the gui to work. Client is eventually a library used by the client gui below.
 
-	java -jar client/dist/client.jar localhost 8080
+	java -jar client/dist/client.jar 
 
 #### Run the GUI 
+
+The guy has three tabs. A Menu tab, to select four courses and save it. A Meal tab, to view the specifics of each course. A Users tab, to view all users, or allergic users to the selected menu.
 
 	java -jar gui/dist/gui.jar
 

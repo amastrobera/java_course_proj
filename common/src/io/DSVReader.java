@@ -62,10 +62,14 @@ public class DSVReader {
         }
     }
 
-    public synchronized void reset() {
+    public void reset() {
+        reset(true);
+    }
+    
+    public synchronized void reset(boolean skipHeaders) {
         close();
         open();
-        if (mHasHeaders)
+        if (skipHeaders && mHasHeaders)
             getHeaderFields();
     }
     
@@ -138,5 +142,20 @@ public class DSVReader {
         }
         return false;
     }
+
+    public boolean getNextLine(StringBuffer ret) {
+        try {
+            if (mBuffer.ready()) {
+                String line = mBuffer.readLine();
+                ret.append(line);
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            System.err.println("DSVReader (getNextLine): " + ex );
+        }
+        return false;
+    }
     
+
 }

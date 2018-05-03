@@ -12,7 +12,7 @@ public class CanteenUser extends Person  {
     public CanteenUser(String name, String surname) {
         super(name, surname);
         mFoodAllergies = new HashSet<>();
-        mType = "User";
+        mType = "user";
     }
 
     public CanteenUser() {
@@ -48,11 +48,13 @@ public class CanteenUser extends Person  {
     @Override
     public void fromMap(HashMap<String, String> map) {
         super.fromMap(map);
+        mType = map.get("Type");
         String[] mapAllergies = map.get("Allergies").split(",");
         if (mapAllergies.length > 0 && !mapAllergies[0].isEmpty())
             for (String allergy : mapAllergies)
                 mFoodAllergies.add(allergy);
     }
+
     
     @Override
     public HashMap<String, String> toMap(){
@@ -68,5 +70,10 @@ public class CanteenUser extends Person  {
         return(ret);
     }
 
+    @Override 
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+    
     
 }

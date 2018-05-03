@@ -18,4 +18,5 @@ public interface Packable {
     * Arrays, the map Value will contain a comma separated string
     */
     public HashMap<String, String> toMap();
+
 }

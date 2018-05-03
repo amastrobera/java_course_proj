@@ -87,10 +87,10 @@ public class DataGenerator {
     
     
     public static void prepareMenuPlan(String filePath) {
-        DSVWriter writer = new DSVWriter(filePath, ",", true);
-                
+        DSVWriter writer = new DSVWriter(filePath, ",", true, true, true);
+        writer.setHeaders(new ArrayList<String>(Arrays.asList("Date", "Name", 
+                                 "First", "Second", "Dessert", "Fruit")));
         System.out.println("generated " + filePath);
-
         writer.close();
     }
     
@@ -138,9 +138,8 @@ public class DataGenerator {
             {"Smoothie di frutta mista","frutta","arancia,sedano,cetriolo,menta,zucchero di canna"},
         };
         
-        DSVWriter writer = new DSVWriter(filePath, ",", true);
-        
-        writer.writeLine(new ArrayList<>(Arrays.asList(headers)));
+        DSVWriter writer = new DSVWriter(filePath, ",", true, true, true);
+        writer.setHeaders(new ArrayList<>(Arrays.asList(headers)));
         
         int done = 1;
         
@@ -184,9 +183,8 @@ public class DataGenerator {
         String[] headers = {"Name", "Surname", "Type", "Telephone", "Address",
                             "Parents", "Allergies", "Notes"};
         
-        DSVWriter writer = new DSVWriter(filePath, ",", true);
-
-        writer.writeLine(new ArrayList<>(Arrays.asList(headers)));
+        DSVWriter writer = new DSVWriter(filePath, ",", true, true, true);
+        writer.setHeaders(new ArrayList<>(Arrays.asList(headers)));
         
         while (done < todo) {
             name = names[seed.nextInt(names.length)];

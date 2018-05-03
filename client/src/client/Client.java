@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class Client {
 
     // all requests and response behaviours 
@@ -50,7 +51,7 @@ public class Client {
         }
     }
     
-    private void sendRequestNoParam(String type) {
+    private void sendRequest(String type) {
         try {
             Request req = new Request(type);
             System.out.println("sending " + req);
@@ -59,11 +60,22 @@ public class Client {
             System.err.println("sendRequest exception: " + ex);
         }
     }
+
+    private void sendRequest(String type, HashMap<String,String> params) {
+        try {
+            Request req = new Request(type);
+            req.setParams(params);
+            System.out.println("sending " + req);
+            mOutput.writeObject(req);
+        } catch (Exception ex) {
+            System.err.println("sendRequest exception: " + ex);
+        }
+    }
+
     
     public ArrayList<CanteenUser> getUsers() {
-        sendRequestNoParam("ViewUsers");
+        sendRequest("ViewUsers");
         try {
-            // unpack the result
             ViewUsersResponse response = (ViewUsersResponse)mInput.readObject();
             System.out.println("received response: " + response);
             return response.getUserList();
@@ -74,17 +86,8 @@ public class Client {
     }
 
     public ArrayList<CanteenUser> getAllergicUsers(Menu menu) {
+        sendRequest("ViewAllergicUsers", menu.toMap());
         try {
-            Request req = new Request("ViewAllergicUsers");
-            req.setParam("Name", menu.name());
-            req.setParam("First", menu.getCourse(Course.Type.First));
-            req.setParam("Second", menu.getCourse(Course.Type.Second));
-            req.setParam("Dessert", menu.getCourse(Course.Type.Dessert));
-            req.setParam("Fruit", menu.getCourse(Course.Type.Fruit));
-            System.out.println("sending " + req);
-            mOutput.writeObject(req);
-
-            // unpack the result
             ViewAllergicUsersResponse response = 
                                 (ViewAllergicUsersResponse)mInput.readObject();
             System.out.println("received response: " + response);
@@ -96,7 +99,7 @@ public class Client {
     }
     
     public HashMap<String, ArrayList<String>> getCourses() {
-        sendRequestNoParam("ViewCourses");
+        sendRequest("ViewCourses");
         try {
             // unpack the result
             ViewCoursesResponse response = 
@@ -110,7 +113,7 @@ public class Client {
 
     }
 
-    public Course getCourseInfo(String name) {
+    public Course getCourseInfo(String name) {        
         try {
             Request req = new Request("ViewCourseInfo");
             req.setParam("Name", name);
@@ -126,5 +129,58 @@ public class Client {
             System.err.println("getCourseInfo failed: " + ex);
         }
         return new Course();
-    }    
+    }
+    
+    public boolean saveMenu(Menu menu) {
+        sendRequest("SaveMenu", menu.toMap());
+        try {
+            Response response = (Response)mInput.readObject();
+            System.out.println("received response: " + response);
+            if (response.status() == Response.Status.SUCCESS)
+                return true;
+            else {
+                System.err.println("saveMenu failed: " + response.error());
+                return false;
+            }
+        } catch (Exception ex) {
+            System.err.println("saveMenu exception: " + ex);
+        }
+        return false;        
+    }
+    
+    public boolean saveCourse(Course course) {
+        sendRequest("SaveCourse",course.toMap());
+        try {
+            Response response = (Response)mInput.readObject();
+            System.out.println("received response: " + response);
+            if (response.status() == Response.Status.SUCCESS)
+                return true;
+            else {
+                System.err.println("saveMenu failed: " + response.error());
+                return false;
+            }
+        } catch (Exception ex) {
+            System.err.println("saveMenu exception: " + ex);
+        }
+        return false;        
+    }
+
+    public boolean saveUser(CanteenUser user) {
+        sendRequest("SaveUser",user.toMap());
+        try {
+            Response response = (Response)mInput.readObject();
+            System.out.println("received response: " + response);
+            if (response.status() == Response.Status.SUCCESS)
+                return true;
+            else {
+                System.err.println("saveMenu failed: " + response.error());
+                return false;
+            }
+        } catch (Exception ex) {
+            System.err.println("saveMenu exception: " + ex);
+        }
+        return false;        
+    }
+
+    
 }

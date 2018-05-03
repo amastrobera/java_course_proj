@@ -12,13 +12,13 @@ public class Course implements Packable, Serializable {
     public static String typeToString(Type type) {
         switch(type){
             case First:
-                return "Primo";
+                return "primo";
             case Second:
-                return "Secondo";
+                return "secondo";
             case Dessert:
-                return "Dolce";
+                return "dolce";
             case Fruit:
-                return "Frutta";
+                return "frutta";
         }
         return "Unknown";
     }
@@ -83,6 +83,15 @@ public class Course implements Packable, Serializable {
         ret.put("Ingredients", mapIngredients);
         return(ret);
     }
+
+    @Override 
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Course)) return false;
+        Course comp = (Course) obj;
+        return comp.type == type && comp.name.equals(name);
+    }
+
     
     public static void main(String[] args){
         

@@ -2,7 +2,7 @@ package server;
 
 import comm.*;
 import canteen.*;
-import university.CanteenUser;
+import university.*;
 
 import java.net.Socket;
 import java.io.*;
@@ -15,8 +15,6 @@ class ServerThread implements Runnable {
     private final String mDataPath;
     private Socket mClient;
     private Semaphore mSemaphore;
-    //private MealScanner mMealScanner;
-    //private UserScanner mUserScanner;
     private DataManager mDataManager;
 
     public ServerThread(String dataPath, Socket client, Semaphore sem) {
@@ -24,8 +22,6 @@ class ServerThread implements Runnable {
         mClient = client;
         mSemaphore = sem;
         mDataManager = new FileDataManager(mDataPath);
-        //mMealScanner = new FileMealScanner(mDataPath);
-        //mUserScanner = new FileUserScanner(mDataPath);
     }
     
     public ServerThread(Socket client) {
@@ -39,7 +35,6 @@ class ServerThread implements Runnable {
         if (type.equals("ViewUsers")) {
             
             ViewUsersResponse res = new ViewUsersResponse();
-            //res.setUserList(mUserScanner.getUsers());
             res.setUserList(mDataManager.getUsers());
             res.setStatus(Response.Status.SUCCESS);
             
@@ -49,7 +44,6 @@ class ServerThread implements Runnable {
         } else if (type.equals("ViewCourses")) {
             
             ViewCoursesResponse res = new ViewCoursesResponse();
-            //res.setUserList(mMealScanner.getMeals());
             res.setUserList(mDataManager.getCourses());
             res.setStatus(Response.Status.SUCCESS);
             
@@ -59,7 +53,6 @@ class ServerThread implements Runnable {
         } else if (type.equals("ViewCourseInfo")) {
 
             ViewCourseInfoResponse res = new ViewCourseInfoResponse();
-            //Course course = mMealScanner.findCourse(req.getParam("Name"));
             Course course = mDataManager.findCourse(req.getParam("Name"));
             res.setStatus((!course.name.isEmpty()? 
                             Response.Status.SUCCESS : 
@@ -83,14 +76,14 @@ class ServerThread implements Runnable {
                 res.setError("Missing params: {\"First\", \"Second\", " +
                                 "\"Dessert\", \"Fruit\"}");
             } else {            
-                Menu menu = new Menu(name);
+                Menu menu = new Menu();
+                menu.setName(name);
                 menu.setCourse(first, Course.Type.First);
                 menu.setCourse(second, Course.Type.Second);
                 menu.setCourse(dessert, Course.Type.Dessert);
                 menu.setCourse(fruit, Course.Type.Fruit);
                 ArrayList<CanteenUser> users = 
                                     mDataManager.getAllergicUsers(menu);
-                                    //mUserScanner.getAllergicUsers(menu);
                 res.setUserList(users);
                 res.setStatus(Response.Status.SUCCESS);
             }
@@ -100,17 +93,49 @@ class ServerThread implements Runnable {
         } else if (type.equals("SaveMenu")) {
 
             Response res = new Response("SaveMenu");
-            // todo 
-            res.setStatus(Response.Status.SUCCESS);
             
+            if (req.getParam("Date").isEmpty() || 
+                req.getParam("First").isEmpty() || 
+                req.getParam("Second").isEmpty() ||
+                req.getParam("Dessert").isEmpty() ||
+                req.getParam("Fruit").isEmpty() ) {
+                res.setStatus(Response.Status.FAILURE);
+                res.setError("Missing params: {\"First\", \"Second\", " +
+                                "\"Dessert\", \"Fruit\", \"Date\"}");
+            } else {            
+                Menu menu = new Menu();
+                menu.fromMap(req.params());
+                if (menu.date().isEmpty()) {
+                    System.err.println("SaveMenu: invalid date format " + 
+                                       "(" + req.getParam("Date") + ")");
+                    res.setStatus(Response.Status.FAILURE);                    
+                } else
+                    if (mDataManager.saveMenu(menu))
+                        res.setStatus(Response.Status.SUCCESS);
+                    else
+                        res.setStatus(Response.Status.FAILURE);
+            }
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
 
         } else if (type.equals("SaveCourse")) {
 
             Response res = new Response("SaveCourse");
-            // todo 
-            res.setStatus(Response.Status.SUCCESS);
+            
+            if (req.getParam("Name").isEmpty() || 
+                req.getParam("Type").isEmpty() || 
+                req.getParam("Ingredients").isEmpty() ) {
+                res.setStatus(Response.Status.FAILURE);
+                res.setError("Missing params: {\"Nae\", \"Type\", " +
+                                "\"Ingredients\" }");
+            } else {            
+                Course course = new Course();
+                course.fromMap(req.params());
+                if (mDataManager.saveCourse(course))
+                    res.setStatus(Response.Status.SUCCESS);
+                else
+                    res.setStatus(Response.Status.FAILURE);
+            }
             
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
@@ -118,8 +143,32 @@ class ServerThread implements Runnable {
         } else if (type.equals("SaveUser")) {
 
             Response res = new Response("SaveUser");
-            // todo 
-            res.setStatus(Response.Status.SUCCESS);
+            
+            if (req.getParam("Name").isEmpty() || 
+                req.getParam("Surname").isEmpty() || 
+                req.getParam("Type").isEmpty() || 
+                req.getParam("Address").isEmpty() ||
+                req.getParam("Allergies").isEmpty()) {
+                res.setStatus(Response.Status.FAILURE);
+                res.setError("Missing params: {\"Name\", \"Surname\", " + 
+                              "\"Type\", \"Address\", \"Allergies\" }");
+            } else if (req.getParam("Type").equals("student") && 
+                        req.getParam("Parents").isEmpty() ) {
+                res.setError("Missing param: {\"Parents\"} for User student");
+            } else {            
+                CanteenUser user;
+                if (req.getParam("Type").equals("student"))
+                    user = new Student();
+                else if (req.getParam("Type").equals("professor"))
+                    user = new Professor();
+                else
+                    user = new CanteenUser();
+                user.fromMap(req.params());
+                if (mDataManager.saveUser(user))
+                    res.setStatus(Response.Status.SUCCESS);
+                else
+                    res.setStatus(Response.Status.FAILURE);
+            }
             
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());

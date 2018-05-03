@@ -1,7 +1,6 @@
 package server;
 
-import io.DSVReader;
-import io.DSVWriter;
+import io.*;
 import canteen.*;
 import university.*;
 
@@ -9,6 +8,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.io.File;
 
 
 public class FileDataManager extends DataManager {
@@ -20,23 +22,54 @@ public class FileDataManager extends DataManager {
     
     public FileDataManager(String dataPath) {
         mDataPath = dataPath;
+        
         mReaders = new HashMap<>();
-        mReaders.put("courses", 
-                new DSVReader(mDataPath + "/courses.csv", ",", true, true));
+        mWriters = new HashMap<>();
+        
+        initUsers();
+        initCourses();
+        initMenus();
+    }
+
+    private void initUsers() {
         mReaders.put("users", 
                 new DSVReader(mDataPath + "/users.csv", ",", true, true));
-        mReaders.put("menus", 
-                new DSVReader(mDataPath + "/menus.csv", ",", true, true));
-        
-        mWriters = new HashMap<>();
-        mWriters.put("courses", 
-                new DSVWriter(mDataPath + "/courses.csv", ",", true));
+
         mWriters.put("users", 
-                new DSVWriter(mDataPath + "/users.csv", ",", true));
-        mWriters.put("menus", 
-                new DSVWriter(mDataPath + "/menus.csv", ",", true));
+                new DSVWriter(mDataPath + "/users.csv", ",", true, true, false));
+        mWriters.get("users").setHeaders(new ArrayList<String>(
+            Arrays.asList("Name","Surname","Type","Telephone","Address",
+                          "Parents","Allergies","Notes")));
     }
-            
+    
+    private void initCourses() {
+        mReaders.put("courses", 
+                new DSVReader(mDataPath + "/courses.csv", ",", true, true));
+
+        mWriters.put("courses", 
+                new DSVWriter(mDataPath + "/courses.csv", ",", true, true, false));
+        mWriters.get("courses").setHeaders(new ArrayList<String>(
+            Arrays.asList("Name","Type","Ingredients")));
+    }
+    
+    private void initMenus(){
+        mReaders.put("menus", 
+        new DSVReader(mDataPath + "/menus.csv", ",", true, true));
+
+        mWriters.put("menus", 
+                new DSVWriter(mDataPath + "/menus.csv", ",", true, true, false));
+        mWriters.get("menus").setHeaders(new ArrayList<String>(
+            Arrays.asList("Date","Name","First","Second","Dessert","Fruit")));
+    }
+    
+    
+    private void switchFiles(String newFilePath, String oldFilePath) {    
+        File oldFile = new File(oldFilePath);
+        oldFile.delete();
+        File newFile = new File(newFilePath);
+        newFile.renameTo(new File(oldFilePath));
+    }
+    
     @Override
     public HashMap<String, ArrayList<String>> getCourses() {
 
@@ -213,7 +246,138 @@ public class FileDataManager extends DataManager {
         }
         return ret;
     }
+    
+    private boolean saveObjet(Packable entry, String fileName) {
         
+        // function usable only for Menu, User, and Course
+        String cName = entry.getClass().getName();
+        if (!cName.equals(Menu.class.getName()) && 
+            !cName.equals(Course.class.getName()) && 
+            !(cName.equals(CanteenUser.class.getName()) || 
+             cName.equals(Student.class.getName()) || 
+             cName.equals(Professor.class.getName())))
+            return false; // cannot assess the type
+
+        if (!fileName.equals("menus") && 
+            !fileName.equals("courses") && 
+            !fileName.equals("users"))
+            return false; // cannot assess the file source
+        
+        if (mReaders.containsKey(fileName)) {
+            DSVReader reader = mReaders.get(fileName);
+            reader.reset(false);
+            long linesToKey = 0;
+            boolean mustEdit = false;
+            HashMap<String,String> line = new HashMap<>();
+            while (reader.getNextLine(line)) {
+                Packable curData;
+                if (cName.equals(Menu.class.getName())) {
+                    curData = new Menu();
+                } else if (cName.equals(Course.class.getName())) {
+                    curData = new Course();
+                } else if (cName.equals(CanteenUser.class.getName()) || 
+                           cName.equals(Student.class.getName()) || 
+                           cName.equals(Professor.class.getName())) {
+                    if (line.get("Type").equals("professor"))
+                        curData = new Professor();
+                    else if (line.get("Type").equals("student"))
+                        curData = new Student();
+                    else
+                        curData = new CanteenUser();
+                } else
+                    return false; // cannot assess the type
+                
+                curData.fromMap(line);
+                if (curData.equals(entry)) {
+                    System.err.println("a record with the same key already " + 
+                                  "exists, and will be overwritten:\n"+curData);
+                    mustEdit = true;
+                    break;
+                }
+                ++linesToKey;
+                line = new HashMap<>();
+            }
+            
+            // edit: copy lines before in a temp file, write your new line, then
+            //       copy the lines after, and save temp as the original file
+            if (mustEdit) {
+                if (mWriters.containsKey(fileName)) {
+                    DSVWriter writer = mWriters.get(fileName);
+                    
+                    reader.reset(false);
+                    DSVWriter tempWriter = 
+                                new DSVWriter(mDataPath + "/" + fileName 
+                                             +".temp", ",", true, true, false);
+                    tempWriter.setHeaders(writer.headers());
+                    
+                    // write previous line
+                    StringBuffer prevLine = new StringBuffer();
+                    while (--linesToKey >= 0) {
+                        reader.getNextLine(prevLine);
+                        tempWriter.writeLine(prevLine.toString());
+                        prevLine = new StringBuffer();
+                    }
+                    
+                    // write new record
+                    reader.getNextLine(prevLine); // discard current record
+                    HashMap<String, String> pack = entry.toMap();
+                    tempWriter.writeMap(pack);
+                    
+                    // write the rest of the file
+                    StringBuffer followLine = new StringBuffer();
+                    while (reader.getNextLine(followLine)) {
+                        tempWriter.writeLine(followLine.toString());
+                        followLine = new StringBuffer();
+                    }
+                    
+                    // switch files (temp -> original)
+                    tempWriter.close();
+                    writer.close();
+                    mReaders.remove(fileName);
+                    mWriters.remove(fileName);
+                    switchFiles(mDataPath + "/" + fileName + ".temp", 
+                                mDataPath + "/" + fileName + ".csv");
+                    if (fileName.equals("menus"))
+                        initMenus();
+                    else if(fileName.equals("courses"))
+                        initCourses();
+                    else if(fileName.equals("users"))
+                        initUsers();
+                    System.out.println("record updated in "+fileName+".csv\n"+
+                                        entry);
+                    return true;
+                } else 
+                    return false;
+            }
+            
+        } else
+            return false;
+        
+        // .. if not (new data) append it to the file
+        if (mWriters.containsKey(fileName)) {
+            DSVWriter writer = mWriters.get(fileName);
+            HashMap<String, String> pack = entry.toMap();
+            return writer.writeMap(pack);
+        }
+        return false;
+    }
+    
+    
+    @Override
+    public boolean saveMenu(Menu menu) {
+        return saveObjet(menu, "menus");
+    }
+    
+    @Override
+    public boolean saveCourse(Course course) {
+        return saveObjet(course, "courses");
+    }
+    
+    @Override
+    public boolean saveUser(CanteenUser user) {
+        return saveObjet(user, "users");
+    }
+    
     
     public static void main(String[] args){
 
@@ -256,7 +420,8 @@ public class FileDataManager extends DataManager {
         // for (CanteenUser user : users)
         //     System.out.println(user);
                 
-        Menu menu2 = new Menu("pranzo del venerdì");
+        Menu menu2 = new Menu();
+        menu2.setName("pranzo del venerdì");
         menu2.setCourse("Orzotto con zucchine e asiago", Course.Type.First);
         menu2.setCourse("Bocconcini di Vitellone in umido", Course.Type.Second);
         menu2.setCourse("Budino al cioccolato", Course.Type.Dessert);

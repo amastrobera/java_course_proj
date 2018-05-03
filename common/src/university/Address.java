@@ -17,7 +17,7 @@ public class Address implements Serializable {
     }
     
     public void fromString(String rAddress) {
-        String[] strAddress = rAddress.split(", ");
+        String[] strAddress = rAddress.split(",");
         if (strAddress.length > 0)
             street = strAddress[0];
         if (strAddress.length > 1)
@@ -32,6 +32,17 @@ public class Address implements Serializable {
     
     @Override
     public String toString(){
-        return street + ", " + postcode + ", " + city;
+        return street + "," + postcode + "," + city;
     }
+    
+    @Override 
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Address)) return false;
+        Address comp = (Address) obj;
+        return comp.street.equals(street) && 
+               comp.postcode.equals(postcode) && 
+               comp.city.equals(city);
+    }
+    
 }

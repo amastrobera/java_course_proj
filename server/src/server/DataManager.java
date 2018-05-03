@@ -5,6 +5,7 @@ import canteen.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 /**
  * Base class for accessing the data. It was built to extensible by using 
@@ -45,5 +46,28 @@ public abstract class DataManager {
      * @return Course class corresponding to that name, including ingredients
      */
     public abstract Course findCourse(String name);
+
+    /**
+    * @param <menu> a collection of four courses (only the name). It must
+    *               contain a reference Date (menu.setDate())
+    * 
+    * @return true/false corresponding to the success of the operation
+    */
+    public abstract boolean saveMenu(Menu menu);
+    
+    
+    /**
+     * 
+     * @param <course> a course with its ingredients
+     * @return true/false for the success of the operation
+     */
+    public abstract boolean saveCourse(Course course);
+
+    /**
+     * 
+     * @param <user> a user
+     * @return true/false corresponding to the success of the operation
+     */
+    public abstract boolean saveUser(CanteenUser user);
     
 }

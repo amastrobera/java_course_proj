@@ -28,10 +28,18 @@ public class Request implements Serializable {
         mParams.put(k, v);
     }
 
+    public void setParams(HashMap<String,String> packed) {
+        mParams = packed;
+    }
+    
     public String getParam(String k) {
         return mParams.get(k);
     }
 
+    public HashMap<String,String> params() {
+        return mParams;
+    }
+    
     /**
      * @param <k> name of a parameters containing a list compressed into a 
      *                string, of this type "[a, b, c, ...]"

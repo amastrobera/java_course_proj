@@ -6,18 +6,22 @@ public class Student extends CanteenUser {
     private Person[] mParents;
     private String mNotes;
     
-    public Student(String name, String surname, Person[] parents) {
+    public Student(String name, String surname) {
         super(name, surname);
-        mParents = parents;
-        mType = "Student";
+        mParents = new Person[]{};
+        mType = "student";
     }
 
     public Student() {
-        this("", "", null);
+        this("", "");
     }
     
     public Person[] parents() {
         return mParents;
+    }
+    
+    public void setParents(Person[] parents) {
+        mParents = parents;
     }
     
     public String notes() {
@@ -32,19 +36,30 @@ public class Student extends CanteenUser {
     public void fromMap(HashMap<String,String> map) {
         super.fromMap(map);
         
-        String[] mapParents = map.get("Parents").split(",");
-        if (mapParents.length > 1) {
-            Person[] par = {new Person("", ""), new Person("", "")};
-            if (!mapParents[0].isEmpty()) {
-                String[] father = mapParents[0].split(" ");
-                par[0] = new Person(father[0], father[1]);
-                par[0].setPhone(father[2]);
+        Person[] par = {new Person("", ""), new Person("", "")};
+        try {
+            String[] mapParents = map.get("Parents").split(",");
+            if (mapParents.length > 1) {
+                if (!mapParents[0].isEmpty()) {
+                    String[] father = mapParents[0].split(" ");
+                    if (father.length > 1)
+                        par[0] = new Person(father[0], father[1]);
+                    if (father.length > 2)
+                        par[0].setPhone(father[2]);
+                }
+                if (!mapParents[1].isEmpty()) {
+                    String[] mother = mapParents[1].split(" ");
+                    if (mother.length > 1)
+                        par[1] = new Person(mother[0], mother[1]);
+                    if (mother.length > 2)
+                        par[1].setPhone(mother[2]);
+                }
             }
-            if (!mapParents[1].isEmpty()) {
-                String[] mother = mapParents[1].split(" ");
-                par[1] = new Person(mother[0], mother[1]);
-                par[1].setPhone(mother[2]);
-            }
+        } catch(Exception ex ) {
+            System.err.println("exception Student.fromMap.parents (" 
+                                + mName + mSurname+ ")");
+            System.err.println(" ---> " + ex);
+        } finally {
             mParents = par;
         }
         
@@ -55,14 +70,27 @@ public class Student extends CanteenUser {
     public HashMap<String,String> toMap() {
         HashMap<String,String> ret = super.toMap();
         
-        String parents = new String();
-        for (Person p : mParents) {
-            parents += p.name() + " " + p.surname() + " " + p.phone() + ",";
+        try {
+            String parents = new String();
+            for (Person p : mParents) {
+                parents += p.name() + " " + p.surname();
+                if (!p.phone().isEmpty())
+                    parents += " " + p.phone() + ",";
+                else 
+                    parents += ",";
+            }
+            if (parents.length() > 0)
+                parents = parents.substring(0, parents.length()-1);
+            ret.put("Parents", parents);
+        } catch(Exception ex ) {
+            System.err.println("exception Student.toMap.parents (" 
+                                + mName + mSurname+ ")");
+            System.err.println(" ---> " + ex);
+            ret.put("Parents", "");
         }
-        if (parents.length() > 0)
-            parents = parents.substring(0, parents.length()-1);
-        ret.put("Parents", parents);
+        
         ret.put("Notes", mNotes);
+        
         return ret;
     }
     
@@ -91,13 +119,15 @@ public class Student extends CanteenUser {
         Person mom2 = new Person("cherilyn", "sarkisian");
         mom2.setPhone("113430431");
         
-        Student s1 = new Student("fredo", "manero", new Person[]{dad1, mom1});
+        Student s1 = new Student("fredo", "manero");
+        s1.setParents(new Person[]{dad1, mom1});
         s1.setPhone("12345567");
         s1.setAddress(
             new Address("899 Bergen St, Brooklyn", "11238", "New York"));
         s1.setNotes("dances also on Thursday night");
         
-        Student s2 = new Student("chaz", "bono", new Person[]{mom2});    
+        Student s2 = new Student("chaz", "bono");
+        s2.setParents(new Person[]{mom2});
         s2.setPhone("45678931");
         s2.setAddress(new Address("871 Seventh Avenue & 55th Street", 
                                     "10019", "New York"));

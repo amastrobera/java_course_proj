@@ -27,7 +27,7 @@ public class GuiCanteenUser {
         setAddress(user.address());
         setPhone(user.phone());
         setAllergies(user.allergies());
-        if (user.type().equals("Student")) {
+        if (user.type().equals("student")) {
             Student s = (Student)user;
             Person[] p = s.parents();
             setParents(p);
