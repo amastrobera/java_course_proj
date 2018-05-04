@@ -8,11 +8,11 @@ The project was designed in NetBeans and run/debugged from there. The folder str
 
 #### Build the project
 
-In Netbeans load and (clean) build these ones with `Shift+F11`, in order:
+In Netbeans load and build these ones with `F11`, in this order:
 
 1. common ( library)
 2. server (app, with library *common.jar* attached in build.xml)
-3. client (app, as above)
+3. client (lib + test-app, as above)
 
 #### Build the data
 
