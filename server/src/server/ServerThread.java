@@ -70,11 +70,11 @@ class ServerThread implements Runnable {
             String dessert = req.getParam("Dessert");
             String fruit = req.getParam("Fruit");
             
-            if (first.isEmpty() || second.isEmpty() || dessert.isEmpty() ||
-                fruit.isEmpty()) {
+            if (first.isEmpty() || second.isEmpty() || 
+                (dessert.isEmpty() && fruit.isEmpty())) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"First\", \"Second\", " +
-                                "\"Dessert\", \"Fruit\"}");
+                                "(\"Dessert\" or \"Fruit\")}");
             } else {            
                 Menu menu = new Menu();
                 menu.setName(name);
@@ -114,11 +114,11 @@ class ServerThread implements Runnable {
             if (req.getParam("Date").isEmpty() || 
                 req.getParam("First").isEmpty() || 
                 req.getParam("Second").isEmpty() ||
-                req.getParam("Dessert").isEmpty() ||
-                req.getParam("Fruit").isEmpty() ) {
+                (req.getParam("Dessert").isEmpty() &&
+                req.getParam("Fruit").isEmpty()) ) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"First\", \"Second\", " +
-                                "\"Dessert\", \"Fruit\", \"Date\"}");
+                                "(\"Dessert\" or \"Fruit\"), \"Date\"}");
             } else {            
                 Menu menu = new Menu();
                 menu.fromMap(req.params());

@@ -7,25 +7,3 @@ Di tutti si gestiscono le allergie ad alimenti specifici.
 Il programma permette di inserire il menù del giorno scegliendo tra piatti precaricati. Ogni piatto è classificato come primo, secondo, frutta o dolce. Ogni giorno devono essere offerti un primo, un secondo e uno tra dolce o frutta. Di ogni piatto si conosce la lista degli ingredienti.
 Una volta inserito il menu del giorno deve essere possibile vedere la lista degli utenti allergici a qualcuno degli ingredienti dei piatti inseriti specificando quale dei tre piatti non può mangiare. 
 Si realizzino client e server del programma.
-
-
-
---> select only one "Third" course between "Fruit" and "Dessert"
-
---> create "AllergicUser"
-
-    user: name + surname + type + allergies:list<course_name>
-    
-    Person 
-            -> CanteenUser
-                            -> Student
-                            -> Professor
-            -> AllergicUser  
-                (* name)
-                (* surname)
-                (* phone)
-                (* address)
-                + list<string> allergies_to_courses
-                
-                it's the same thing as CanteenUser, just use "Course" names
-                instead of Ingredients names 

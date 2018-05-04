@@ -36,7 +36,7 @@ This **just a tests** to see whether the client can communicate with server prop
 
 #### Run the GUI 
 
-The guy has three tabs. A Menu tab, to select four courses and save it. A Meal tab, to view the specifics of each course. A Users tab, to view all users, or allergic users to the selected menu.
+The GUI has three tabs. A Menu tab, to select four courses and save it. A Meal tab, to view the specifics of each course. A Users tab, to view all users, or allergic users to the selected menu.
 
 	java -jar gui/dist/gui.jar
 

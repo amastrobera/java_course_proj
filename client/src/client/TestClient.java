@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.util.LinkedList;
-import javafx.scene.Parent;
 
 class TestClient implements Runnable {
     
@@ -53,8 +52,8 @@ class TestClient implements Runnable {
         menu.setName("pranzo di venerdì");
         menu.setCourse("Riso alla zucca", Course.Type.First);
         menu.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
-        menu.setCourse("Budino al cioccolato", Course.Type.Dessert);
-        menu.setCourse("Macedonia di frutta", Course.Type.Fruit);
+        menu.setCourse("Macedonia di frutta", Course.Type.Fruit); // will be deleted
+        menu.setCourse("Budino al cioccolato", Course.Type.Dessert); 
         ArrayList<CanteenUser> users = mClient.getAllergicUsers(menu);
         
         ArrayList<CanteenUser> first = new ArrayList<>();
@@ -99,27 +98,31 @@ class TestClient implements Runnable {
                                     second.get(i).surname() + " " +
                                     second.get(i).type());
         
-        System.out.println("   found: " + dessert.size() + "(" +
-                            (dessert.size()*100l)/numUsers + "%)" + 
-                            " users allergic to "+ 
-                            menu.getCourse(Course.Type.Dessert));
-        if (printUserList)
-            for (int i = 0; i < dessert.size(); ++i) 
-                System.out.println("           "  + 
-                                    dessert.get(i).name() + " " + 
-                                    dessert.get(i).surname() + " " +
-                                    dessert.get(i).type());
+        if (!menu.getCourse(Course.Type.Dessert).isEmpty()) {
+            System.out.println("   found: " + dessert.size() + "(" +
+                                (dessert.size()*100l)/numUsers + "%)" + 
+                                " users allergic to "+ 
+                                menu.getCourse(Course.Type.Dessert));
+            if (printUserList)
+                for (int i = 0; i < dessert.size(); ++i) 
+                    System.out.println("           "  + 
+                                        dessert.get(i).name() + " " + 
+                                        dessert.get(i).surname() + " " +
+                                        dessert.get(i).type());
+        }
         
-        System.out.println("   found: " + fruit.size() + "(" +
-                            (fruit.size()*100l)/numUsers + "%)" + 
-                            " users allergic to "+ 
-                            menu.getCourse(Course.Type.Fruit));
-        if (printUserList)
-            for (int i = 0; i < fruit.size(); ++i) 
-                System.out.println("           "  + 
-                                    fruit.get(i).name() + " " + 
-                                    fruit.get(i).surname() + " " +
-                                    fruit.get(i).type());
+        if (!menu.getCourse(Course.Type.Fruit).isEmpty()) {
+            System.out.println("   found: " + fruit.size() + "(" +
+                                (fruit.size()*100l)/numUsers + "%)" + 
+                                " users allergic to "+ 
+                                menu.getCourse(Course.Type.Fruit));
+            if (printUserList)
+                for (int i = 0; i < fruit.size(); ++i) 
+                    System.out.println("           "  + 
+                                        fruit.get(i).name() + " " + 
+                                        fruit.get(i).surname() + " " +
+                                        fruit.get(i).type());
+        }
     }
     
     public void testSaveMenu() {
@@ -133,8 +136,8 @@ class TestClient implements Runnable {
         menu.setName("pranzo di venerdi");
         menu.setCourse("Riso alla milanese", Course.Type.First);
         menu.setCourse("Tonno sott’olio", Course.Type.Second);
-        menu.setCourse("Strudel", Course.Type.Dessert);
         menu.setCourse("Banana", Course.Type.Fruit);
+        menu.setCourse("Strudel", Course.Type.Dessert);
         menu.setDate("2018-10-27");
         ret = mClient.saveMenu(menu);
         System.out.println("response: " + ret); 
@@ -145,7 +148,6 @@ class TestClient implements Runnable {
         menu.setCourse("Riso alla zucca", Course.Type.First);
         menu.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
         menu.setCourse("Budino al cioccolato", Course.Type.Dessert);
-        menu.setCourse("Macedonia di frutta", Course.Type.Fruit);
         menu.setDate("2018-10-30");
         ret = mClient.saveMenu(menu);
         System.out.println("response: " + ret);
@@ -155,7 +157,6 @@ class TestClient implements Runnable {
         menu.setName("pranzo di lunedì");    
         menu.setCourse("Riso alla zucca", Course.Type.First);
         menu.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
-        menu.setCourse("Budino al cioccolato", Course.Type.Dessert);
         menu.setCourse("Macedonia di frutta", Course.Type.Fruit);
         menu.setDate("2018-10-30");
         ret = mClient.saveMenu(menu);

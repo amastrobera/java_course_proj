@@ -57,7 +57,7 @@ public class Menu implements Packable, Serializable{
     public ArrayList<String> courses() {
         return mCourseNames;
     }
-    
+
     public String getCourse(Course.Type type) {
         int idx;
         switch(type){
@@ -78,7 +78,10 @@ public class Menu implements Packable, Serializable{
         }
         return mCourseNames.get(idx);
     }
-    
+
+    // in order to guarantee that "only one" between desset and fruit
+    // is available, setCourse() shoud delete the fruit (if present) when
+    // the dessert is set (and viceversa)    
     public void setCourse(String name, Course.Type type) {
         int idx;
         switch(type){
@@ -98,6 +101,15 @@ public class Menu implements Packable, Serializable{
                 return;
         }
         mCourseNames.set(idx, name);
+        
+        // guarantee there is only a dessert or fruit
+        if (!name.isEmpty() && 
+            (type == Course.Type.Dessert || type == Course.Type.Fruit)) {
+            if (type == Course.Type.Dessert && !mCourseNames.get(3).isEmpty())
+                mCourseNames.set(3, "");
+            else if (type == Course.Type.Fruit && !mCourseNames.get(2).isEmpty())
+                mCourseNames.set(2, "");
+        }
     }
 
     @Override

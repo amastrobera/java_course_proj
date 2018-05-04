@@ -1,6 +1,5 @@
 package server;
 
-import com.sun.media.jfxmedia.MetadataParser;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
@@ -94,7 +93,7 @@ public class Server implements Runnable {
 
         Server server = null;
         try {
-            // laucnhes a server with 4 parallel threads serving requests
+            // launches a server with 4 parallel threads serving requests
             server = new Server(args[0], Integer.parseInt(args[1]), 4);
             server.run();
         } catch (Exception ex) {
