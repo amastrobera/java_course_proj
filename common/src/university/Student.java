@@ -63,7 +63,8 @@ public class Student extends CanteenUser {
             mParents = par;
         }
         
-        mNotes = map.get("Notes");
+        if (map.containsKey("Notes"))
+            mNotes = map.get("Notes");
     }
 
     @Override 
