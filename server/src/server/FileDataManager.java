@@ -5,11 +5,10 @@ import canteen.*;
 import university.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.io.File;
 
 
@@ -166,6 +165,24 @@ public class FileDataManager extends DataManager {
         return(ret);
     }
     
+    private CanteenUser userFactoryFromMap(HashMap<String, String> line) {
+        CanteenUser user;
+        try {
+            String type = line.get("Type");
+            if (type.equals("student"))
+                user = new Student();
+            else if (type.equals("professor"))
+                user = new Professor();
+            else
+                user = new CanteenUser();
+            user.fromMap(line);
+        } catch(Exception ex) {
+            System.err.println("createUserFromMap: " + ex);
+            user = new CanteenUser();
+        }
+        return user;
+    }
+    
     
     @Override
     public ArrayList<CanteenUser> getUsers() {
@@ -178,16 +195,7 @@ public class FileDataManager extends DataManager {
         
             while (reader.getNextLine(line)) {
                 if (line.size() > 0) {
-                    // factory pattern here 
-                    CanteenUser user;
-                    String type = line.get("Type");
-                    if (type.equals("student"))
-                        user = new Student();
-                    else if (type.equals("professor"))
-                        user = new Professor();
-                    else
-                        user = new CanteenUser();
-                    user.fromMap(line);
+                    CanteenUser user = userFactoryFromMap(line);
                     ret.add(user);
                 }
                 line = new HashMap<>();
@@ -212,31 +220,25 @@ public class FileDataManager extends DataManager {
                 DSVReader reader = mReaders.get("users");
                 while (reader.getNextLine(line)) {
                     if (line.size() > 0) {
-                        // factory pattern here 
-                        CanteenUser user;
-                        String type = line.get("Type");
-                        if (type.equals("student"))
-                            user = new Student();
-                        else if (type.equals("professor"))
-                            user = new Professor();
-                        else
-                            user = new CanteenUser();
-                        user.fromMap(line);
-                        
+                        CanteenUser user = userFactoryFromMap(line);
                         // add user to list if allergic to at 
                         // least one ingredient of one dish on the menu
-                        allergic = false;
+                        // and make its "allergies" map contain the dishes he 
+                        // is allergic to
+                        HashSet<String> allergicCourses = new HashSet<>();
                         cit = courses.iterator();
                         while (cit.hasNext()) {
                             Course course = cit.next();
-                            for (String food : course.ingredients) {
-                                if (user.isAllergicTo(food)) {
-                                    ret.add(user);
-                                    allergic = true;
+                            for (String ingredient : course.ingredients) {
+                                if (user.isAllergicTo(ingredient)) {
+                                    allergicCourses.add(course.name);
+                                    break;
                                 }
-                                if (allergic) break;
                             }
-                            if (allergic) break;
+                        }
+                        if (!allergicCourses.isEmpty()) {
+                            user.setAllergies(allergicCourses);
+                            ret.add(user);
                         }
                     }
                     line = new HashMap<>();
@@ -245,6 +247,42 @@ public class FileDataManager extends DataManager {
             }
         }
         return ret;
+    }
+    
+    @Override
+    public long getNumberOfUsers(String type) {
+        long num = 0;
+        if (type.isEmpty()) {
+            if (mReaders.containsKey("users")) {
+                DSVReader reader = mReaders.get("users");
+                HashMap<String,String> line = new HashMap<>();
+                while (reader.getNextLine(line)) {
+                    if (line.size() > 0)
+                        ++num;
+                    line = new HashMap<>();
+                }
+                reader.reset(); // file pointer back to the top
+            } else {
+                return -1;
+            }
+        } else {
+            if (mReaders.containsKey("users")) {
+                DSVReader reader = mReaders.get("users");
+                HashMap<String,String> line = new HashMap<>();
+                while (reader.getNextLine(line)) {
+                    if (line.size() > 0) {
+                        CanteenUser user = userFactoryFromMap(line);
+                        if (user.type().equals(type))
+                            ++num;
+                    }
+                    line = new HashMap<>();
+                }
+                reader.reset(); // file pointer back to the top
+            } else {
+                return -1;
+            }
+        }
+        return num;
     }
     
     private boolean saveObjet(Packable entry, String fileName) {

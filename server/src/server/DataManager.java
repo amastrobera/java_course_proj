@@ -26,6 +26,13 @@ public abstract class DataManager {
     * four courses of the menu
     */
     public abstract ArrayList<CanteenUser> getAllergicUsers(Menu menu);
+
+    /**
+     * 
+     * @param <type> "student", "professor", or "" for all users
+     * @return count of users in the database
+     */
+    public abstract long getNumberOfUsers(String type);
     
     /** 
      * @param <none>

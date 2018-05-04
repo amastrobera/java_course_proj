@@ -33,7 +33,13 @@ public class Request implements Serializable {
     }
     
     public String getParam(String k) {
-        return mParams.get(k);
+        String p = new String();
+        try {
+            p = mParams.get(k);
+        } catch(Exception ex) {
+            return "";
+        }
+        return p;
     }
 
     public HashMap<String,String> params() {

@@ -89,6 +89,23 @@ class ServerThread implements Runnable {
             }
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
+
+        } else if (type.equals("ViewNumberOfUsers")) {
+
+            ViewNumberOfUsersResponse res = new ViewNumberOfUsersResponse();
+
+            String uType = req.getParam("Type");
+            long num =  mDataManager.getNumberOfUsers(uType);
+
+            if (num >= 0) {
+                res.setNumber(num);
+                res.setType(uType);
+                res.setStatus(Response.Status.SUCCESS);
+            } else {
+                res.setStatus(Response.Status.FAILURE);
+            }
+            output.writeObject(res);
+            System.out.println("sending back: " + res.toString());
             
         } else if (type.equals("SaveMenu")) {
 

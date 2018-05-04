@@ -130,6 +130,33 @@ public class Client {
         }
         return new Course();
     }
+
+    public long getNumberOfUsers() {
+        return getNumberOfUsers("");
+    }
+    
+    public long getNumberOfUsers(String type) {
+        try {
+            Request req = new Request("ViewNumberOfUsers");
+            req.setParam("Type", type);
+            System.out.println("sending " + req);
+            mOutput.writeObject(req);
+            
+            ViewNumberOfUsersResponse response = 
+                (ViewNumberOfUsersResponse)mInput.readObject();
+            System.out.println("received response: " + response);
+            if (response.status() == Response.Status.SUCCESS)
+                return response.getNumber();
+            else {
+                System.err.println("saveMenu failed: " + response.error());
+                return 0;
+            }
+        } catch (Exception ex) {
+            System.err.println("saveMenu exception: " + ex);
+        }
+        return 0;
+    }
+
     
     public boolean saveMenu(Menu menu) {
         sendRequest("SaveMenu", menu.toMap());
@@ -162,7 +189,7 @@ public class Client {
         } catch (Exception ex) {
             System.err.println("saveMenu exception: " + ex);
         }
-        return false;        
+        return false;
     }
 
     public boolean saveUser(CanteenUser user) {

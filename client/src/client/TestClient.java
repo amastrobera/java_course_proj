@@ -45,7 +45,7 @@ class TestClient implements Runnable {
         }
     }
     
-    public void testViewAllergicUsers() {
+    public void testViewAllergicUsers(boolean printUserList) {
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : ViewAllergicUsers (print 2)-------");
@@ -56,10 +56,70 @@ class TestClient implements Runnable {
         menu.setCourse("Budino al cioccolato", Course.Type.Dessert);
         menu.setCourse("Macedonia di frutta", Course.Type.Fruit);
         ArrayList<CanteenUser> users = mClient.getAllergicUsers(menu);
-        System.out.println("   found: " + users.size() + " users");
-        for (int i = 0; i < 2; ++i) {
-            System.out.println(users.get(i));
+        
+        ArrayList<CanteenUser> first = new ArrayList<>();
+        ArrayList<CanteenUser> second = new ArrayList<>();
+        ArrayList<CanteenUser> dessert = new ArrayList<>();
+        ArrayList<CanteenUser> fruit = new ArrayList<>();
+
+        long numUsers = mClient.getNumberOfUsers();
+        
+        System.out.println("   found: " + numUsers + " in database");
+        
+        for (CanteenUser user : users) {
+            if (user.isAllergicTo(menu.getCourse(Course.Type.First)))
+                first.add(user);
+            if (user.isAllergicTo(menu.getCourse(Course.Type.Second)))
+                second.add(user);
+            if (user.isAllergicTo(menu.getCourse(Course.Type.Dessert)))
+                dessert.add(user);
+            if (user.isAllergicTo(menu.getCourse(Course.Type.Fruit)))
+                fruit.add(user);
         }
+        
+        System.out.println("   found: " + first.size() + "(" +
+                            (first.size()*100l)/numUsers + "%)" + 
+                            " users allergic to "+ 
+                            menu.getCourse(Course.Type.First));
+        if (printUserList)
+            for (int i = 0; i < first.size(); ++i) 
+                System.out.println("           "  + 
+                                    first.get(i).name() + " " + 
+                                    first.get(i).surname() + " " +
+                                    first.get(i).type());
+
+        System.out.println("   found: " + second.size() + "(" +
+                            (second.size()*100l)/numUsers + "%)" + 
+                            " users allergic to "+ 
+                            menu.getCourse(Course.Type.Second));
+        if (printUserList)
+            for (int i = 0; i < second.size(); ++i) 
+                System.out.println("           "  + 
+                                    second.get(i).name() + " " + 
+                                    second.get(i).surname() + " " +
+                                    second.get(i).type());
+        
+        System.out.println("   found: " + dessert.size() + "(" +
+                            (dessert.size()*100l)/numUsers + "%)" + 
+                            " users allergic to "+ 
+                            menu.getCourse(Course.Type.Dessert));
+        if (printUserList)
+            for (int i = 0; i < dessert.size(); ++i) 
+                System.out.println("           "  + 
+                                    dessert.get(i).name() + " " + 
+                                    dessert.get(i).surname() + " " +
+                                    dessert.get(i).type());
+        
+        System.out.println("   found: " + fruit.size() + "(" +
+                            (fruit.size()*100l)/numUsers + "%)" + 
+                            " users allergic to "+ 
+                            menu.getCourse(Course.Type.Fruit));
+        if (printUserList)
+            for (int i = 0; i < fruit.size(); ++i) 
+                System.out.println("           "  + 
+                                    fruit.get(i).name() + " " + 
+                                    fruit.get(i).surname() + " " +
+                                    fruit.get(i).type());
     }
     
     public void testSaveMenu() {
@@ -164,12 +224,12 @@ class TestClient implements Runnable {
     
     @Override
     public void run() {
-        //testCourseInfo();
-        //testViewCourses();
-        //testViewUsers();
-        //testViewAllergicUsers();
-        //testSaveMenu();
-        //testSaveCourse();
+        testCourseInfo();
+        testViewCourses();
+        testViewUsers();
+        testViewAllergicUsers(false); // true, to view full list
+        testSaveMenu();
+        testSaveCourse();
         testSaveUser();
     }
 
