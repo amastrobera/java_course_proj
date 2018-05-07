@@ -1,1 +1,7 @@
 data/*
+/common/build/
+/client/build/
+/common/dist/
+/server/build/
+/server/dist/
+/client/dist/

@@ -233,8 +233,6 @@ class ServerThread implements Runnable {
 
                 mSemaphore.release();
                 
-                Thread.sleep(2000);
-                
             } catch (Exception ex) {
                 System.err.println("ServerThread::run " + ex);
                 mSemaphore.release();

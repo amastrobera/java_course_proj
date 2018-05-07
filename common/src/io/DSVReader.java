@@ -88,7 +88,6 @@ public class DSVReader {
             }
         } catch(Exception ex) {
             System.err.println("DSVReader (read headers): " + ex);
-            return; 
         }
     }
     

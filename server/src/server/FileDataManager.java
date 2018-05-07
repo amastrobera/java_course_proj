@@ -68,7 +68,11 @@ public class FileDataManager extends DataManager {
         File newFile = new File(newFilePath);
         newFile.renameTo(new File(oldFilePath));
     }
-    
+
+    /** 
+     * @param <none>
+     * @return Array of all courses in our databases
+     */    
     @Override
     public HashMap<String, ArrayList<String>> getCourses() {
 
@@ -115,6 +119,11 @@ public class FileDataManager extends DataManager {
         return(ret);
     }
     
+    /**
+     * 
+     * @param <name> of the course
+     * @return Course class corresponding to that name, including ingredients
+     */
     @Override
     public Course findCourse(String name) {
         
@@ -138,6 +147,12 @@ public class FileDataManager extends DataManager {
         return new Course();
     }
     
+    
+    /**
+     * 
+     * @param <menu> array with the name of the four course menu
+     * @return Array of the corresponding Course class (including ingredients)
+     */
     @Override
     public ArrayList<Course> findMenu(ArrayList<String> menu){
         
@@ -183,7 +198,11 @@ public class FileDataManager extends DataManager {
         return user;
     }
     
-    
+    /**
+    * @param <none> 
+    * 
+    * @return Array of users in our database or file-system
+    */
     @Override
     public ArrayList<CanteenUser> getUsers() {
         ArrayList<CanteenUser> ret = new ArrayList<>();
@@ -205,6 +224,12 @@ public class FileDataManager extends DataManager {
         return ret;
     }
 
+    /**
+    * @param <menu> a collection of four courses (only the name)
+    * 
+    * @return Array of users that are allergic to any ingredient of any of the 
+    * four courses of the menu
+    */
     @Override
     public ArrayList<CanteenUser> getAllergicUsers(Menu menu) {
         
@@ -249,6 +274,11 @@ public class FileDataManager extends DataManager {
         return ret;
     }
     
+    /**
+     * 
+     * @param <type> "student", "professor", or "" for all users
+     * @return count of users in the database
+     */
     @Override
     public long getNumberOfUsers(String type) {
         long num = 0;
@@ -400,17 +430,32 @@ public class FileDataManager extends DataManager {
         return false;
     }
     
-    
+    /**
+    * @param <menu> a collection of four courses (only the name). It must
+    *               contain a reference Date (menu.setDate())
+    * 
+    * @return true/false corresponding to the success of the operation
+    */
     @Override
     public boolean saveMenu(Menu menu) {
         return saveObjet(menu, "menus");
     }
-    
+
+    /**
+     * 
+     * @param <course> a course with its ingredients
+     * @return true/false for the success of the operation
+     */
     @Override
     public boolean saveCourse(Course course) {
         return saveObjet(course, "courses");
     }
-    
+
+    /**
+     * 
+     * @param <user> a user
+     * @return true/false corresponding to the success of the operation
+     */
     @Override
     public boolean saveUser(CanteenUser user) {
         return saveObjet(user, "users");
@@ -418,7 +463,8 @@ public class FileDataManager extends DataManager {
     
     
     public static void main(String[] args){
-
+        // this is a module-level test (not to be used)
+        
         System.out.println("--- test File Scanner (Courses) ---");
         FileDataManager scanner = new FileDataManager("../data");
         

@@ -3,7 +3,6 @@ package io;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
-//import java.io.RandomAccessFile;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +18,6 @@ public class DSVWriter {
     private ArrayList<String> mHeaders;
     private File mFile;
     private FileWriter mWriter;
-    //private RandomAccessFile mWriter;
     private String mNewLine;
     
     public DSVWriter(String filePath, String separator, 
@@ -53,9 +51,6 @@ public class DSVWriter {
         try {
             mFile = new File(mFilePath);
             if (!mFile.exists()) mFile.createNewFile();
-            //long len = mFile.length();
-            //mWriter = new RandomAccessFile(mFile, "rw");
-            //mWriter.seek(len);
             mWriter = new FileWriter(mFile, true); //append-mode for 2+ threads
         } catch (IOException ex) {
             System.err.println(ex);
@@ -118,7 +113,6 @@ public class DSVWriter {
 
     public synchronized boolean writeLine(String line) {
         try {
-            //mWriter.write((line + mNewLine).getBytes());
             mWriter.write(line + mNewLine);
             mWriter.flush(); // very important ... 
         } catch (IOException ex) {

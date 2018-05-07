@@ -8,9 +8,45 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+
+/**
+ * This is an integration testing module. To be removed on the second part 
+ * of the assignment. It tests the client request. It requires the server
+ * to be up and running, and data-folder to be created and non-empty
+ * 
+ * <p>
+ * TestClient contains a Client class, and it is a runnable that runs a series
+ * of tests. Because it is a runnable, <b>more than one TestClient (threads)</b>
+ * can be run simultaneously. Therefore, we need to <b>synchronise the writing 
+ * to console </b> of the results of the two threads so that this output is 
+ * visible
+ * <p> ---- thread 10: testCourseInfo() ---- </p>
+ * <p> [... output thread 10 ...] </p>
+ * <p> ---- thread 9: testCourseInfo() ---- </p>
+ * <p> [... output thread 9 ...] </p>
+ * 
+ * <p>
+ * In order to to that we need a <b>condition variable</b> ("boolean available"). Each 
+ * testFunction will set wait it to be true, set it to false, execute, then 
+ * set it to true again and notify the other threads using testFunction
+ * </p>
+ * 
+ * <p>
+ * Unfortunately, this only helps the viewer of the test. This module is not
+ * testing <b>multiple simultaneous requests</b> sent to the server. 
+ * This type of event <b>should be tested in the Server module</b>.
+ * </p>
+ */
+
 class TestClient implements Runnable {
+
+    private static boolean available = true;
     
-    public void testCourseInfo() {
+    public synchronized void testCourseInfo() {
+        
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : ViewCourseInfo -------");
@@ -18,33 +54,56 @@ class TestClient implements Runnable {
         System.out.println(">> searching for course: " + cName);
         Course cFound = mClient.getCourseInfo(cName);
         System.out.println("   found: " + cFound);
+        
+        available = true;
+        notifyAll();
     }
 
-    public void testViewCourses() {
+    public synchronized void testViewCourses() {
+
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : ViewCourses (print 2)-------");
         HashMap<String, ArrayList<String>> meals = mClient.getCourses();
         ArrayList<String> first = meals.get("First");
         ArrayList<String> dessert = meals.get("Dessert");
-        for (int i = 0; i < 2; ++i) 
-            System.out.println(first.get(i));
-        for (int i = 0; i < 2; ++i) 
-            System.out.println(dessert.get(i));
+        if (first.size() > 0)
+            for (int i = 0; i < 2; ++i) 
+                System.out.println(first.get(i));
+        if (dessert.size() > 0)
+            for (int i = 0; i < 2; ++i) 
+                System.out.println(dessert.get(i));
+
+        available = true;
+        notifyAll();
     }
     
-    public void testViewUsers() {
+    public synchronized void testViewUsers() {
+
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : ViewUsers (print 2)-------");
         ArrayList<CanteenUser> users = mClient.getUsers();
         System.out.println("   found: " + users.size() + " users");
-        for (int i = 0; i < 2; ++i) {
-            System.out.println(users.get(i));
-        }
+        if (users.size() > 0)
+            for (int i = 0; i < 2; ++i)
+                System.out.println(users.get(i));
+        
+        available = true;
+        notifyAll();
     }
     
-    public void testViewAllergicUsers(boolean printUserList) {
+    public synchronized void testViewAllergicUsers(boolean printUserList) {
+        
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : ViewAllergicUsers (print 2)-------");
@@ -123,9 +182,16 @@ class TestClient implements Runnable {
                                         fruit.get(i).surname() + " " +
                                         fruit.get(i).type());
         }
+        
+        available = true;
+        notifyAll();
     }
     
-    public void testSaveMenu() {
+    public synchronized void testSaveMenu() {
+
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : SaveMenu -------");
@@ -161,10 +227,17 @@ class TestClient implements Runnable {
         menu.setDate("2018-10-30");
         ret = mClient.saveMenu(menu);
         System.out.println("response: " + ret);
+        
+        available = true;
+        notifyAll();
     }
 
 
-    public void testSaveCourse() {
+    public synchronized void testSaveCourse() {
+        
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+        
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : SaveCourse -------");
@@ -187,9 +260,16 @@ class TestClient implements Runnable {
                            "origano","sale","pepe"));
         ret = mClient.saveCourse(course);
         System.out.println("response: " + ret);
+        
+        available = true;
+        notifyAll();
     }
     
-    public void testSaveUser() {
+    public synchronized void testSaveUser() {
+
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }
+        available = false;
+
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : SaveUser -------");
@@ -215,6 +295,9 @@ class TestClient implements Runnable {
         user2.addAllergy("tonno");
         ret = mClient.saveUser(user2);
         System.out.println("response: " + ret);        
+        
+        available = true;
+        notifyAll();
     }
     
     private Client mClient; 
@@ -238,8 +321,8 @@ class TestClient implements Runnable {
 
         System.out.println("--- Test Client --- ");
 
-        // multiple threads testing
-        int numThreads = 1;
+        // multiple clients requests
+        int numThreads = 3;
         ArrayList<Thread> testPool = new ArrayList<>(numThreads);
         for (int j = 0; j < numThreads; ++j)
             testPool.add(new Thread(new TestClient()));
