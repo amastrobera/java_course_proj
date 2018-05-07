@@ -2,18 +2,15 @@ package client;
 
 import comm.*;
 import canteen.*;
-import university.CanteenUser;
+import university.*;
 
 import java.net.Socket;
 import java.io.*;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class Client {
-
-    // all requests and response behaviours 
     
     private String mHost;
     private int mPort;
@@ -29,7 +26,6 @@ public class Client {
         mInput = null;
         
         try {
-            //host = InetAddress.getLocalHost();
             mClient = new Socket(mHost, mPort);
             System.out.println("--- starting client ---");
             System.out.println("HostAddress: " + 
@@ -40,11 +36,7 @@ public class Client {
             mInput = new ObjectInputStream(mClient.getInputStream());
             System.out.println("... init client input/output streams");
             
-        } catch (UnknownHostException ex ){
-            System.err.println(ex);
-            System.err.println("--- stopping client ---");
-            System.exit(2);
-        } catch(IOException ex) {
+        } catch(Exception ex) {
             System.err.println(ex);
             System.err.println("--- stopping client ---");
             System.exit(2);
@@ -101,7 +93,6 @@ public class Client {
     public HashMap<String, ArrayList<String>> getCourses() {
         sendRequest("ViewCourses");
         try {
-            // unpack the result
             ViewCoursesResponse response = 
                                 (ViewCoursesResponse)mInput.readObject();
             System.out.println("received response: " + response);
@@ -120,7 +111,6 @@ public class Client {
             System.out.println("sending " + req);
             mOutput.writeObject(req);
 
-            // unpack the result
             ViewCourseInfoResponse response = 
                                 (ViewCourseInfoResponse)mInput.readObject();
             System.out.println("received response: " + response);

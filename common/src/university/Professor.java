@@ -17,8 +17,8 @@ public class Professor extends CanteenUser {
         return "professor\n" + super.toString();
     }
     
-    //todo: remove
     public static void main(String[] args) {
+        // this is a module-level test (not to be used)
         Professor p = new Professor("eugene", "wise");
         p.setPhone("12345567");
         p.setAddress(new Address("Hardstrasse 201", "8005", "Zurich"));

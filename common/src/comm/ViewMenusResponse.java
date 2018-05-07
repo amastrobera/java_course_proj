@@ -2,7 +2,6 @@ package comm;
 
 import canteen.Menu;
 import java.util.Date;
-import java.text.Format;
 import java.util.TreeMap;
 
 public class ViewMenusResponse extends Response{

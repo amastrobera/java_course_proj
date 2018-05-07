@@ -68,8 +68,8 @@ public class Person implements Packable, Serializable {
                comp.address().equals(mAddress);
     }
     
-    //todo: remove
     public static void main(String[] args){
+        // this is a module-level test (not to be used)
         Person p = new Person("marco", "maggioli");
         System.out.println(p);
         

@@ -109,9 +109,8 @@ public class Student extends CanteenUser {
                 "\nnotes: " + mNotes;
     }
     
-    //todo: remove
     public static void main(String[] args) {
-        
+        // this is a module-level test (not to be used)    
         Person dad1 = new Person("tony", "manero");
         dad1.setPhone("074301243");
         Person mom1 = new Person("stephanie", "mangano");

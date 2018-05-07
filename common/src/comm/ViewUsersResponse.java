@@ -1,13 +1,11 @@
 package comm;
 
 import university.CanteenUser;
-
-// testing
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
+
+
+import java.io.*; // for testing only, used in main()
+
 
 public class ViewUsersResponse extends Response {
     
@@ -27,8 +25,9 @@ public class ViewUsersResponse extends Response {
     }
     
     
-    // testing 
     public static void main(String[] args) {
+        // this is a module-level test (not to be used)
+        
         ViewUsersResponse res = new ViewUsersResponse();
         ArrayList<CanteenUser> users = new ArrayList<>();
         users.add(new CanteenUser("franco", "manca"));

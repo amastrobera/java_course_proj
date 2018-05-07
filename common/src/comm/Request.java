@@ -5,12 +5,9 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-// testing
-import java.io.*;
+import java.io.*; // for testing only, used in main()
 
 public class Request implements Serializable {
-
-    //"ViewMeals", "ViewMenus", "ViewUsers", "ViewAllergicUsers", "SetMenu", "SetUser", "Unknown";
     
     private final String mType;    
     protected HashMap<String,String> mParams;
@@ -76,8 +73,10 @@ public class Request implements Serializable {
     public String toString(){
         return "Request " + mType + ", params: " + mParams;
     }
+
     
     public static void main(String[] args) {
+        // this is a module-level test (not to be used)
         
         Request msg = new Request("ViewUsers");
         ArrayList<String> users = new ArrayList<>(
