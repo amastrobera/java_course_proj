@@ -100,9 +100,10 @@ public class Student extends CanteenUser {
         String parents = new String();
         if (mParents != null)
             for (int i = 0; i < mParents.length; ++i) 
-                parents += mParents[i].name() + " " + 
-                           mParents[i].surname() + " " + 
-                           mParents[i].phone() + ",";
+                if (mParents[i] != null)
+                    parents += mParents[i].name() + " " + 
+                               mParents[i].surname() + " " + 
+                               mParents[i].phone() + ",";
         if (parents.length() > 1) 
             parents = parents.substring(0, parents.length()-1);
         return "student\n" + super.toString() + "\nparents: " + parents  + 

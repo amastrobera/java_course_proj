@@ -76,7 +76,10 @@ public class CanteenUser extends Person  {
 
     @Override 
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        boolean person =  super.equals(obj);
+        if (person)
+            return ((CanteenUser)obj).type().equals(mType);
+        return false;
     }
     
     

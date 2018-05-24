@@ -63,9 +63,9 @@ public class Person implements Packable, Serializable {
         if (obj == this) return true;
         if (!(obj instanceof Person)) return false;
         Person comp = (Person) obj;
-        return comp.name().equals(mName) && 
-               comp.surname().equals(mSurname) && 
-               comp.address().equals(mAddress);
+        return    comp.name().equals(mName) 
+               && comp.surname().equals(mSurname);
+               //&& comp.address().equals(mAddress);
     }
     
     public static void main(String[] args){
