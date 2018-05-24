@@ -44,7 +44,7 @@ public class Request implements Serializable {
     }
     
     /**
-     * @param <k> name of a parameters containing a list compressed into a 
+     * @param k name of a parameters containing a list compressed into a 
      *                string, of this type "[a, b, c, ...]"
      * @return an ArrayList of the type [a,b,c,...]
     */
@@ -60,8 +60,8 @@ public class Request implements Serializable {
     }
 
     /**
-     * @param <k> name of the parameter in the map 
-     * @param <v> list of type [a,b,c,...] to the compressed into a string
+     * @param k name of the parameter in the map 
+     * @param v list of type [a,b,c,...] to the compressed into a string
      * @return void
     */
     public void setList(String k, ArrayList<String> v) {

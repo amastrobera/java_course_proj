@@ -1,14 +1,12 @@
 package canteen;
 
-import io.Packable;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Menu implements Packable, Serializable{
+public class Menu implements Serializable{
     
     private String mName;
     private Date mDate;
@@ -122,29 +120,7 @@ public class Menu implements Packable, Serializable{
         ret += "\nFruit: " + mCourseNames.get(3);
         return ret;
     }
-    
-    @Override
-    public void fromMap(HashMap<String, String> args) {
-        mName = args.get("Name");
-        setDate(args.get("Date"));
-        setCourse(args.get("First"), Course.Type.First);
-        setCourse(args.get("Second"), Course.Type.Second);
-        setCourse(args.get("Dessert"), Course.Type.Dessert);
-        setCourse(args.get("Fruit"), Course.Type.Fruit);
-    }
-    
-    @Override
-    public HashMap<String, String> toMap(){
-         HashMap<String, String> ret = new HashMap<>();
-        ret.put("Name", mName);
-        ret.put("Date", date());
-        ret.put("First", mCourseNames.get(0));
-        ret.put("Second", mCourseNames.get(1));
-        ret.put("Dessert", mCourseNames.get(2));
-        ret.put("Fruit", mCourseNames.get(3));
-        return(ret);
-    }
-    
+        
     @Override 
     public boolean equals(Object obj) {
         if (obj == this) return true;

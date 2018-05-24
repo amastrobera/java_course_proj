@@ -308,12 +308,12 @@ class TestClient implements Runnable {
     
     @Override
     public void run() {
-        testCourseInfo();
-        testViewCourses();
-        testViewUsers();
-        testViewAllergicUsers(false); // true, to view full list
-        testSaveMenu();
-        testSaveCourse();
+        //testCourseInfo(); // no
+        //testViewCourses();
+        //testViewUsers();
+        //testViewAllergicUsers(false); // true, to view full list  // no
+        //testSaveMenu(); // no
+        //testSaveCourse(); // no
         testSaveUser();
     }
 
@@ -322,7 +322,7 @@ class TestClient implements Runnable {
         System.out.println("--- Test Client --- ");
 
         // multiple clients requests
-        int numThreads = 3;
+        int numThreads = 1;
         ArrayList<Thread> testPool = new ArrayList<>(numThreads);
         for (int j = 0; j < numThreads; ++j)
             testPool.add(new Thread(new TestClient()));

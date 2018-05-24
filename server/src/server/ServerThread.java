@@ -63,25 +63,17 @@ class ServerThread implements Runnable {
         } else if (type.equals("ViewAllergicUsers")) {
 
             ViewAllergicUsersResponse res = new ViewAllergicUsersResponse();
-
-            String name = req.getParam("Name");
-            String first = req.getParam("First");
-            String second = req.getParam("Second");
-            String dessert = req.getParam("Dessert");
-            String fruit = req.getParam("Fruit");
             
-            if (first.isEmpty() || second.isEmpty() || 
-                (dessert.isEmpty() && fruit.isEmpty())) {
+            Menu menu = ((ViewAllergicUsersRequest)req).getMenu();
+            
+            if(menu.getCourse(Course.Type.First).isEmpty() || 
+                menu.getCourse(Course.Type.Second).isEmpty() ||
+                (menu.getCourse(Course.Type.Dessert).isEmpty() &&
+                menu.getCourse(Course.Type.Fruit).isEmpty()) ) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"First\", \"Second\", " +
                                 "(\"Dessert\" or \"Fruit\")}");
             } else {            
-                Menu menu = new Menu();
-                menu.setName(name);
-                menu.setCourse(first, Course.Type.First);
-                menu.setCourse(second, Course.Type.Second);
-                menu.setCourse(dessert, Course.Type.Dessert);
-                menu.setCourse(fruit, Course.Type.Fruit);
                 ArrayList<CanteenUser> users = 
                                     mDataManager.getAllergicUsers(menu);
                 res.setUserList(users);
@@ -111,17 +103,17 @@ class ServerThread implements Runnable {
 
             Response res = new Response("SaveMenu");
             
-            if (req.getParam("Date").isEmpty() || 
-                req.getParam("First").isEmpty() || 
-                req.getParam("Second").isEmpty() ||
-                (req.getParam("Dessert").isEmpty() &&
-                req.getParam("Fruit").isEmpty()) ) {
+            Menu menu = ((SaveMenuRequest)req).getMenu();
+            
+            if (menu.date().isEmpty() || 
+                menu.getCourse(Course.Type.First).isEmpty() || 
+                menu.getCourse(Course.Type.Second).isEmpty() ||
+                (menu.getCourse(Course.Type.Dessert).isEmpty() &&
+                menu.getCourse(Course.Type.Fruit).isEmpty()) ) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"First\", \"Second\", " +
                                 "(\"Dessert\" or \"Fruit\"), \"Date\"}");
             } else {            
-                Menu menu = new Menu();
-                menu.fromMap(req.params());
                 if (menu.date().isEmpty()) {
                     System.err.println("SaveMenu: invalid date format " + 
                                        "(" + req.getParam("Date") + ")");
@@ -138,16 +130,15 @@ class ServerThread implements Runnable {
         } else if (type.equals("SaveCourse")) {
 
             Response res = new Response("SaveCourse");
+            Course course = ((SaveCourseRequest)req).getCourse();
             
-            if (req.getParam("Name").isEmpty() || 
-                req.getParam("Type").isEmpty() || 
-                req.getParam("Ingredients").isEmpty() ) {
+            if (course.name.isEmpty() || 
+                course.type == Course.Type.Unknown || 
+                course.ingredients.isEmpty() ) {
                 res.setStatus(Response.Status.FAILURE);
-                res.setError("Missing params: {\"Nae\", \"Type\", " +
+                res.setError("Missing params: {\"Name\", \"Type\", " +
                                 "\"Ingredients\" }");
             } else {            
-                Course course = new Course();
-                course.fromMap(req.params());
                 if (mDataManager.saveCourse(course))
                     res.setStatus(Response.Status.SUCCESS);
                 else
@@ -161,11 +152,13 @@ class ServerThread implements Runnable {
 
             Response res = new Response("SaveUser");
             
-            if (req.getParam("Name").isEmpty() || 
-                req.getParam("Surname").isEmpty() || 
-                req.getParam("Type").isEmpty() || 
-                req.getParam("Address").isEmpty() ||
-                req.getParam("Allergies").isEmpty()) {
+            CanteenUser user = ((SaveUserRequest)req).getUser();
+            
+            if (user.name().isEmpty() || 
+                user.surname().isEmpty() || 
+                user.type().isEmpty() || 
+                user.address() == null ||
+                user.allergies().isEmpty()) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"Name\", \"Surname\", " + 
                               "\"Type\", \"Address\", \"Allergies\" }");
@@ -173,14 +166,6 @@ class ServerThread implements Runnable {
                         req.getParam("Parents").isEmpty() ) {
                 res.setError("Missing param: {\"Parents\"} for User student");
             } else {            
-                CanteenUser user;
-                if (req.getParam("Type").equals("student"))
-                    user = new Student();
-                else if (req.getParam("Type").equals("professor"))
-                    user = new Professor();
-                else
-                    user = new CanteenUser();
-                user.fromMap(req.params());
                 if (mDataManager.saveUser(user))
                     res.setStatus(Response.Status.SUCCESS);
                 else

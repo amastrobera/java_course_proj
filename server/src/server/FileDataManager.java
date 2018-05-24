@@ -15,217 +15,132 @@ import java.io.File;
 public class FileDataManager extends DataManager {
 
     private final String mDataPath;
-    private final HashMap<String, DSVReader> mReaders;
-    private final HashMap<String, DSVWriter> mWriters;
-    
+    private SerialReader<CanteenUser> mUserReader;
+    private SerialWriter<CanteenUser> mUserWriter;
+    private SerialReader<Course> mCourseReader;
+    private SerialWriter<Course> mCourseWriter;
+    private SerialReader<Menu> mMenuReader;
+    private SerialWriter<Menu> mMenuWriter;
     
     public FileDataManager(String dataPath) {
-        mDataPath = dataPath;
-        
-        mReaders = new HashMap<>();
-        mWriters = new HashMap<>();
-        
+        mDataPath = dataPath;       
         initUsers();
         initCourses();
         initMenus();
     }
 
     private void initUsers() {
-        mReaders.put("users", 
-                new DSVReader(mDataPath + "/users.csv", ",", true, true));
-
-        mWriters.put("users", 
-                new DSVWriter(mDataPath + "/users.csv", ",", true, true, false));
-        mWriters.get("users").setHeaders(new ArrayList<String>(
-            Arrays.asList("Name","Surname","Type","Telephone","Address",
-                          "Parents","Allergies","Notes")));
+        mUserReader = new SerialReader<>(mDataPath + "/users.dat");
+        mUserWriter = new SerialWriter<>(mDataPath + "/users.dat");
+        
     }
     
     private void initCourses() {
-        mReaders.put("courses", 
-                new DSVReader(mDataPath + "/courses.csv", ",", true, true));
-
-        mWriters.put("courses", 
-                new DSVWriter(mDataPath + "/courses.csv", ",", true, true, false));
-        mWriters.get("courses").setHeaders(new ArrayList<String>(
-            Arrays.asList("Name","Type","Ingredients")));
+        mCourseReader = new SerialReader(mDataPath + "/courses.dat");
+        mCourseWriter = new SerialWriter(mDataPath + "/courses.dat");
     }
     
     private void initMenus(){
-        mReaders.put("menus", 
-        new DSVReader(mDataPath + "/menus.csv", ",", true, true));
-
-        mWriters.put("menus", 
-                new DSVWriter(mDataPath + "/menus.csv", ",", true, true, false));
-        mWriters.get("menus").setHeaders(new ArrayList<String>(
-            Arrays.asList("Date","Name","First","Second","Dessert","Fruit")));
+        mMenuReader = new SerialReader(mDataPath + "/menus.dat");
+        mMenuWriter = new SerialWriter(mDataPath + "/menus.dat");
     }
-    
-    
+        
     private void switchFiles(String newFilePath, String oldFilePath) {    
-        File oldFile = new File(oldFilePath);
-        oldFile.delete();
         File newFile = new File(newFilePath);
         newFile.renameTo(new File(oldFilePath));
     }
 
     /** 
-     * @param <none>
      * @return Array of all courses in our databases
      */    
     @Override
     public HashMap<String, ArrayList<String>> getCourses() {
-
-        HashMap<String, ArrayList<String>> ret = new HashMap<>();
         
-        if (mReaders.containsKey("courses")) {
-            
-            DSVReader reader = mReaders.get("courses");
-            
-            ArrayList<String> first = new ArrayList<>();
-            ArrayList<String> second = new ArrayList<>();
-            ArrayList<String> dessert = new ArrayList<>();
-            ArrayList<String> fruit = new ArrayList<>();
-            
-            HashMap<String,String> line = new HashMap<>();
-            while (reader.getNextLine(line)) {
-                if (line.size() > 0) {
-                    Course c = new Course();
-                    c.fromMap(line);
-                    switch (c.type) {
-                        case First: 
-                            first.add(c.name);
-                            break;
-                        case Second: 
-                            second.add(c.name);
-                            break;
-                        case Dessert: 
-                            dessert.add(c.name);
-                            break;
-                        case Fruit: 
-                            fruit.add(c.name);
-                            break;
-                    }
-                    line = new HashMap<>();
-                }
+        HashMap<String, ArrayList<String>> ret = new HashMap<>();
+        ArrayList<String> first = new ArrayList<>();
+        ArrayList<String> second = new ArrayList<>();
+        ArrayList<String> dessert = new ArrayList<>();
+        ArrayList<String> fruit = new ArrayList<>();
+
+        Course course;
+        while ((course = mCourseReader.getNextLine()) != null) {
+            switch (course.type) {
+                case First: 
+                    first.add(course.name);
+                    break;
+                case Second: 
+                    second.add(course.name);
+                    break;
+                case Dessert: 
+                    dessert.add(course.name);
+                    break;
+                case Fruit: 
+                    fruit.add(course.name);
+                    break;
             }
-            reader.reset(); // the file pointer goes back to the top
-            
-            ret.put("First", first);
-            ret.put("Second", second);
-            ret.put("Dessert", dessert);
-            ret.put("Fruit", fruit);
         }
+        mCourseReader.reset();
+        ret.put("First", first);
+        ret.put("Second", second);
+        ret.put("Dessert", dessert);
+        ret.put("Fruit", fruit);
         return(ret);
     }
     
     /**
      * 
-     * @param <name> of the course
+     * @param name of the course
      * @return Course class corresponding to that name, including ingredients
      */
     @Override
     public Course findCourse(String name) {
-        
-        HashMap<String,String> line = new HashMap<>();
-
-        if (mReaders.containsKey("courses")) {
-            DSVReader reader = mReaders.get("courses");
-            while (reader.getNextLine(line)) {
-                if (line.size() > 0) {
-                    Course c = new Course();
-                    c.fromMap(line);
-                    if (c.name.equals(name)) {
-                        reader.reset();
-                        return c;
-                    }
-                    line = new HashMap<>();
-                }
-            }
-            reader.reset(); // the file pointer goes back to the top
-        }
-        return new Course();
+        Course toFind = new Course();
+        toFind.name = name;
+        Course found =  mCourseReader.findObj(toFind);
+        mCourseReader.reset();
+        return found;
     }
     
     
     /**
      * 
-     * @param <menu> array with the name of the four course menu
+     * @param menu array with the name of the four course menu
      * @return Array of the corresponding Course class (including ingredients)
      */
     @Override
     public ArrayList<Course> findMenu(ArrayList<String> menu){
         
         ArrayList<Course> ret = new ArrayList<>();
-
-        if (mReaders.containsKey("courses")) {
-            DSVReader reader = mReaders.get("courses");
-        
-            HashMap<String,String> line = new HashMap<>();
-            while (reader.getNextLine(line)) {
-                if (line.size() > 0) {
-                    Course c = new Course();
-                    c.fromMap(line);
-                    for (String course : menu) {
-                        if (c.name.equals(course)){
-                            ret.add(c);
-                            break;
-                        }
-                    }
-                    line = new HashMap<>();
+        mCourseReader.reset();
+        Course course;
+        while ((course = mCourseReader.getNextLine()) != null) {
+            for (String name : menu) {
+                if (course.name.equals(name)){
+                    ret.add(course);
+                    break;
                 }
             }
-            reader.reset(); // the file pointer goes back to the top
         }
+        mCourseReader.reset();
         return(ret);
     }
-    
-    private CanteenUser userFactoryFromMap(HashMap<String, String> line) {
-        CanteenUser user;
-        try {
-            String type = line.get("Type");
-            if (type.equals("student"))
-                user = new Student();
-            else if (type.equals("professor"))
-                user = new Professor();
-            else
-                user = new CanteenUser();
-            user.fromMap(line);
-        } catch(Exception ex) {
-            System.err.println("createUserFromMap: " + ex);
-            user = new CanteenUser();
-        }
-        return user;
-    }
-    
+        
     /**
-    * @param <none> 
-    * 
     * @return Array of users in our database or file-system
     */
     @Override
     public ArrayList<CanteenUser> getUsers() {
-        ArrayList<CanteenUser> ret = new ArrayList<>();
-                
-        HashMap<String,String> line = new HashMap<>();
-
-        if (mReaders.containsKey("users")) {
-            DSVReader reader = mReaders.get("users");
         
-            while (reader.getNextLine(line)) {
-                if (line.size() > 0) {
-                    CanteenUser user = userFactoryFromMap(line);
-                    ret.add(user);
-                }
-                line = new HashMap<>();
-            }
-            reader.reset(); // file pointer back to the top
-        }
+        ArrayList<CanteenUser> ret = new ArrayList<>();
+        CanteenUser user;
+        while ((user = mUserReader.getNextLine()) != null ) 
+            ret.add(user);
+        mUserReader.reset(); // file pointer back to the top
         return ret;
     }
 
     /**
-    * @param <menu> a collection of four courses (only the name)
+    * @param menu a collection of four courses (only the name)
     * 
     * @return Array of users that are allergic to any ingredient of any of the 
     * four courses of the menu
@@ -237,228 +152,141 @@ public class FileDataManager extends DataManager {
         ArrayList<Course> courses = findMenu(menu.courses());        
         
         if (courses.size() > 0 ) { 
-            boolean allergic;
             Iterator<Course> cit;
-            HashMap<String,String> line = new HashMap<>();
             
-            if (mReaders.containsKey("users")) {
-                DSVReader reader = mReaders.get("users");
-                while (reader.getNextLine(line)) {
-                    if (line.size() > 0) {
-                        CanteenUser user = userFactoryFromMap(line);
-                        // add user to list if allergic to at 
-                        // least one ingredient of one dish on the menu
-                        // and make its "allergies" map contain the dishes he 
-                        // is allergic to
-                        HashSet<String> allergicCourses = new HashSet<>();
-                        cit = courses.iterator();
-                        while (cit.hasNext()) {
-                            Course course = cit.next();
-                            for (String ingredient : course.ingredients) {
-                                if (user.isAllergicTo(ingredient)) {
-                                    allergicCourses.add(course.name);
-                                    break;
-                                }
-                            }
-                        }
-                        if (!allergicCourses.isEmpty()) {
-                            user.setAllergies(allergicCourses);
-                            ret.add(user);
+            CanteenUser user;
+            mUserReader.reset();
+            while ((user = mUserReader.getNextLine()) != null ) {
+                // add user to list if allergic to at 
+                // least one ingredient of one dish on the menu
+                // and make its "allergies" map contain the dishes he 
+                // is allergic to
+                HashSet<String> allergicCourses = new HashSet<>();
+                cit = courses.iterator();
+                while (cit.hasNext()) {
+                    Course course = cit.next();
+                    for (String ingredient : course.ingredients) {
+                        if (user.isAllergicTo(ingredient)) {
+                            allergicCourses.add(course.name);
+                            break;
                         }
                     }
-                    line = new HashMap<>();
                 }
-                reader.reset(); // file pointer back to the top
+                if (!allergicCourses.isEmpty()) {
+                    user.setAllergies(allergicCourses);
+                    ret.add(user);
+                }
             }
+            mUserReader.reset(); // file pointer back to the top
         }
         return ret;
     }
     
     /**
      * 
-     * @param <type> "student", "professor", or "" for all users
+     * @param type "student", "professor", or "" for all users
      * @return count of users in the database
      */
     @Override
     public long getNumberOfUsers(String type) {
         long num = 0;
-        if (type.isEmpty()) {
-            if (mReaders.containsKey("users")) {
-                DSVReader reader = mReaders.get("users");
-                HashMap<String,String> line = new HashMap<>();
-                while (reader.getNextLine(line)) {
-                    if (line.size() > 0)
-                        ++num;
-                    line = new HashMap<>();
-                }
-                reader.reset(); // file pointer back to the top
-            } else {
-                return -1;
-            }
-        } else {
-            if (mReaders.containsKey("users")) {
-                DSVReader reader = mReaders.get("users");
-                HashMap<String,String> line = new HashMap<>();
-                while (reader.getNextLine(line)) {
-                    if (line.size() > 0) {
-                        CanteenUser user = userFactoryFromMap(line);
-                        if (user.type().equals(type))
-                            ++num;
-                    }
-                    line = new HashMap<>();
-                }
-                reader.reset(); // file pointer back to the top
-            } else {
-                return -1;
-            }
+        CanteenUser user;
+        mUserReader.reset();
+        while ((user = mUserReader.getNextLine()) != null) {
+            if (type.isEmpty())
+                ++num;
+            else
+                if (type.equals(user.type()))
+                    ++num;
         }
+        mUserReader.reset(); // file pointer back to the top
         return num;
     }
     
-    private boolean saveObjet(Packable entry, String fileName) {
+    private <T extends Object> boolean saveObjet(String filePath, 
+                                                 SerialReader<T> reader, 
+                                                 SerialWriter<T> writer,
+                                                 T targetToSave) {
+        boolean ret = false;
+        long lineOriginal = reader.find(targetToSave);
         
-        // function usable only for Menu, User, and Course
-        String cName = entry.getClass().getName();
-        if (!cName.equals(Menu.class.getName()) && 
-            !cName.equals(Course.class.getName()) && 
-            !(cName.equals(CanteenUser.class.getName()) || 
-             cName.equals(Student.class.getName()) || 
-             cName.equals(Professor.class.getName())))
-            return false; // cannot assess the type
-
-        if (!fileName.equals("menus") && 
-            !fileName.equals("courses") && 
-            !fileName.equals("users"))
-            return false; // cannot assess the file source
-        
-        if (mReaders.containsKey(fileName)) {
-            DSVReader reader = mReaders.get(fileName);
-            reader.reset(false);
-            long linesToKey = 0;
-            boolean mustEdit = false;
-            HashMap<String,String> line = new HashMap<>();
-            while (reader.getNextLine(line)) {
-                Packable curData;
-                if (cName.equals(Menu.class.getName())) {
-                    curData = new Menu();
-                } else if (cName.equals(Course.class.getName())) {
-                    curData = new Course();
-                } else if (cName.equals(CanteenUser.class.getName()) || 
-                           cName.equals(Student.class.getName()) || 
-                           cName.equals(Professor.class.getName())) {
-                    if (line.get("Type").equals("professor"))
-                        curData = new Professor();
-                    else if (line.get("Type").equals("student"))
-                        curData = new Student();
-                    else
-                        curData = new CanteenUser();
-                } else
-                    return false; // cannot assess the type
-                
-                curData.fromMap(line);
-                if (curData.equals(entry)) {
-                    System.err.println("a record with the same key already " + 
-                                  "exists, and will be overwritten:\n"+curData);
-                    mustEdit = true;
-                    break;
+        if (lineOriginal >= 0) {
+            // 1. if the object exists, replace it with the new one
+            try {
+                SerialWriter<T> tmpWriter = new SerialWriter<>(filePath+".tmp");
+                long cur = 0;
+                reader.reset();
+                // copy beginning file to the tmp
+                while (cur < lineOriginal) {
+                    tmpWriter.writeNextLine(reader.getNextLine());
+                    ++cur;
                 }
-                ++linesToKey;
-                line = new HashMap<>();
+                reader.getNextLine(); // discard line to be replaced
+                tmpWriter.writeNextLine(targetToSave); // add the new line
+
+                // copy ending file to the tmp                
+                T obj;
+                while ((obj = reader.getNextLine()) != null)
+                    tmpWriter.writeNextLine(obj);
+                tmpWriter.close();
+
+                // move tmp file to original
+                switchFiles(filePath+".tmp", filePath);
+                reader.close();
+
+                // verify success
+                long lineReplaced = reader.find(targetToSave);
+                if (lineReplaced >= 0) {
+                    if (lineReplaced == lineOriginal)
+                        ret = true;
+                } else {
+                    System.err.println("could not replace with obj " + 
+                                        targetToSave);
+                    ret = false;
+                }
+            } catch (Exception ex) {
+                System.err.println("failed to write to " + filePath + ", " + ex);
             }
             
-            // edit: copy lines before in a temp file, write your new line, then
-            //       copy the lines after, and save temp as the original file
-            if (mustEdit) {
-                if (mWriters.containsKey(fileName)) {
-                    DSVWriter writer = mWriters.get(fileName);
-                    
-                    reader.reset(false);
-                    DSVWriter tempWriter = 
-                                new DSVWriter(mDataPath + "/" + fileName 
-                                             +".temp", ",", true, true, false);
-                    tempWriter.setHeaders(writer.headers());
-                    
-                    // write previous line
-                    StringBuffer prevLine = new StringBuffer();
-                    while (--linesToKey >= 0) {
-                        reader.getNextLine(prevLine);
-                        tempWriter.writeLine(prevLine.toString());
-                        prevLine = new StringBuffer();
-                    }
-                    
-                    // write new record
-                    reader.getNextLine(prevLine); // discard current record
-                    HashMap<String, String> pack = entry.toMap();
-                    tempWriter.writeMap(pack);
-                    
-                    // write the rest of the file
-                    StringBuffer followLine = new StringBuffer();
-                    while (reader.getNextLine(followLine)) {
-                        tempWriter.writeLine(followLine.toString());
-                        followLine = new StringBuffer();
-                    }
-                    
-                    // switch files (temp -> original)
-                    tempWriter.close();
-                    writer.close();
-                    mReaders.remove(fileName);
-                    mWriters.remove(fileName);
-                    switchFiles(mDataPath + "/" + fileName + ".temp", 
-                                mDataPath + "/" + fileName + ".csv");
-                    if (fileName.equals("menus"))
-                        initMenus();
-                    else if(fileName.equals("courses"))
-                        initCourses();
-                    else if(fileName.equals("users"))
-                        initUsers();
-                    System.out.println("record updated in "+fileName+".csv\n"+
-                                        entry);
-                    return true;
-                } else 
-                    return false;
-            }
-            
-        } else
-            return false;
-        
-        // .. if not (new data) append it to the file
-        if (mWriters.containsKey(fileName)) {
-            DSVWriter writer = mWriters.get(fileName);
-            HashMap<String, String> pack = entry.toMap();
-            return writer.writeMap(pack);
+        } else {
+            // 2. if the not, append it to the file 
+            ret = writer.writeNextLine(targetToSave);
         }
-        return false;
+        return ret;
     }
     
     /**
-    * @param <menu> a collection of four courses (only the name). It must
+    * @param menu a collection of four courses (only the name). It must
     *               contain a reference Date (menu.setDate())
     * 
     * @return true/false corresponding to the success of the operation
     */
     @Override
     public boolean saveMenu(Menu menu) {
-        return saveObjet(menu, "menus");
+        return saveObjet(mDataPath + "/menus.dat", mMenuReader, 
+                         mMenuWriter, menu);
     }
 
     /**
      * 
-     * @param <course> a course with its ingredients
+     * @param course a course with its ingredients
      * @return true/false for the success of the operation
      */
     @Override
     public boolean saveCourse(Course course) {
-        return saveObjet(course, "courses");
+        return saveObjet(mDataPath + "/courses.dat", mCourseReader, 
+                         mCourseWriter, course);
     }
 
     /**
      * 
-     * @param <user> a user
+     * @param user a CanteenUser (Professor or Student or generic)
      * @return true/false corresponding to the success of the operation
      */
     @Override
     public boolean saveUser(CanteenUser user) {
-        return saveObjet(user, "users");
+        return saveObjet(mDataPath + "/users.dat", mUserReader, 
+                 mUserWriter, user);
     }
     
     

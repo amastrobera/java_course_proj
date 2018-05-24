@@ -1,11 +1,10 @@
 package canteen;
 
-import io.Packable;
+
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Course implements Packable, Serializable {
+public class Course implements Serializable {
     
     public static enum Type {First, Second, Dessert, Fruit, Unknown};
     
@@ -20,7 +19,7 @@ public class Course implements Packable, Serializable {
             case Fruit:
                 return "frutta";
         }
-        return "Unknown";
+        return "";
     }
     
     public static Type strToType(String type) {
@@ -59,37 +58,13 @@ public class Course implements Packable, Serializable {
     }
 
     
-    @Override
-    public void fromMap(HashMap<String, String> args) {
-        // expects this list: [name, type, ingredient1, ingredient2, ...]
-        name = args.get("Name");
-        type = strToType(args.get("Type"));
-        ingredients = new LinkedList<>();
-        String mapIngredients = args.get("Ingredients");
-        for (String ingr : mapIngredients.split(","))
-            ingredients.add(ingr);
-    }
-    
-    @Override
-    public HashMap<String, String> toMap(){
-        HashMap<String, String> ret = new HashMap<>();
-        ret.put("Name", name);
-        ret.put("Type", typeToString(type));
-        String mapIngredients = new String();
-        for (String ingr : ingredients)
-            mapIngredients += ingr + ",";
-        if (mapIngredients.length() > 0) 
-            mapIngredients = mapIngredients.substring(0, mapIngredients.length()-1);
-        ret.put("Ingredients", mapIngredients);
-        return(ret);
-    }
-
     @Override 
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (!(obj instanceof Course)) return false;
         Course comp = (Course) obj;
-        return comp.type == type && comp.name.equals(name);
+        return comp.name.equals(name); 
+                //&& comp.type == type;
     }
 
     

@@ -2,19 +2,16 @@ package io;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.io.File;
 
 import java.util.Random;
 import java.util.Arrays;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.HashSet;
 
 import university.*;
 import canteen.*;
-import com.sun.tracing.dtrace.DependencyClass;
 
 public class DataGenerator {
 
@@ -94,39 +91,23 @@ public class DataGenerator {
     }
 
 
-    public static void readMenuPlan(String filePath) {
+    public static void readMenuPlan(String filePath, boolean printAll) {
         
+        SerialReader<Menu> reader = new SerialReader<>(filePath);
         LinkedList<Menu> menus = new LinkedList<>();
         
-        try {
-            FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream reader = new ObjectInputStream(file);
-            int read = 0;
-            while (true) {
-                try { 
-                    Menu menu = (Menu)reader.readObject();
-                    menus.add(menu);
-                    ++read;
-                } catch (Exception ex) {
-                    System.err.println("end of reader file " + filePath + 
-                                        ", read : " + read + " menus");
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("failed to read serialized file " + filePath +
-                                ", "+ ex);
-        }
-        
-        System.out.println("found " + menus.size() + " menus in " + filePath);
-        for (Menu menu : menus) 
-            System.out.println(menu);
-        
-    }
+        Menu menu;
+        while ((menu = reader.getNextLine()) != null)
+            menus.add(menu);
 
+        System.out.println("found " + menus.size() + " menus in " + filePath);
+        if (printAll) 
+            for (Menu m : menus)
+                System.out.println(m);
+    }
     
     
-    public static void prepareMenuPlan(String filePath) {
+    public static void generateMenus(String filePath) {
         
         LinkedList<Menu> menuPlan = new LinkedList<>();
 
@@ -157,47 +138,33 @@ public class DataGenerator {
             }
             writer.close();
             file.close();
-            System.out.println("generated " + done + " lines into " + filePath);
+            System.out.println("--- generated " + done + " lines into " + 
+                                filePath + " ---");
         } catch (Exception ex) {
             System.err.println("failed to write to " + filePath + ", " + ex);
         }
     }
     
 
-    public static void readMeals(String filePath) {
+    public static void readMeals(String filePath, boolean printAll) {
         
+        SerialReader<Course> reader = new SerialReader<>(filePath);
         LinkedList<Course> courses = new LinkedList<>();
         
-        try {
-            FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream reader = new ObjectInputStream(file);
-            int read = 0;
-            while (true) {
-                try { 
-                    Course course = (Course)reader.readObject();
-                    courses.add(course);
-                    ++read;
-                } catch (Exception ex) {
-                    System.err.println("end of reader file " + filePath + 
-                                        ", read : " + read + " courses");
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("failed to read serialized file " + filePath +
-                                ", "+ ex);
-        }
-        
-        System.out.println("found " + courses.size() + " course in " + filePath);
-        for (Course course : courses) 
-            System.out.println(course);
-        
+        Course course;
+        while ((course = reader.getNextLine()) != null)
+            courses.add(course);
+
+        System.out.println("found " + courses.size() + 
+                            " courses in " + filePath);
+        if (printAll) 
+            for (Course c : courses)
+                System.out.println(c);
     }
 
-
     
-    public static void generateMeals(String filePath) {
-                
+    private static String[][] generateCourses() { 
+        
         String[][] meals = {
             {"Crema di fagioli con pasta","primo","pasta,fagioli borlotti,carota,cipolla"},
             {"Crema di patate e porri","primo","patate,porro,aglio,sale"},
@@ -231,6 +198,12 @@ public class DataGenerator {
             {"Pera","frutta","pera"},
             {"Smoothie di frutta mista","frutta","arancia,sedano,cetriolo,menta,zucchero di canna"},
         };
+        return meals;
+    }
+    
+    public static void generateMeals(String filePath) {
+                
+        String[][] meals = generateCourses();
         
         int done = 0;
         try {
@@ -249,148 +222,138 @@ public class DataGenerator {
             
             writer.close();
             file.close();
-            System.out.println("generated " + done + " lines into " + filePath);
+            System.out.println("--- generated " + done + " lines into " 
+                                + filePath + " ---");
         } catch (Exception ex) {
             System.err.println("failed to write to " + filePath + ", " + ex);
-        }
-        
-        System.out.println("generated " + done + " lines into " + filePath);
-        
+        }        
     }
     
-    public static void readUsers(String filePath) {
+    public static void readUsers(String filePath, boolean printAll) {
         
+        SerialReader<CanteenUser> reader = new SerialReader<>(filePath);
         LinkedList<CanteenUser> users = new LinkedList<>();
         
-        try {
-            FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream reader = new ObjectInputStream(file);
-            int read = 0;
-            while (true) {
-                try { 
-                    CanteenUser user = (CanteenUser)reader.readObject();
-                    users.add(user);
-                    ++read;
-                } catch (Exception ex) {
-                    System.err.println("end of reader file " + filePath + 
-                                        ", read : " + read + " users");
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("failed to read serialized file " + filePath +
-                                ", "+ ex);
-        }
-        
+        CanteenUser user;
+        while ((user = reader.getNextLine()) != null)
+            users.add(user);
+
         System.out.println("found " + users.size() + " users in " + filePath);
-        for (CanteenUser user : users) 
-            System.out.println(user);
-        
+        if (printAll) 
+            for (CanteenUser u : users)
+                System.out.println(u);
     }
     
     private static void switchFiles(String newFilePath, String oldFilePath) {    
-        File oldFile = new File(oldFilePath);
-        oldFile.delete();
         File newFile = new File(newFilePath);
         newFile.renameTo(new File(oldFilePath));
     }
     
-    public static void replaceUser(String filePath) {
-        
-        CanteenUser userToFind;
-        CanteenUser userToReplace;
-        Random seed = new Random();
-        
-        userToFind = new Student("Alessandro", "Esposito");
-        long found = findUser(filePath, userToFind);
-        if (found >= 0) {
-            System.out.println("found " + userToFind.type() + " " + 
-                               userToFind.name() + " " + userToFind.surname() +
-                               " at line " + found);
-            userToReplace = generateUser("Mario", "Rossi", "professor", seed);
-            try {
-                FileOutputStream output = new FileOutputStream(filePath + ".tmp");
-                ObjectOutputStream writer = new ObjectOutputStream(output);
-                
-                FileInputStream input = new FileInputStream(filePath);
-                ObjectInputStream reader = new ObjectInputStream(input);
-                
-                long cur = 0;
-                // copy beginning file to the tmp
-                while (cur < found) {
-                    writer.writeObject((CanteenUser)reader.readObject());
-                    ++cur;
-                }
-                reader.readObject(); // discard line to be replaced
-                writer.writeObject(userToReplace); // add the new line
-                
-                // copy ending file to the tmp
-                try {
-                    while (true){
-                        writer.writeObject((CanteenUser)reader.readObject());
-                    }
-                } catch (Exception ex) {
-                    //end of file to read
-                }
-                writer.close();
-                reader.close();
-                
-                // move tmp file to original
-                switchFiles(filePath+".tmp", filePath);
-
-                System.out.println("replaced with  " + userToReplace.type() + " " + 
-                               userToReplace.name() + " " + userToReplace.surname());
-                found = findUser(filePath, userToReplace);
-                if (found >= 0) 
-                    System.out.println("found  at line " + found);
-                
-            } catch (Exception ex) {
-                System.err.println("failed to write to " + filePath + ", " + ex);
-            }
-
-        } 
+    private static CanteenUser getUserAtLine(String filePath, int lineNo) {   
+        SerialReader<CanteenUser> reader = new SerialReader<>(filePath);
+        return reader.findAt(lineNo);
     }
     
-    /**
-     * 
-     * @param <filePath> the file where users have been serialised
-     * @param <userToFind> Student, Professor or generic CanteenUser will be 
-     *                  searched by name, surname and type
-     * @return the line (number of object serialised) at which the user stands
-     *          or "-1" in case the user hasn't been found
-     */
-    public static long findUser(String filePath, CanteenUser userToFind) {
-        long line = -1;
-        try {
-            long cur = 0;
-            FileInputStream file = new FileInputStream(filePath);
-            ObjectInputStream reader = new ObjectInputStream(file);
-            while (true) {
-                try { 
-                    CanteenUser user = (CanteenUser)reader.readObject();
-                    if (user.equals(userToFind)) {
-                        line = cur;
-                        break;
-                    }
-                    ++cur;
-                } catch (Exception ex) {
-                    System.err.println("end of reader file " + filePath + 
-                                        ", read : " + cur + " users");
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("failed to read serialized file " + filePath +
-                                ", "+ ex);
-        }
-        return line;
-    }
+    public static void replaceARandomUser(String filePath) {
 
-    public static CanteenUser generateUser(String name, 
-                                           String surname, 
-                                           String type,
-                                           Random seed) {
+        // generate a random user until there is one that exists in the file
+        Random seed = new Random();
+        SerialReader<CanteenUser> reader = new SerialReader<>(filePath);
+
+        int lineMax = (generateNames().length-2)*(generateSurnames().length-2);
+        long lineUser = seed.nextInt(lineMax);
+        CanteenUser userToFind = reader.findAt(lineUser);
+        
+        System.out.println("found " + userToFind.type() + " " + 
+                           userToFind.name() + " " + userToFind.surname() +
+                           " at line " + lineUser);
+        
+        // generate a random user to replace at that line
+        CanteenUser userToReplace = generateUser(seed);
+        
+        try {
+            SerialWriter<CanteenUser> writer = 
+                                        new SerialWriter<>(filePath+".tmp");
+            
+            long cur = 0;
+            reader.reset();
+            // copy beginning file to the tmp
+            while (cur < lineUser) {
+                writer.writeNextLine(reader.getNextLine());
+                ++cur;
+            }
+            reader.getNextLine(); // discard line to be replaced
+            writer.writeNextLine(userToReplace); // add the new line
+
+            // copy ending file to the tmp
+            try {
+                CanteenUser user;
+                while ((user = reader.getNextLine()) != null)
+                    writer.writeNextLine(user);
+            } catch (Exception ex) {
+                //end of file to read
+            }
+            writer.close();
+            
+            // move tmp file to original
+            switchFiles(filePath+".tmp", filePath);
+            long lineReplaced = reader.find(userToReplace);
+            reader.close();
+            
+            // communicate to console
+            String msgReplaced = "replaced with  " + userToReplace.type() + " " + 
+               userToReplace.name() + " " + userToReplace.surname();
+            if (lineReplaced >= 0)
+                if (lineReplaced == lineUser)
+                    System.out.println(msgReplaced + " successfully at" + 
+                              " original line " + lineUser);
+                else
+                    System.err.println(msgReplaced + " at line " + 
+                              lineReplaced + ", original line was " + lineUser);
+            else
+                System.err.println("could not replace with user " + 
+                       userToReplace.type() + " " + userToReplace.name() + " " +
+                       userToReplace.surname());
+        } catch (Exception ex) {
+            System.err.println("failed to write to " + filePath + ", " + ex);
+        }
+    }
+    
+
+    private static String[] generateNames() {
+        // data
+        String[] names = {"Antonio", "Matteo", "Andrea", "Gabriele", 
+                          "Alessandro", "Franco",
+                          "Sara", "Elena", "Claudia", "Teresa", "Giulia", 
+                          "Maria"};
+        return names;
+    }
+    
+    private static String[] generateSurnames(){
+        String [] surnames = {"Bianchi", "Rossi", "Verdi", "Esposito" , 
+                                "Secchi", "Capone","Ferrari", "Costa", 
+                                "Gallo", "Fontana", "Ricci", "Mastri"};
+        return surnames;
+    }
+    
+    private static String[] generateTypes() {
+        String[] types = {"student", "professor"};
+        return types;
+    }
+    
+    
+    private static CanteenUser generateUser(Random seed) {
+        
+        String[] names = generateNames();
+        String[] surnames = generateSurnames();
+        String[] types = generateTypes();
+        
+        String name = names[seed.nextInt(names.length)];
+        String surname = surnames[seed.nextInt(surnames.length)];
+        String type = types[seed.nextInt(types.length)];
+        
         CanteenUser user;
+        
         if (type.equals("student"))
             user = new Student(name, surname);
         else
@@ -408,46 +371,39 @@ public class DataGenerator {
     
     public static void generateUsers(String filePath) {
         
-        // data
-        String[] names = {"Antonio", "Matteo", "Andrea", "Gabriele", "Alessandro", "Franco",
-                          "Sara", "Elena", "Claudia", "Teresa", "Giulia", "Maria"};
-        String [] surnames = {"Bianchi", "Rossi", "Verdi", "Esposito" , "Secchi", "Capone",
-                                "Ferrari", "Costa", "Gallo", "Fontana", "Ricci", "Mastri"};
-        String[] types = {"student", "professor"};
-        
         // random seed and variables for the loop
         Random seed = new Random();
-        String name, surname, uniqueName, type;
-        ArrayList<String> line;
-        
+        String uniqueName;
+        CanteenUser user;
 
-        int todo = (names.length-1) * (surnames.length-1), done = 0;
+        int todo = (generateNames().length-2) * (generateSurnames().length-2);
+        int done = 0;
         HashSet<String> uniqueUsers = new HashSet<>(todo);
         LinkedList<CanteenUser> usersToWrite = new LinkedList<>();
         
         while (done < todo) {
-            name = names[seed.nextInt(names.length)];
-            surname = surnames[seed.nextInt(surnames.length)];
-            uniqueName = name + " " + surname;
-            type = types[seed.nextInt(types.length)];
+            user = generateUser(seed);
+            uniqueName = user.name() + " " + user.surname();
             
             if (!uniqueUsers.contains(uniqueName)) {
                 uniqueUsers.add(uniqueName);
-                CanteenUser user = generateUser(name, surname, type, seed);
                 usersToWrite.add(user);
                 ++done;
             }
         }
 
         try {
+            int num = 0;
             FileOutputStream file = new FileOutputStream(filePath);
             ObjectOutputStream writer = new ObjectOutputStream(file);
-            for (CanteenUser user : usersToWrite) {
-                writer.writeObject(user);
+            for (CanteenUser u : usersToWrite) {
+                writer.writeObject(u);
+                ++num;
             }
             writer.close();
             file.close();
-            System.out.println("generated " + done + " lines into " + filePath);
+            System.out.println("--- generated " + num + " lines into " 
+                                + filePath + " ---");
         } catch (Exception ex) {
             System.err.println("failed to write to " + filePath + ", " + ex);
         }
@@ -464,17 +420,18 @@ public class DataGenerator {
             System.exit(1);
         }
         
-        System.out.println("... writing data into " + args[0]);
+        System.out.println("... writing to " + args[0]);
         
-//        DataGenerator.generateUsers(args[0] + "/users.dat");
-//        DataGenerator.readUsers(args[0] + "/users.dat"); // data check
-//        DataGenerator.replaceUser(args[0] + "/users.dat");
-//
-//        DataGenerator.generateMeals(args[0] + "/courses.dat");
-//        DataGenerator.readMeals(args[0] + "/courses.dat");
+        DataGenerator.generateUsers(args[0] + "/users.dat");
+        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
+        DataGenerator.replaceARandomUser(args[0] + "/users.dat");
+        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
+
+        DataGenerator.generateMeals(args[0] + "/courses.dat");
+        DataGenerator.readMeals(args[0] + "/courses.dat", false); // data check
         
-        DataGenerator.prepareMenuPlan(args[0] + "/menus.dat");
-        DataGenerator.readMenuPlan(args[0] + "/menus.dat");
+        DataGenerator.generateMenus(args[0] + "/menus.dat");
+        DataGenerator.readMenuPlan(args[0] + "/menus.dat", false); // data check
         
     }
     

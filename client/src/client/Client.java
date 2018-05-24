@@ -43,30 +43,30 @@ public class Client {
         }
     }
     
-    private void sendRequest(String type) {
+    private void sendSimpleRequest(String type) {
         try {
             Request req = new Request(type);
             System.out.println("sending " + req);
             mOutput.writeObject(req);
         } catch (Exception ex) {
-            System.err.println("sendRequest exception: " + ex);
+            System.err.println("sendSimpleRequest exception: " + ex);
         }
     }
 
-    private void sendRequest(String type, HashMap<String,String> params) {
+    private void sendSimpleRequest(String type, HashMap<String,String> params) {
         try {
             Request req = new Request(type);
             req.setParams(params);
             System.out.println("sending " + req);
             mOutput.writeObject(req);
         } catch (Exception ex) {
-            System.err.println("sendRequest exception: " + ex);
+            System.err.println("sendSimpleRequest exception: " + ex);
         }
     }
 
     
     public ArrayList<CanteenUser> getUsers() {
-        sendRequest("ViewUsers");
+        sendSimpleRequest("ViewUsers");
         try {
             ViewUsersResponse response = (ViewUsersResponse)mInput.readObject();
             System.out.println("received response: " + response);
@@ -78,8 +78,9 @@ public class Client {
     }
 
     public ArrayList<CanteenUser> getAllergicUsers(Menu menu) {
-        sendRequest("ViewAllergicUsers", menu.toMap());
         try {
+            ViewAllergicUsersRequest req = new ViewAllergicUsersRequest(menu);
+            mOutput.writeObject(req);
             ViewAllergicUsersResponse response = 
                                 (ViewAllergicUsersResponse)mInput.readObject();
             System.out.println("received response: " + response);
@@ -87,11 +88,11 @@ public class Client {
         } catch (Exception ex) {
             System.err.println("getUsers failed: " + ex);
         }
-        return new ArrayList<CanteenUser>();
+        return new ArrayList<>();
     }
     
     public HashMap<String, ArrayList<String>> getCourses() {
-        sendRequest("ViewCourses");
+        sendSimpleRequest("ViewCourses");
         try {
             ViewCoursesResponse response = 
                                 (ViewCoursesResponse)mInput.readObject();
@@ -149,8 +150,9 @@ public class Client {
 
     
     public boolean saveMenu(Menu menu) {
-        sendRequest("SaveMenu", menu.toMap());
         try {
+            SaveMenuRequest req = new SaveMenuRequest(menu);
+            mOutput.writeObject(req);
             Response response = (Response)mInput.readObject();
             System.out.println("received response: " + response);
             if (response.status() == Response.Status.SUCCESS)
@@ -166,8 +168,9 @@ public class Client {
     }
     
     public boolean saveCourse(Course course) {
-        sendRequest("SaveCourse",course.toMap());
         try {
+            SaveCourseRequest req = new SaveCourseRequest(course);
+            mOutput.writeObject(req);
             Response response = (Response)mInput.readObject();
             System.out.println("received response: " + response);
             if (response.status() == Response.Status.SUCCESS)
@@ -183,18 +186,19 @@ public class Client {
     }
 
     public boolean saveUser(CanteenUser user) {
-        sendRequest("SaveUser",user.toMap());
         try {
+            SaveUserRequest req = new SaveUserRequest(user);
+            mOutput.writeObject(req);
             Response response = (Response)mInput.readObject();
             System.out.println("received response: " + response);
             if (response.status() == Response.Status.SUCCESS)
                 return true;
             else {
-                System.err.println("saveMenu failed: " + response.error());
+                System.err.println("saveUser failed: " + response.error());
                 return false;
             }
         } catch (Exception ex) {
-            System.err.println("saveMenu exception: " + ex);
+            System.err.println("saveUser exception: " + ex);
         }
         return false;        
     }

@@ -1,10 +1,8 @@
 package university;
 
-import io.Packable;
 import java.io.Serializable;
-import java.util.HashMap;
 
-public class Person implements Packable, Serializable {
+public class Person implements Serializable {
 
     protected String mName, mSurname, mPhone;
     protected Address mAddress;
@@ -36,25 +34,6 @@ public class Person implements Packable, Serializable {
             ret += " " + mPhone;
         if (!mAddress.isEmpty())
             ret += " " + mAddress;
-        return ret;
-    }
-    
-    @Override
-    public void fromMap(HashMap<String,String> map) {
-        mName = map.get("Name");
-        mSurname = map.get("Surname");
-        mPhone = map.get("Telephone");
-        String strAddress = map.get("Address");
-        mAddress.fromString(strAddress);
-    }    
-
-    @Override
-    public HashMap<String,String> toMap() {
-        HashMap<String,String> ret = new HashMap<>();
-        ret.put("Name", mName);
-        ret.put("Surname", mSurname);
-        ret.put("Telephone", mPhone);
-        ret.put("Address", mAddress.toString());
         return ret;
     }
     

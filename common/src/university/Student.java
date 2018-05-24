@@ -1,6 +1,5 @@
 package university;
 
-import java.util.HashMap;
 
 public class Student extends CanteenUser {
     private Person[] mParents;
@@ -31,70 +30,7 @@ public class Student extends CanteenUser {
     public void setNotes(String notes) {
         mNotes = notes;
     }
-    
-    @Override 
-    public void fromMap(HashMap<String,String> map) {
-        super.fromMap(map);
         
-        Person[] par = {new Person("", ""), new Person("", "")};
-        try {
-            String[] mapParents = map.get("Parents").split(",");
-            if (mapParents.length > 1) {
-                if (!mapParents[0].isEmpty()) {
-                    String[] father = mapParents[0].split(" ");
-                    if (father.length > 1)
-                        par[0] = new Person(father[0], father[1]);
-                    if (father.length > 2)
-                        par[0].setPhone(father[2]);
-                }
-                if (!mapParents[1].isEmpty()) {
-                    String[] mother = mapParents[1].split(" ");
-                    if (mother.length > 1)
-                        par[1] = new Person(mother[0], mother[1]);
-                    if (mother.length > 2)
-                        par[1].setPhone(mother[2]);
-                }
-            }
-        } catch(Exception ex ) {
-            System.err.println("exception Student.fromMap.parents (" 
-                                + mName + mSurname+ ")");
-            System.err.println(" ---> " + ex);
-        } finally {
-            mParents = par;
-        }
-        
-        if (map.containsKey("Notes"))
-            mNotes = map.get("Notes");
-    }
-
-    @Override 
-    public HashMap<String,String> toMap() {
-        HashMap<String,String> ret = super.toMap();
-        
-        try {
-            String parents = new String();
-            for (Person p : mParents) {
-                parents += p.name() + " " + p.surname();
-                if (!p.phone().isEmpty())
-                    parents += " " + p.phone() + ",";
-                else 
-                    parents += ",";
-            }
-            if (parents.length() > 0)
-                parents = parents.substring(0, parents.length()-1);
-            ret.put("Parents", parents);
-        } catch(Exception ex ) {
-            System.err.println("exception Student.toMap.parents (" 
-                                + mName + mSurname+ ")");
-            System.err.println(" ---> " + ex);
-            ret.put("Parents", "");
-        }
-        
-        ret.put("Notes", mNotes);
-        
-        return ret;
-    }
-    
     @Override
     public String toString(){
         String parents = new String();
