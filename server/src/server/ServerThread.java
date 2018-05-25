@@ -57,6 +57,7 @@ class ServerThread implements Runnable {
             res.setStatus((!course.name.isEmpty()? 
                             Response.Status.SUCCESS : 
                             Response.Status.FAILURE));
+            res.setCourse(course);
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
             
@@ -113,16 +114,11 @@ class ServerThread implements Runnable {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"First\", \"Second\", " +
                                 "(\"Dessert\" or \"Fruit\"), \"Date\"}");
-            } else {            
-                if (menu.date().isEmpty()) {
-                    System.err.println("SaveMenu: invalid date format " + 
-                                       "(" + req.getParam("Date") + ")");
-                    res.setStatus(Response.Status.FAILURE);                    
-                } else
-                    if (mDataManager.saveMenu(menu))
-                        res.setStatus(Response.Status.SUCCESS);
-                    else
-                        res.setStatus(Response.Status.FAILURE);
+            } else {
+                if (mDataManager.saveMenu(menu))
+                    res.setStatus(Response.Status.SUCCESS);
+                else
+                    res.setStatus(Response.Status.FAILURE);
             }
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());

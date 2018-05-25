@@ -218,7 +218,7 @@ class TestClient implements Runnable {
         ret = mClient.saveMenu(menu);
         System.out.println("response: " + ret);
         
-        // duplicate record
+        // duplicate record (same date)
         menu = new Menu();
         menu.setName("pranzo di lunedì");    
         menu.setCourse("Riso alla zucca", Course.Type.First);
@@ -308,13 +308,13 @@ class TestClient implements Runnable {
     
     @Override
     public void run() {
-        //testCourseInfo(); // no
+        //testCourseInfo();
         //testViewCourses();
         //testViewUsers();
-        //testViewAllergicUsers(false); // true, to view full list  // no
-        //testSaveMenu(); // no
+        //testViewAllergicUsers(false); // true, to view full list
+        testSaveMenu(); // no
         //testSaveCourse(); // no
-        testSaveUser();
+        //testSaveUser(); // no
     }
 
     public static void main(String args[]) {

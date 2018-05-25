@@ -63,6 +63,7 @@ public class FileDataManager extends DataManager {
         ArrayList<String> fruit = new ArrayList<>();
 
         Course course;
+        mCourseReader.reset();
         while ((course = mCourseReader.getNextLine()) != null) {
             switch (course.type) {
                 case First: 
@@ -79,7 +80,6 @@ public class FileDataManager extends DataManager {
                     break;
             }
         }
-        mCourseReader.reset();
         ret.put("First", first);
         ret.put("Second", second);
         ret.put("Dessert", dessert);
@@ -97,7 +97,6 @@ public class FileDataManager extends DataManager {
         Course toFind = new Course();
         toFind.name = name;
         Course found =  mCourseReader.findObj(toFind);
-        mCourseReader.reset();
         return found;
     }
     
@@ -121,7 +120,6 @@ public class FileDataManager extends DataManager {
                 }
             }
         }
-        mCourseReader.reset();
         return(ret);
     }
         
@@ -130,12 +128,11 @@ public class FileDataManager extends DataManager {
     */
     @Override
     public ArrayList<CanteenUser> getUsers() {
-        
         ArrayList<CanteenUser> ret = new ArrayList<>();
         CanteenUser user;
+        mUserReader.reset(); // file pointer back to the top
         while ((user = mUserReader.getNextLine()) != null ) 
             ret.add(user);
-        mUserReader.reset(); // file pointer back to the top
         return ret;
     }
 
@@ -177,7 +174,6 @@ public class FileDataManager extends DataManager {
                     ret.add(user);
                 }
             }
-            mUserReader.reset(); // file pointer back to the top
         }
         return ret;
     }
@@ -199,7 +195,6 @@ public class FileDataManager extends DataManager {
                 if (type.equals(user.type()))
                     ++num;
         }
-        mUserReader.reset(); // file pointer back to the top
         return num;
     }
     
@@ -215,8 +210,8 @@ public class FileDataManager extends DataManager {
             try {
                 SerialWriter<T> tmpWriter = new SerialWriter<>(filePath+".tmp");
                 long cur = 0;
-                reader.reset();
                 // copy beginning file to the tmp
+                reader.reset();
                 while (cur < lineOriginal) {
                     tmpWriter.writeNextLine(reader.getNextLine());
                     ++cur;
@@ -229,23 +224,26 @@ public class FileDataManager extends DataManager {
                 while ((obj = reader.getNextLine()) != null)
                     tmpWriter.writeNextLine(obj);
                 tmpWriter.close();
+                reader.close();
 
                 // move tmp file to original
                 switchFiles(filePath+".tmp", filePath);
-                reader.close();
 
                 // verify success
-                long lineReplaced = reader.find(targetToSave);
-                if (lineReplaced >= 0) {
-                    if (lineReplaced == lineOriginal)
-                        ret = true;
-                } else {
-                    System.err.println("could not replace with obj " + 
-                                        targetToSave);
-                    ret = false;
-                }
+                //long lineReplaced = reader.find(targetToSave);
+                //reader.close();
+                //if (lineReplaced >= 0) {
+                //    if (lineReplaced == lineOriginal)
+                //        ret = true;
+                //} else {
+                //    System.err.println("could not replace with obj " + 
+                //                        targetToSave);
+                //    ret = false;
+                //}
+                ret = true;
             } catch (Exception ex) {
                 System.err.println("failed to write to " + filePath + ", " + ex);
+                ret = false;
             }
             
         } else {
