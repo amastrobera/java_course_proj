@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.*;
 import java.util.concurrent.Semaphore;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 class ServerThread implements Runnable {
@@ -36,8 +37,8 @@ class ServerThread implements Runnable {
             
             ViewUsersResponse res = new ViewUsersResponse();
             res.setUserList(mDataManager.getUsers());
-            res.setStatus(Response.Status.SUCCESS);
-            
+            res.setStatus((!res.isEmpty() ? Response.Status.SUCCESS : 
+                                Response.Status.FAILURE));
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
             
@@ -45,18 +46,27 @@ class ServerThread implements Runnable {
             
             ViewCoursesResponse res = new ViewCoursesResponse();
             res.setUserList(mDataManager.getCourses());
-            res.setStatus(Response.Status.SUCCESS);
-            
+            res.setStatus((!res.isEmpty() ? Response.Status.SUCCESS : 
+                                Response.Status.FAILURE));            
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
+
+        } else if (type.equals("ViewMenus")) {
+            
+            ViewMenusResponse res = new ViewMenusResponse();
+            res.setMenus(mDataManager.getMenus());
+            res.setStatus((!res.isEmpty() ? Response.Status.SUCCESS : 
+                          Response.Status.FAILURE));
+            output.writeObject(res);
+            System.out.println("sending back: " + res.toString());
+
             
         } else if (type.equals("ViewCourseInfo")) {
 
             ViewCourseInfoResponse res = new ViewCourseInfoResponse();
             Course course = mDataManager.findCourse(req.getParam("Name"));
-            res.setStatus((!course.name.isEmpty()? 
-                            Response.Status.SUCCESS : 
-                            Response.Status.FAILURE));
+            res.setStatus((!res.isEmpty() ? Response.Status.SUCCESS : 
+                          Response.Status.FAILURE));
             res.setCourse(course);
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
@@ -78,7 +88,8 @@ class ServerThread implements Runnable {
                 ArrayList<CanteenUser> users = 
                                     mDataManager.getAllergicUsers(menu);
                 res.setUserList(users);
-                res.setStatus(Response.Status.SUCCESS);
+                res.setStatus((!res.isEmpty() ? Response.Status.SUCCESS : 
+                          Response.Status.FAILURE));
             }
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
@@ -152,15 +163,10 @@ class ServerThread implements Runnable {
             
             if (user.name().isEmpty() || 
                 user.surname().isEmpty() || 
-                user.type().isEmpty() || 
-                user.address() == null ||
-                user.allergies().isEmpty()) {
+                user.type().isEmpty() ) {
                 res.setStatus(Response.Status.FAILURE);
                 res.setError("Missing params: {\"Name\", \"Surname\", " + 
-                              "\"Type\", \"Address\", \"Allergies\" }");
-            } else if (req.getParam("Type").equals("student") && 
-                        req.getParam("Parents").isEmpty() ) {
-                res.setError("Missing param: {\"Parents\"} for User student");
+                              "\"Type\" }");
             } else {            
                 if (mDataManager.saveUser(user))
                     res.setStatus(Response.Status.SUCCESS);

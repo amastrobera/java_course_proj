@@ -422,16 +422,16 @@ public class DataGenerator {
         
         System.out.println("... writing to " + args[0]);
         
-//        DataGenerator.generateUsers(args[0] + "/users.dat");
-//        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
-//        DataGenerator.replaceARandomUser(args[0] + "/users.dat");
-//        DataGenerator.readUsers(args[0] + "/users.dat", true); // data check
+        DataGenerator.generateUsers(args[0] + "/users.dat");
+        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
+        DataGenerator.replaceARandomUser(args[0] + "/users.dat");
+        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
 
-//        DataGenerator.generateMeals(args[0] + "/courses.dat");
-//        DataGenerator.readMeals(args[0] + "/courses.dat", true); // data check
+        DataGenerator.generateMeals(args[0] + "/courses.dat");
+        DataGenerator.readMeals(args[0] + "/courses.dat", false); // data check
         
-//        DataGenerator.generateMenus(args[0] + "/menus.dat");
-        DataGenerator.readMenuPlan(args[0] + "/menus.dat", true); // data check
+        DataGenerator.generateMenus(args[0] + "/menus.dat");
+        DataGenerator.readMenuPlan(args[0] + "/menus.dat", false); // data check
         
     }
     

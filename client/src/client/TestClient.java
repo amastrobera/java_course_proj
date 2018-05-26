@@ -5,8 +5,10 @@ import university.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 
 /**
@@ -59,44 +61,79 @@ class TestClient implements Runnable {
         notifyAll();
     }
 
-    public synchronized void testViewCourses() {
+    public synchronized void testViewCourses(boolean printCourseList) {
 
         try {while(!available) wait(3000); } catch (Exception ex) { return; }
         available = false;
         
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
-                        " : ViewCourses (print 2)-------");
+                        " : ViewCourses -------");
         HashMap<String, ArrayList<String>> meals = mClient.getCourses();
         ArrayList<String> first = meals.get("First");
+        ArrayList<String> second = meals.get("Second");
         ArrayList<String> dessert = meals.get("Dessert");
-        if (first.size() > 0)
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(first.get(i));
-        if (dessert.size() > 0)
-            for (int i = 0; i < 2; ++i) 
-                System.out.println(dessert.get(i));
+        ArrayList<String> fruit = meals.get("Fruit");
+        
+        System.out.println("   found " +  first.size() + " first courses");
+        if (printCourseList)
+            for (int i = 0; i < first.size(); ++i) 
+                System.out.println("       " + first.get(i));
+        
+        System.out.println("   found " +  second.size() + " second courses");
+        if (printCourseList)
+            for (int i = 0; i < second.size(); ++i) 
+                System.out.println("       " + second.get(i));
+        
+        System.out.println("   found " +  dessert.size() + " dessert courses");
+        if (printCourseList)
+            for (int i = 0; i < dessert.size(); ++i) 
+                System.out.println("       " + dessert.get(i));
+        
+        System.out.println("   found " +  fruit.size() + " fruit courses");
+        if (printCourseList)
+            for (int i = 0; i < fruit.size(); ++i) 
+                System.out.println("       " + fruit.get(i));
+        
+        available = true;
+        notifyAll();
+    }
+    
+    public synchronized void testViewUsers(boolean printUserList) {
+
+        try {while(!available) wait(3000); } catch (Exception ex) { return; }        
+        available = false;
+        
+        System.out.println("------- thread " + 
+                        Thread.currentThread().getId() + 
+                        " : ViewUsers -------");
+        ArrayList<CanteenUser> users = mClient.getUsers();
+        System.out.println("   found: " + users.size() + " users");
+        if (printUserList)
+            for (int i = 0; i < users.size(); ++i)
+                System.out.println("       " + users.get(i));
 
         available = true;
         notifyAll();
     }
     
-    public synchronized void testViewUsers() {
-
+    
+    public synchronized void testViewMenus(boolean printMenuList) {
+    
         try {while(!available) wait(3000); } catch (Exception ex) { return; }
         available = false;
         
-        System.out.println("------- thread " + 
-                        Thread.currentThread().getId() + 
-                        " : ViewUsers (print 2)-------");
-        ArrayList<CanteenUser> users = mClient.getUsers();
-        System.out.println("   found: " + users.size() + " users");
-        if (users.size() > 0)
-            for (int i = 0; i < 2; ++i)
-                System.out.println(users.get(i));
-        
+        System.out.println("------- thread " + Thread.currentThread().getId() + 
+                        " : ViewMenus -------");
+        HashSet<Menu> menus = mClient.getMenus();
+        System.out.println("   found: " + menus.size() + " menus");
+        if (printMenuList) {
+            Iterator<Menu> mit = menus.iterator();
+            while (mit.hasNext())
+                System.out.println(mit.next());
+        }
         available = true;
-        notifyAll();
+        notifyAll();        
     }
     
     public synchronized void testViewAllergicUsers(boolean printUserList) {
@@ -106,7 +143,7 @@ class TestClient implements Runnable {
         
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
-                        " : ViewAllergicUsers (print 2)-------");
+                        " : ViewAllergicUsers -------");
         Menu menu = new Menu();
         menu.setName("pranzo di venerdì");
         menu.setCourse("Riso alla zucca", Course.Type.First);
@@ -195,37 +232,37 @@ class TestClient implements Runnable {
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : SaveMenu -------");
-        Menu menu = new Menu();
+        Menu m1 = new Menu();
         boolean ret;
         
         // first record 
-        menu.setName("pranzo di venerdi");
-        menu.setCourse("Riso alla milanese", Course.Type.First);
-        menu.setCourse("Tonno sott’olio", Course.Type.Second);
-        menu.setCourse("Banana", Course.Type.Fruit);
-        menu.setCourse("Strudel", Course.Type.Dessert);
-        menu.setDate("2018-10-27");
-        ret = mClient.saveMenu(menu);
+        m1.setName("pranzo di venerdi");
+        m1.setCourse("Riso alla milanese", Course.Type.First);
+        m1.setCourse("Tonno sott’olio", Course.Type.Second);
+        m1.setCourse("Banana", Course.Type.Fruit);
+        m1.setCourse("Strudel", Course.Type.Dessert);
+        m1.setDate("2018-10-27");
+        ret = mClient.saveMenu(m1);
         System.out.println("response: " + ret); 
         
         // second record
-        menu = new Menu();
-        menu.setName("pranzo di lunedì");    
-        menu.setCourse("Riso alla zucca", Course.Type.First);
-        menu.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
-        menu.setCourse("Budino al cioccolato", Course.Type.Dessert);
-        menu.setDate("2018-10-30");
-        ret = mClient.saveMenu(menu);
+        Menu m2 = new Menu();
+        m2.setName("pranzo di lunedì");    
+        m2.setCourse("Riso alla zucca", Course.Type.First);
+        m2.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
+        m2.setCourse("Budino al cioccolato", Course.Type.Dessert);
+        m2.setDate("2018-10-30");
+        ret = mClient.saveMenu(m2);
         System.out.println("response: " + ret);
         
         // duplicate record (same date)
-        menu = new Menu();
-        menu.setName("pranzo di lunedì");    
-        menu.setCourse("Riso alla zucca", Course.Type.First);
-        menu.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
-        menu.setCourse("Macedonia di frutta", Course.Type.Fruit);
-        menu.setDate("2018-10-30");
-        ret = mClient.saveMenu(menu);
+        Menu m3 = new Menu();
+        m3.setName("pranzo di lunedì");    
+        m3.setCourse("Riso alla zucca", Course.Type.First);
+        m3.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
+        m3.setCourse("Macedonia di frutta", Course.Type.Fruit);
+        m3.setDate("2018-10-30");
+        ret = mClient.saveMenu(m3);
         System.out.println("response: " + ret);
         
         available = true;
@@ -241,24 +278,35 @@ class TestClient implements Runnable {
         System.out.println("------- thread " + 
                         Thread.currentThread().getId() + 
                         " : SaveCourse -------");
-        Course course = new Course();
+        
         boolean ret;
         
         // new record 
-        course.name = "Pasta e patate";
-        course.type = Course.Type.First;
-        course.ingredients = new LinkedList<>(
+        Course c1 = new Course();
+        c1.name = "Pasta e patate";
+        c1.type = Course.Type.First;
+        c1.ingredients = new LinkedList<>(
             Arrays.asList("pasta","olio d'oliva","burro","patate","sale"));
-        ret = mClient.saveCourse(course);
+        ret = mClient.saveCourse(c1);
+        System.out.println("response: " + ret);
+        
+        // second new record 
+        Course c2 = new Course();
+        c2.name = "Petto di pollo alla piastra";
+        c2.type = Course.Type.Second;
+        c2.ingredients = new LinkedList<>(
+            Arrays.asList("pollo","olio d'oliva","peperoni",
+                           "origano","sale","pepe"));
+        ret = mClient.saveCourse(c2);
         System.out.println("response: " + ret);
         
         // duplicate record
-        course.name = "Petto di pollo alla piastra";
-        course.type = Course.Type.Second;
-        course.ingredients = new LinkedList<>(
-            Arrays.asList("pollo","olio d'oliva","peperoni",
-                           "origano","sale","pepe"));
-        ret = mClient.saveCourse(course);
+        Course c3 = new Course();
+        c3.name = "Pasta e patate";
+        c3.type = Course.Type.First;
+        c3.ingredients = new LinkedList<>(
+            Arrays.asList("pasta","olio d'oliva","patate","sale", "verza", "ceci"));
+        ret = mClient.saveCourse(c3);
         System.out.println("response: " + ret);
         
         available = true;
@@ -276,24 +324,35 @@ class TestClient implements Runnable {
         boolean ret;
         
         // new record 
-        Professor user1 = new Professor("Tony", "Morano");
+        CanteenUser user1 = new Professor("Tony", "Morano");
         user1.setPhone("082.54.12.312");
         user1.setAddress(new Address("via Piave 12", "83100", "Avellino"));
         user1.addAllergy("patate");
         user1.addAllergy("cipolla");
         ret = mClient.saveUser(user1);
         System.out.println("response: " + ret);
+
+        // second record
+        CanteenUser user2 = new Student("Alessandro", "Bianchi");
+        user2.setPhone("082.54.12.312");
+        Person dad2 = new Person("Mario", "Rossi");
+        dad2.setPhone("01.12.43.12.43");
+        Person mom2 = new Person("Teresa", "Romano");
+        ((Student)user2).setParents(new Person[]{dad2,mom2});
+        user2.setAddress(new Address("viale Montenero 25", "20121", "Milano"));
+        ret = mClient.saveUser(user2);
+        System.out.println("response: " + ret);        
         
         // duplicate record
-        Student user2 = new Student("Alessandro", "Bianchi");
-        user2.setPhone("082.54.12.312");
-        Person dad = new Person("Mario", "Rossi");
-        dad.setPhone("01.12.43.12.43");
-        Person mom = new Person("Teresa", "Romano");
-        user2.setParents(new Person[]{dad,mom});
-        user2.setAddress(new Address("viale Montenero 25", "20121", "Milano"));
-        user2.addAllergy("tonno");
-        ret = mClient.saveUser(user2);
+        CanteenUser user3 = new Student("Alessandro", "Bianchi");
+        user3.setPhone("082.78.21.431");
+        Person dad3 = new Person("Mario", "Bianchi");
+        dad3.setPhone("01.12.43.12.43");
+        Person mom3 = new Person("Teresa", "Giusti");
+        ((Student)user3).setParents(new Person[]{dad3,mom3});
+        user3.setAddress(new Address("viale Montenero 20", "20121", "Milano"));
+        user3.addAllergy("tonno");
+        ret = mClient.saveUser(user3);
         System.out.println("response: " + ret);        
         
         available = true;
@@ -308,13 +367,16 @@ class TestClient implements Runnable {
     
     @Override
     public void run() {
-        //testCourseInfo();
-        //testViewCourses();
-        //testViewUsers();
-        //testViewAllergicUsers(false); // true, to view full list
-        testSaveMenu(); // no
-        //testSaveCourse(); // no
-        //testSaveUser(); // no
+        testSaveMenu();
+        testViewMenus(false);
+        
+        testSaveCourse();
+        testViewCourses(false);
+        testCourseInfo();
+        
+        testSaveUser();
+        testViewUsers(false);
+        testViewAllergicUsers(false); // true, to view full list
     }
 
     public static void main(String args[]) {

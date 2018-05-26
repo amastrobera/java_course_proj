@@ -2,6 +2,7 @@ package comm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class ViewCoursesResponse extends Response{
@@ -21,5 +22,16 @@ public class ViewCoursesResponse extends Response{
         mMeals = meals;
     }
 
+    public boolean isEmpty() {
+        boolean empty = true;
+        Iterator<String> it = mMeals.keySet().iterator();
+        while (it.hasNext()) {
+            if (!mMeals.get(it.next()).isEmpty()) {
+                empty = false;
+                break;
+            }
+        }
+        return empty;
+    }
     
 }

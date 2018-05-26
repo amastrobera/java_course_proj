@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Menu implements Serializable{
+public class Menu implements Serializable, Comparable {
     
     private String mName;
     private Date mDate;
@@ -127,6 +127,15 @@ public class Menu implements Serializable{
         if (!(obj instanceof Menu)) return false;
         Menu comp = (Menu) obj;
         return comp.date().equals(date());
+    }
+
+    @Override 
+    public int compareTo(Object obj) {
+        if (obj == this) return 0;
+        if (!(obj instanceof Menu)) return -1;
+        Menu comp = (Menu) obj;
+        String dtComp = comp.date();
+        return comp.date().compareTo(date());
     }
     
 }

@@ -30,19 +30,21 @@ public class FileDataManager extends DataManager {
     }
 
     private void initUsers() {
-        mUserReader = new SerialReader<>(mDataPath + "/users.dat");
+        // writer first: the file must exist (or be created) before reader init
         mUserWriter = new SerialWriter<>(mDataPath + "/users.dat");
-        
+        mUserReader = new SerialReader<>(mDataPath + "/users.dat");
     }
     
     private void initCourses() {
-        mCourseReader = new SerialReader(mDataPath + "/courses.dat");
+        // writer first: the file must exist (or be created) before reader init
         mCourseWriter = new SerialWriter(mDataPath + "/courses.dat");
+        mCourseReader = new SerialReader(mDataPath + "/courses.dat");
     }
     
     private void initMenus(){
-        mMenuReader = new SerialReader(mDataPath + "/menus.dat");
+        // writer first: the file must exist (or be created) before reader init
         mMenuWriter = new SerialWriter(mDataPath + "/menus.dat");
+        mMenuReader = new SerialReader(mDataPath + "/menus.dat");
     }
         
     private void switchFiles(String newFilePath, String oldFilePath) {    
@@ -100,6 +102,19 @@ public class FileDataManager extends DataManager {
         return found;
     }
     
+
+    /** 
+     * @return Set of Menus ordered by Date
+     */    
+    @Override
+    public HashSet<Menu> getMenus() {
+        HashSet<Menu> ret = new HashSet<>();
+        Menu menu;
+        mMenuReader.reset();
+        while ((menu = mMenuReader.getNextLine()) != null) 
+            ret.add(menu);
+        return ret;
+    }
     
     /**
      * 

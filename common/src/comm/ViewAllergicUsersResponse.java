@@ -20,4 +20,8 @@ public class ViewAllergicUsersResponse extends Response {
         mUsers = users;
     }
     
+    public boolean isEmpty() {
+        return mUsers.isEmpty();
+    }
+    
 }

@@ -1,9 +1,9 @@
 package io;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
-
 
 public class SerialWriter <T extends Object> {
     
@@ -13,13 +13,27 @@ public class SerialWriter <T extends Object> {
     
     public SerialWriter(String filePath) {
         mFilePath = filePath;
+        // if file does not exist, create one. then open it in append mode
+        if (!(new File(mFilePath).exists())) {
+            try { 
+                mFile = new FileOutputStream(mFilePath);
+                mBuffer = new ObjectOutputStream(mFile);
+                mBuffer.close();
+            } catch (IOException ex) {
+            }
+        }
         open();
     }
             
     private void open() {
         try {
-            mFile = new FileOutputStream(mFilePath, true); // append mode
-            mBuffer = new ObjectOutputStream(mFile);
+            mFile = new FileOutputStream(mFilePath, true);             
+            mBuffer = new ObjectOutputStream(mFile) {
+            protected void writeStreamHeader() throws IOException {
+                reset();
+            }
+        };
+            
         } catch (IOException ex) {
             System.err.println(ex);
         }
@@ -49,6 +63,7 @@ public class SerialWriter <T extends Object> {
         try {
             mBuffer.writeObject(line);
             mBuffer.flush();
+            mFile.flush();
         } catch (Exception ex) {
             System.err.println("failed to write to " + mFilePath + ", " + ex);
             return false;

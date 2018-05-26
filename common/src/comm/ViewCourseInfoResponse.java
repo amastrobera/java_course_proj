@@ -19,4 +19,7 @@ public class ViewCourseInfoResponse extends Response {
         mFound = course;
     }
     
+    public boolean isEmpty() {
+        return mFound.name.isEmpty();
+    }
 }

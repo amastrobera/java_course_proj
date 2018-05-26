@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class Client {
@@ -86,7 +87,7 @@ public class Client {
             System.out.println("received response: " + response);
             return response.getUserList();
         } catch (Exception ex) {
-            System.err.println("getUsers failed: " + ex);
+            System.err.println("getAllergicUsers failed: " + ex);
         }
         return new ArrayList<>();
     }
@@ -122,6 +123,19 @@ public class Client {
         return new Course();
     }
 
+    public HashSet<Menu> getMenus() {
+        try {
+            sendSimpleRequest("ViewMenus");
+            ViewMenusResponse response = 
+                                (ViewMenusResponse)mInput.readObject();
+            System.out.println("received response: " + response);
+            return response.getMenus();
+        } catch (Exception ex) {
+            System.err.println("getMenus failed: " + ex);
+        }
+        return new HashSet<>();
+    }
+
     public long getNumberOfUsers() {
         return getNumberOfUsers("");
     }
@@ -139,11 +153,11 @@ public class Client {
             if (response.status() == Response.Status.SUCCESS)
                 return response.getNumber();
             else {
-                System.err.println("saveMenu failed: " + response.error());
+                System.err.println("getNumberOfUsers failed: " + response.error());
                 return 0;
             }
         } catch (Exception ex) {
-            System.err.println("saveMenu exception: " + ex);
+            System.err.println("getNumberOfUsers exception: " + ex);
         }
         return 0;
     }
@@ -176,11 +190,11 @@ public class Client {
             if (response.status() == Response.Status.SUCCESS)
                 return true;
             else {
-                System.err.println("saveMenu failed: " + response.error());
+                System.err.println("saveCourse failed: " + response.error());
                 return false;
             }
         } catch (Exception ex) {
-            System.err.println("saveMenu exception: " + ex);
+            System.err.println("saveCourse exception: " + ex);
         }
         return false;
     }

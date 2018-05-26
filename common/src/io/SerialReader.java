@@ -2,7 +2,6 @@ package io;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.io.IOException;
 
 public class SerialReader <T extends Object> {
     
@@ -37,7 +36,7 @@ public class SerialReader <T extends Object> {
         try {
             mBuffer.close();
             mFile.close();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.err.println(ex);
         }
     }

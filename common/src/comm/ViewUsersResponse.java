@@ -23,6 +23,10 @@ public class ViewUsersResponse extends Response {
     public void setUserList(ArrayList<CanteenUser> users) {
         mUsers = users;
     }
+
+    public boolean isEmpty() {
+        return mUsers.isEmpty();
+    }
     
     
     public static void main(String[] args) {
