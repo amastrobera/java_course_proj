@@ -53,8 +53,7 @@ public class Course implements Serializable {
         if (ings.length() > 2)
             ings = ings.substring(0, ings.length()-2);
         
-        return "name: " + name + "(" + typeToString(type) + ")" +  
-                "\ningredients:  " + ings;
+        return name + " (" + typeToString(type) + ")|" + ings;
     }
 
     

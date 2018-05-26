@@ -5,50 +5,19 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import gui.MenuController?>
-
-<!--<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?> 
 <?import javafx.collections.*?> 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.collections.FXCollections?>
 <?import gui.GuiCanteenUser?>
-<?import gui.UsersController?>-->
+<?import gui.UsersController?>
 
 
-<AnchorPane id="APaneMenu" prefHeight="500" prefWidth="800" 
+<AnchorPane id="APaneUsers" prefHeight="500" prefWidth="800" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="gui.MenuController">
+            fx:controller="gui.UsersController">
     <children>
-         <ComboBox fx:id="cboFirst" layoutX="30" layoutY="30" prefWidth="250" 
-                   promptText="Primo piatto" onAction="#onFirstChanged" /> 
-         
-         <ComboBox fx:id="cboSecond" layoutX="30" layoutY="60" prefWidth="250" 
-                   promptText="Secondo piatto" onAction="#onSecondChanged" /> 
-
-         <ComboBox fx:id="cboDessert" layoutX="30" layoutY="90" prefWidth="250" 
-                   promptText="Dolce" onAction="#onDessertChanged" /> 
-
-         <ComboBox fx:id="cboFruit" layoutX="30" layoutY="120" prefWidth="250" 
-                   promptText="Frutta" onAction="#onFruitChanged" /> 
-
-        <TextField fx:id="txtName" layoutX="30" layoutY="150" prefWidth="150"
-                   promptText="menu name" />
-
-        <TextField fx:id="txtDate" layoutX="190" layoutY="150" prefWidth="90"
-                   promptText="date" />
-
-        <Button fx:id="btnUsers" layoutX="30" layoutY="180" prefWidth="150"
-                text="Allergic Users" />  
-
-        <Button fx:id="btnSave" layoutX="190" layoutY="180" prefWidth="90"
-                text="Save" />  
-                
-        <Label fx:id="labMenuNotification" layoutX="330" layoutY="30" 
-               text="Course description" />
-        
-
-<!--        <TableView fx:id="tableUsers" 
+        <TableView fx:id="tableUsers" 
                    GridPane.columnIndex="0" GridPane.rowIndex="1"
                    layoutX="30" layoutY="30" prefHeight="300" prefWidth="700" >
              <columns>
@@ -99,7 +68,9 @@
                  <fx:reference source="tcSurname"/>
                  <fx:reference source="tcName"/>
             </sortOrder> 
-        </TableView>-->
+        </TableView>
+        
+        <Label fx:id="labUsersNotification" layoutX="30" layoutY="350" />
         
     </children>
 </AnchorPane>

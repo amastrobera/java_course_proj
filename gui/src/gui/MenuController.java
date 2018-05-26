@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import client.Client;
-import canteen.Course;
+import canteen.*;
 
 
 public class MenuController implements Initializable {
@@ -29,6 +29,8 @@ public class MenuController implements Initializable {
     
     private void initItems() {
         HashMap<String, ArrayList<String>> val = mClient.getCourses();
+        long num = val.get("First").size() + val.get("Second").size() +
+                    val.get("Dessert").size() + val.get("Fruit").size();
         
         cboFirst.getItems().clear();
         cboFirst.setItems(FXCollections.observableList(val.get("First")));
@@ -42,27 +44,52 @@ public class MenuController implements Initializable {
         cboFruit.getItems().clear();
         cboFruit.setItems(FXCollections.observableList(val.get("Fruit")));
         
-        labMenuNotification.setText("Meals have been updated from data");
+        labMenuNotification.setText(num + " meals have been updated from data");
     }
 
     @FXML
     private void onFirstChanged(ActionEvent event) {
-        labMenuNotification.setText("Primo " + cboFirst.getValue());
+        Course course = mClient.getCourseInfo(cboFirst.getValue());
+        String notif = course.name + 
+                       " (" + Course.typeToString(course.type) + ")\n" +
+                       "---------------------------------------------\n";
+        for (String i : course.ingredients)
+            notif += i + "\n";
+        labMenuNotification.setText(notif);
+
     }
 
     @FXML
     private void onSecondChanged(ActionEvent event) {
-        labMenuNotification.setText("Secondo " + cboSecond.getValue());
+        Course course = mClient.getCourseInfo(cboSecond.getValue());
+        String notif = course.name + 
+                       " (" + Course.typeToString(course.type) + ")\n" +
+                        "---------------------------------------------\n";
+        for (String i : course.ingredients)
+            notif += i + "\n";
+        labMenuNotification.setText(notif);
     }
 
     @FXML
     private void onDessertChanged(ActionEvent event) {
-        labMenuNotification.setText("Dolce " + cboDessert.getValue());
+        Course course = mClient.getCourseInfo(cboDessert.getValue());
+        String notif = course.name + 
+                       " (" + Course.typeToString(course.type) + ")\n" +
+                        "---------------------------------------------\n";
+        for (String i : course.ingredients)
+            notif += i + "\n";
+        labMenuNotification.setText(notif);
     }
     
     @FXML
     private void onFruitChanged(ActionEvent event) {
-        labMenuNotification.setText("Fruta " + cboFruit.getValue());
+        Course course = mClient.getCourseInfo(cboFruit.getValue());
+        String notif = course.name + 
+                       " (" + Course.typeToString(course.type) + ")\n" +
+                        "---------------------------------------------\n";
+        for (String i : course.ingredients)
+            notif += i + "\n";
+        labMenuNotification.setText(notif);
     }
     
     @Override

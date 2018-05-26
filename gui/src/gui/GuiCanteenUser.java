@@ -41,7 +41,7 @@ public class GuiCanteenUser {
         return name.get();
     }
 
-    public void setName(String fName) {
+    public final void setName(String fName) {
         name.set(fName);
     }
 
@@ -49,7 +49,7 @@ public class GuiCanteenUser {
         return surname.get();
     }
 
-    public void setSurname(String fSurname) {
+    public final void setSurname(String fSurname) {
         surname.set(fSurname);
     }
 
@@ -57,7 +57,7 @@ public class GuiCanteenUser {
         return type.get();
     }
 
-    public void setType(String fType) {
+    public final void setType(String fType) {
         type.set(fType);
     }    
     
@@ -65,7 +65,7 @@ public class GuiCanteenUser {
         return phone.get();
     }
 
-    public void setPhone(String fPhone) {
+    public final void setPhone(String fPhone) {
         phone.set(fPhone);
     }
 
@@ -75,7 +75,7 @@ public class GuiCanteenUser {
         return ret;
     }
 
-    public void setAddress(Address fAddress) {
+    public final void setAddress(Address fAddress) {
         address.set(fAddress.toString());
     }
 
@@ -83,13 +83,16 @@ public class GuiCanteenUser {
         return allergies.get();
     }
     
-    public void setAllergies(HashSet<String> fAllergies) {
+    public final void setAllergies(HashSet<String> fAllergies) {
         String strAllergies = String.join(", ", fAllergies);
         allergies.set(strAllergies);
     }
 
-    
-    public void setParents(Person[] fParents) {
+    public String getParents() {
+        return parents.get();
+    }
+
+    public final void setParents(Person[] fParents) {
         String ret = new String();
         try {
             for (Person p : fParents)
@@ -102,16 +105,12 @@ public class GuiCanteenUser {
         parents.set(ret);
     }
 
-    public String getParents() {
-        return parents.get();
-    }
-
-    public void setNotes(String fNotes) {
-        parents.set(fNotes);
-    }
-
     public String getNotes() {
         return notes.get();
+    }
+    
+    public final void setNotes(String fNotes) {
+        parents.set(fNotes);
     }
     
     @Override
