@@ -40,6 +40,36 @@ import java.util.Iterator;
  * </p>
  */
 
+
+/**
+ * This is an integration testing module. To be removed on the second part 
+ * of the assignment. It tests the client request. It requires the server
+ * to be up and running, and data-folder to be created and non-empty
+ * 
+ * <p>
+ * TestClient contains a Client class, and it is a runnable that runs a series
+ * of tests. Because it is a runnable, <b>more than one TestClient (threads)</b>
+ * can be run simultaneously. Therefore, we need to <b>synchronise the writing 
+ * to console </b> of the results of the two threads so that this output is 
+ * visible
+ * <p> ---- thread 10: testCourseInfo() ---- </p>
+ * <p> [... output thread 10 ...] </p>
+ * <p> ---- thread 9: testCourseInfo() ---- </p>
+ * <p> [... output thread 9 ...] </p>
+ * 
+ * <p>
+ * In order to to that we need a <b>condition variable</b> ("boolean available"). Each 
+ * testFunction will set wait it to be true, set it to false, execute, then 
+ * set it to true again and notify the other threads using testFunction
+ * </p>
+ * 
+ * <p>
+ * Unfortunately, this only helps the viewer of the test. This module is not
+ * testing <b>multiple simultaneous requests</b> sent to the server. 
+ * This type of event <b>should be tested in the Server module</b>.
+ * </p>
+ */
+
 class TestClient implements Runnable {
 
     private static boolean available = true;
