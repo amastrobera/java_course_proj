@@ -33,6 +33,7 @@ This **just a tests** to see whether the client can communicate with server prop
 
 	java -jar client/dist/client.jar 
 
+
 #### Run the GUI
 
 This is your own interface. Launch it as :
@@ -41,11 +42,11 @@ This is your own interface. Launch it as :
 
 It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
 
-![Menu View](tmp/menu_tab.png)
+[Menu View](tmp/menu_tab.png)
 
-![Menu Plan View](tmp/menuplan_tab.png)
+[Menu Plan View](tmp/menuplan_tab.png)
 
-![Users View](tmp/users_tab.png)
+[Users View](tmp/users_tab.png)
 
 
 
