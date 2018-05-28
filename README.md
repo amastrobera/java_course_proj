@@ -42,9 +42,9 @@ This is your own interface. Launch it as :
 
 It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
 
-[Menu View](meals_and_allergies/src/gui_serialized/tmp/menu_tab.png)
+[Menu View](https://bitbucket.org/angelomastro/meals_and_allergies/src/gui_serialized/tmp/menu_tab.png)
 
-[Menu Plan View](/meals_and_allergies/src/gui_serialized/tmp/menuplan_tab.png)
+![Menu Plan View](https://bitbucket.org/angelomastro/meals_and_allergies/src/gui_serialized/tmp/menuplan_tab.png)
 
 [Users View](https://bitbucket.org/angelomastro/meals_and_allergies/src/gui_serialized/tmp/users_tab.png)
 
