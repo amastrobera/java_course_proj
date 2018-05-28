@@ -9,8 +9,9 @@ import javafx.fxml.Initializable;
 
 public class Controller implements Initializable {
     
-    @FXML private MealController mMealController;
+    @FXML private CourseController mCourseController;
     @FXML private MenuController mMenuController;
+    @FXML private MenuPlanController mMenuPlanController;
     @FXML private UsersController mUserController;
     
     

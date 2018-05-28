@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="gui.jar" size="13504" download="eager" />
+    <jar href="gui.jar" size="19895" download="eager" />
     <jar href="lib/client.jar" size="20425" download="eager" />
     <jar href="lib/common.jar" size="65776" download="eager" />
   </resources>

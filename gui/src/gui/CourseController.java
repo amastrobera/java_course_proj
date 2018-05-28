@@ -15,7 +15,7 @@ import canteen.Course;
 import java.util.Arrays;
 
 
-public class MealController implements Initializable {
+public class CourseController implements Initializable {
         
     @FXML private TextField txtName, txtIngredients;
     @FXML private ComboBox<String> cboType;
@@ -28,7 +28,7 @@ public class MealController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("MealController init");
+        System.out.println("CourseController init");
         // TODO
         String host = "localhost";
         int port = 8080;

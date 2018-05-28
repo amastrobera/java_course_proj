@@ -5,10 +5,7 @@
         <group>
             <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/Menu.fxml</file>
             <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/UsersController.java</file>
-            <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/GuiMenu.java</file>
             <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/MenuController.java</file>
-            <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/Users.fxml</file>
-            <file>file:/home/angelo/development/java/meals_and_allergies/gui/src/gui/GuiCanteenUser.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,52 +5,51 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import gui.MenuController?>
 
-<!--<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.cell.*?> 
 <?import javafx.collections.*?> 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?> 
 <?import javafx.collections.FXCollections?>
-<?import gui.GuiCanteenUser?>
-<?import gui.UsersController?>-->
 
+<?import gui.MenuController?>
 
 <AnchorPane id="APaneMenu" prefHeight="500" prefWidth="800" 
             xmlns:fx="http://javafx.com/fxml/1" 
             fx:controller="gui.MenuController">
     <children>
-         <ComboBox fx:id="cboFirst" layoutX="30" layoutY="30" prefWidth="250" 
-                   promptText="Primo piatto" onAction="#onFirstChanged" /> 
-         
-         <ComboBox fx:id="cboSecond" layoutX="30" layoutY="60" prefWidth="250" 
-                   promptText="Secondo piatto" onAction="#onSecondChanged" /> 
+        <ComboBox fx:id="cboFirst" layoutX="30" layoutY="30" prefWidth="350" 
+                  promptText="Primo piatto" onAction="#onFirstChanged" /> 
 
-         <ComboBox fx:id="cboDessert" layoutX="30" layoutY="90" prefWidth="250" 
-                   promptText="Dolce" onAction="#onDessertChanged" /> 
+        <ComboBox fx:id="cboSecond" layoutX="30" layoutY="60" prefWidth="350" 
+                  promptText="Secondo piatto" onAction="#onSecondChanged" /> 
 
-         <ComboBox fx:id="cboFruit" layoutX="30" layoutY="120" prefWidth="250" 
-                   promptText="Frutta" onAction="#onFruitChanged" /> 
+        <ComboBox fx:id="cboDessert" layoutX="30" layoutY="90" prefWidth="350" 
+                  promptText="Dolce" onAction="#onDessertChanged" /> 
 
-        <TextField fx:id="txtName" layoutX="30" layoutY="150" prefWidth="150"
+        <ComboBox fx:id="cboFruit" layoutX="30" layoutY="120" prefWidth="350" 
+                  promptText="Frutta" onAction="#onFruitChanged" /> 
+
+        <TextField fx:id="txtName" layoutX="30" layoutY="150" prefWidth="210"
                    promptText="menu name" />
 
-        <TextField fx:id="txtDate" layoutX="190" layoutY="150" prefWidth="90"
-                   promptText="date" />
+        <DatePicker fx:id="dtpDate" layoutX="250" layoutY="150" prefWidth="130"
+                   promptText="date"  />
 
-        <Button fx:id="btnUsers" layoutX="30" layoutY="180" prefWidth="150"
-                text="Allergic Users" />  
-
-        <Button fx:id="btnSave" layoutX="190" layoutY="180" prefWidth="90"
-                text="Save" />  
-                
-        <Label fx:id="labMenuNotification" layoutX="330" layoutY="30" 
-               text="Course description" />
+        <Button fx:id="btnRefresh" layoutX="30" layoutY="180" prefWidth="120"
+                text="Refresh"  onAction="#onRefresh" />  
         
+        <Button fx:id="btnUsers" layoutX="160" layoutY="180" prefWidth="150"
+                text="Allergic Users"  onAction="#onGetUsers" />  
 
-<!--        <TableView fx:id="tableUsers" 
+        <Button fx:id="btnSave" layoutX="320" layoutY="180" prefWidth="60"
+                text="Save" onAction="#onSave" />  
+                
+        <Label fx:id="labDescription" layoutX="390" layoutY="30" 
+               prefHeight="180" text="Course description" />
+        
+        <TableView fx:id="tableUsers" 
                    GridPane.columnIndex="0" GridPane.rowIndex="1"
-                   layoutX="30" layoutY="30" prefHeight="300" prefWidth="700" >
+                   layoutX="30" layoutY="210" prefHeight="210" prefWidth="720" >
              <columns>
                   <TableColumn fx:id="tcName" text="Name" prefWidth="100">
                     <cellValueFactory>
@@ -83,10 +82,16 @@
                         <PropertyValueFactory property="allergies" />
                     </cellValueFactory>
                   </TableColumn>
-                  <TableColumn fx:id="tcParents" text="Parents Contacts" 
-                               prefWidth="400">
+                  <TableColumn fx:id="tcFather" text="Father" 
+                               prefWidth="200">
                     <cellValueFactory>
-                        <PropertyValueFactory property="parents" />
+                        <PropertyValueFactory property="father" />
+                    </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="tcMother" text="Mother" 
+                               prefWidth="200">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="mother" />
                     </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="tcNotes" text="Notes"  prefWidth="300">
@@ -98,9 +103,12 @@
             <sortOrder>
                  <fx:reference source="tcSurname"/>
                  <fx:reference source="tcName"/>
-            </sortOrder> 
-        </TableView>-->
-        
+            </sortOrder>
+        </TableView>
+
+        <Label fx:id="labNotif" layoutX="30" layoutY="420" 
+               prefWidth="700" />
+
     </children>
 </AnchorPane>
 

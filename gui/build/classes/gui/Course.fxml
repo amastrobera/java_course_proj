@@ -5,11 +5,11 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import gui.MealController?>
+<?import gui.CourseController?>
 
 <AnchorPane id="APaneMeal" prefHeight="500" prefWidth="800" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="gui.MealController">
+            fx:controller="gui.CourseController">
     <children>
         <ComboBox fx:id="cboType" layoutX="30" layoutY="30" prefWidth="100" 
                   promptText="Tipo" /> 

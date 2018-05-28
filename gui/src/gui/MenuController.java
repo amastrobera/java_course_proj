@@ -8,22 +8,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.event.ActionEvent;
-//import javafx.beans.value.ChangeListener;
-//import javafx.beans.value.ObservableValue;
-
 import javafx.collections.FXCollections;
+import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
+
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import client.Client;
 import canteen.*;
+import university.*;
 
 
 public class MenuController implements Initializable {
     
-    @FXML private Label labMenuNotification;
+    @FXML private Label labDescription, labNotif;
     @FXML private ComboBox<String> cboFirst, cboSecond, cboDessert, cboFruit;    
+    @FXML private TextField txtName;
+    @FXML private DatePicker dtpDate;
+    @FXML private TableView<GuiCanteenUser> tableUsers;    
     
     private Client mClient;
     
@@ -44,9 +51,12 @@ public class MenuController implements Initializable {
         cboFruit.getItems().clear();
         cboFruit.setItems(FXCollections.observableList(val.get("Fruit")));
         
-        labMenuNotification.setText(num + " meals have been updated from data");
+        tableUsers.getItems().clear();
+        
+        labNotif.setText(num + " meals have been updated from data base");
     }
 
+    
     @FXML
     private void onFirstChanged(ActionEvent event) {
         Course course = mClient.getCourseInfo(cboFirst.getValue());
@@ -55,7 +65,8 @@ public class MenuController implements Initializable {
                        "---------------------------------------------\n";
         for (String i : course.ingredients)
             notif += i + "\n";
-        labMenuNotification.setText(notif);
+        labDescription.setText(notif);
+        tableUsers.getItems().clear();
 
     }
 
@@ -67,7 +78,8 @@ public class MenuController implements Initializable {
                         "---------------------------------------------\n";
         for (String i : course.ingredients)
             notif += i + "\n";
-        labMenuNotification.setText(notif);
+        labDescription.setText(notif);
+        tableUsers.getItems().clear();
     }
 
     @FXML
@@ -78,7 +90,8 @@ public class MenuController implements Initializable {
                         "---------------------------------------------\n";
         for (String i : course.ingredients)
             notif += i + "\n";
-        labMenuNotification.setText(notif);
+        labDescription.setText(notif);
+        tableUsers.getItems().clear();
     }
     
     @FXML
@@ -89,8 +102,52 @@ public class MenuController implements Initializable {
                         "---------------------------------------------\n";
         for (String i : course.ingredients)
             notif += i + "\n";
-        labMenuNotification.setText(notif);
+        labDescription.setText(notif);
+        tableUsers.getItems().clear();
     }
+    
+    @FXML
+    private void onGetUsers(ActionEvent event) {
+        Menu menu = new Menu();
+        menu.setCourse(cboFirst.getValue(), Course.Type.First);
+        menu.setCourse(cboSecond.getValue(), Course.Type.Second);
+        menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
+        menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        ArrayList<CanteenUser> users = mClient.getAllergicUsers(menu);
+        for (CanteenUser user : users ) {
+            tableUsers.getItems().add(new GuiCanteenUser(user));
+        }        
+        labNotif.setText(users.size() + " allergic users found");
+    }
+
+    @FXML
+    private void onSave(ActionEvent event) {
+        String name = txtName.getText();
+        LocalDate ldate = dtpDate.getValue();
+        if (ldate == null) {
+            labNotif.setText("error in saving: missing date");
+            return ;
+        }
+        String date = dtpDate.getValue().format(DateTimeFormatter.ISO_DATE);
+        Menu menu = new Menu();
+        menu.setName(name);
+        menu.setDate(date);
+        menu.setCourse(cboFirst.getValue(), Course.Type.First);
+        menu.setCourse(cboSecond.getValue(), Course.Type.Second);
+        menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
+        menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        if (mClient.saveMenu(menu))
+            labNotif.setText("menu saved");
+        else
+            labNotif.setText("failed to save menu");
+    }
+
+    @FXML
+    private void onRefresh(ActionEvent event) {
+        initItems();
+    }
+
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,42 +157,6 @@ public class MenuController implements Initializable {
         int port = 8080;
         mClient = new Client(host, port);
         initItems();
-        //initListeners();
     }
-    
-    
-//    private class CboListener<String> implements ChangeListener<String> {
-//        private final Label labMenuNotification;
-//        private final String mType;
-//        
-//        public CboListener(String type, Label lab) {
-//            mType = type;
-//            labMenuNotification = lab;
-//        }
-//        
-//        @Override
-//        public void changed(ObservableValue<? extends String> selected, 
-//                            String oldValue, String newValue) {
-//            if (!newValue.equals(oldValue)) {
-//                labMenuNotification.setText(mType + " " + newValue);
-//            }
-//        }
-//    }
-//    
-//    private void initListeners() {        
-//        
-//        cboFirst.getSelectionModel().selectedItemProperty().addListener(
-//                new CboListener<>("Primo piatto: ", labMenuNotification));
-//        
-//        cboSecond.getSelectionModel().selectedItemProperty().addListener(
-//                new CboListener<>("Secondo piatto: ", labMenuNotification));
-//        
-//        cboDessert.getSelectionModel().selectedItemProperty().addListener(
-//                new CboListener<>("Dessert: ", labMenuNotification));
-//        
-//        cboFruit.getSelectionModel().selectedItemProperty().addListener(
-//                new CboListener<>("Frutta: ", labMenuNotification));
-//    }
 
-    
 }

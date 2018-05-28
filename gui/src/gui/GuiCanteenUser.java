@@ -13,7 +13,8 @@ public class GuiCanteenUser {
     private final SimpleStringProperty phone = new SimpleStringProperty("");
     private final SimpleStringProperty address = new SimpleStringProperty("");
     private final SimpleStringProperty allergies = new SimpleStringProperty("");
-    private final SimpleStringProperty parents = new SimpleStringProperty("");
+    private final SimpleStringProperty father = new SimpleStringProperty("");
+    private final SimpleStringProperty mother = new SimpleStringProperty("");
     private final SimpleStringProperty notes = new SimpleStringProperty("");
     
     public GuiCanteenUser() {
@@ -29,11 +30,7 @@ public class GuiCanteenUser {
         setAllergies(user.allergies());
         if (user.type().equals("student")) {
             Student s = (Student)user;
-            Person[] p = s.parents();
-            setParents(p);
-        } else {
-            Person[] p = {};
-            setParents(p);
+            setParents(s.parents());
         }
     }
 
@@ -88,21 +85,31 @@ public class GuiCanteenUser {
         allergies.set(strAllergies);
     }
 
-    public String getParents() {
-        return parents.get();
+    public final String getFather() {
+        return father.get();
     }
 
+    public final void setFather(Person rFather) {
+        if (rFather != null)
+            father.set(rFather.name() + " " + rFather.surname() + " " + 
+                        rFather.phone());
+    }
+    
+    public final String getMother() {
+        return mother.get();
+    }
+    
+    public final void setMother(Person rMother) {
+        if (rMother != null)
+            mother.set(rMother.name() + " " + rMother.surname() + " " + 
+                        rMother.phone());
+    }
+    
     public final void setParents(Person[] fParents) {
-        String ret = new String();
-        try {
-            for (Person p : fParents)
-                ret += p.toString() + ", ";
-            if (ret.length() > 0)
-                ret = ret.substring(0, ret.length()-2);
-        } catch (Exception ex ) {
-            System.out.println("setParents: " + ex );
-        }
-        parents.set(ret);
+        if (fParents.length > 0)
+            setFather(fParents[0]);
+        if (fParents.length > 1)
+            setMother(fParents[1]);
     }
 
     public String getNotes() {
@@ -110,7 +117,7 @@ public class GuiCanteenUser {
     }
     
     public final void setNotes(String fNotes) {
-        parents.set(fNotes);
+        notes.set(fNotes);
     }
     
     @Override
