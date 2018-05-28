@@ -22,6 +22,10 @@ public class MenuPlanController implements Initializable {
     private Client mClient;
 
     
+    private void initItems() {
+        tableMenus.getItems().clear();
+    }
+    
     private void getMenus() {
         HashSet<Menu> menus = mClient.getMenus();
         for (Menu menu : menus ) {
@@ -32,6 +36,7 @@ public class MenuPlanController implements Initializable {
     
     @FXML
     private void onRefresh(ActionEvent event) {
+        initItems();
         getMenus();
     }
         
@@ -43,6 +48,7 @@ public class MenuPlanController implements Initializable {
         String host = "localhost";
         int port = 8080;
         mClient = new Client(host, port);
+        initItems();
         getMenus();
     }    
     

@@ -48,6 +48,7 @@ public class UsersController implements Initializable {
     
     private void initItems() {
         
+        tableUsers.getItems().clear();
         tableUsers.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldSelection, newSelection) -> {
                 if (newSelection != null && newSelection != oldSelection) {
@@ -66,35 +67,57 @@ public class UsersController implements Initializable {
             }
         );
         
+        txtName.clear();
         txtName.setText("");
+        
+        txtSurname.clear();
         txtSurname.setText("");
-        cboType.getItems().clear();
-        cboType.setItems(FXCollections.observableList(
-                        Arrays.asList("student", "professor")));
+                
+        txtPhone.clear();
         txtPhone.setText("");
+        
+        txtStreet.clear();
         txtStreet.setText("");
+        
+        txtPostcode.clear();
         txtPostcode.setText("");
+        
+        txtCity.clear();
         txtCity.setText("");
+        
+        txtFather.clear();
         txtFather.setText("");
+        
+        txtMother.clear();
         txtMother.setText("");
+        
+        txtAllergies.clear();
         txtAllergies.setText("");
+        
+        if (cboType.getItems().isEmpty()) {
+            cboType.getItems().clear();
+            cboType.setItems(FXCollections.observableList(
+                            Arrays.asList("student", "professor")));
+        }
+        else 
+          cboType.setValue("User Type");
     }
     
     @FXML
     private void onSave(ActionEvent event) {
         
-        String name = txtName.getText();
-        String surname = txtSurname.getText();
-        String type = cboType.getValue();        
-        String phone = txtPhone.getText();
-        String street = txtStreet.getText();
-        String postcode = txtPostcode.getText();
-        String city = txtCity.getText();
-        String father = txtFather.getText();
-        String mother = txtMother.getText();
+        String name = txtName.getText().trim();
+        String surname = txtSurname.getText().trim();
+        String type = cboType.getValue();
+        String phone = txtPhone.getText().trim();
+        String street = txtStreet.getText().trim();
+        String postcode = txtPostcode.getText().trim();
+        String city = txtCity.getText().trim();
+        String father = txtFather.getText().trim();
+        String mother = txtMother.getText().trim();
         String allergies = txtAllergies.getText();
         
-        if (type.isEmpty()) {
+        if (type.isEmpty() || type.equals("User Type")) {
             labNotif.setText("error in saving: missing type");
             return ;
         }

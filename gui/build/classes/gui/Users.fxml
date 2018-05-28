@@ -85,7 +85,7 @@
                    promptText="cognome" />
         
         <ComboBox fx:id="cboType" layoutX="480" layoutY="300" prefWidth="120" 
-                  promptText="Utente" /> 
+                  promptText="User Type" /> 
 
         <TextField fx:id="txtPhone" layoutX="630" layoutY="300" prefWidth="120"
                    promptText="telefono" />

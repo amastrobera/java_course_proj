@@ -18,22 +18,22 @@
             fx:controller="gui.MenuController">
     <children>
         <ComboBox fx:id="cboFirst" layoutX="30" layoutY="30" prefWidth="350" 
-                  promptText="Primo piatto" onAction="#onFirstChanged" /> 
+                  promptText="First course" onAction="#onFirstChanged" /> 
 
         <ComboBox fx:id="cboSecond" layoutX="30" layoutY="60" prefWidth="350" 
-                  promptText="Secondo piatto" onAction="#onSecondChanged" /> 
+                  promptText="Second course" onAction="#onSecondChanged" /> 
 
         <ComboBox fx:id="cboDessert" layoutX="30" layoutY="90" prefWidth="350" 
-                  promptText="Dolce" onAction="#onDessertChanged" /> 
+                  promptText="Dessert" onAction="#onDessertChanged" /> 
 
         <ComboBox fx:id="cboFruit" layoutX="30" layoutY="120" prefWidth="350" 
-                  promptText="Frutta" onAction="#onFruitChanged" /> 
+                  promptText="Fruit" onAction="#onFruitChanged" /> 
 
         <TextField fx:id="txtName" layoutX="30" layoutY="150" prefWidth="210"
                    promptText="menu name" />
 
         <DatePicker fx:id="dtpDate" layoutX="250" layoutY="150" prefWidth="130"
-                   promptText="date"  />
+                   promptText="date" />
 
         <Button fx:id="btnRefresh" layoutX="30" layoutY="180" prefWidth="120"
                 text="Refresh"  onAction="#onRefresh" />  

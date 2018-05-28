@@ -117,7 +117,7 @@ public class DataGenerator {
         m1.setCourse("Crema di patate e porri", Course.Type.First);
         m1.setCourse("Arrosto di tacchino al forno", Course.Type.Second);
         m1.setCourse("Crostatina alla fragola", Course.Type.Dessert); // will be removed
-        m1.setCourse("Macedonia di frutta", Course.Type.Fruit);
+        m1.setCourse("Macedonia di fruit", Course.Type.Fruit);
         menuPlan.add(m1);
 
         Menu m2 = new Menu();
@@ -166,37 +166,37 @@ public class DataGenerator {
     private static String[][] generateCourses() { 
         
         String[][] meals = {
-            {"Crema di fagioli con pasta","primo","pasta,fagioli borlotti,carota,cipolla"},
-            {"Crema di patate e porri","primo","patate,porro,aglio,sale"},
-            {"Crema di piselli con riso","primo","piselli,patate,riso,olio d'oliva,olio di semi di girasole,sale"},
-            {"Gnocchi al pomodoro","primo","gnocchi di patate,pomodoro,carota,cipolla,olio d’oliva,sale,basilico"},
-            {"Pasta ai broccoli","primo","pasta,broccoli,latte,farina,sale"},
-            {"Orzotto con zucchine e asiago","primo","orzo,zucchine,latte,asiago,olio di semi di girasole,farina,sale"},
-            {"Pasta al ragù","primo","pasta,pomodoro,manzo,pollo,carota,cipolla,sedano,olio d'oliva,sale"},
-            {"Pizza margherita","primo","farina,acqua,olio di semi di girasole,lievito,sale,zucchero,pomodoro,mozzarella,olio d'oliva,origano,sale"},
-            {"Riso alla milanese","primo","riso,olio d'oliva,burro,zafferano,sale"},
-            {"Riso alla zucca","primo","riso,zucca,latte,farina,olio d'oliva,sale"},
-            {"Riso alle zucchine","primo","riso,zucchine,latte,farina,olio d'oliva,sale"},
-            {"Arrosto di tacchino al forno","secondo","tacchino,carota,sedano,cipolla,olio di semi di girasole,patate,sale"},
-            {"Bastoncini fil. merluzzo","secondo","merluzzo,farina,olio di semi di girasole,grano,mais,lievito,sale,zucchero,spezie,sali minerali"},
-            {"Bocconcini di Vitellone in umido","secondo","vitello,pomodoro,carote,sedano,cipolla,olio d'oliva,sale,patate,erbe aromatiche"},
-            {"Fettina di maiale alla piastra","secondo","maiale,olio d'oliva,sale,pepe"},
-            {"Fettina di tacchino alla piastra","secondo","fesa di tacchino,olio di semi di girasole,olio d'oliva,sale"},
-            {"Filetto di merluzzo alla pizzaiola","secondo","merluzzo,pomodoro,olio di semi di girasole,olio d'oliva,erbe aromatiche,sale"},
-            {"Petto di pollo alla piastra","secondo","pollo,olio d'oliva,sale,pepe"},
-            {"Sovracosce di pollo al forno","secondo","pollo,olio di semi di girasole,erbe aromatiche"},
-            {"Tonno sott’olio","secondo","tonno"},
-            {"Formaggio caciotta","secondo","latte,fermenti,caglio,sale"},
-            {"Yogurt","dolce","latte"},
-            {"Brownies fatti in casa","dolce","cacao,burro,cioccolato,farina,lievito"},
-            {"Crostatina alla fragola","dolce","farina,burro,zucchero,uova,limone,latte,pana,vaniglia,fragole"},
-            {"Strudel","dolce","limone,cannella,uvetta,mela,rum,pangrattato,pinoli,olio di semi di girasole "},
-            {"Budino al cioccolato","dolce","cacao,farina,burro,latte,vaniglia,rum"},
-            {"Macedonia di frutta","frutta","banana,mela,arancia,uva bianca"},
-            {"Mela","frutta","mela"},
-            {"Banana","frutta","banana"},
-            {"Pera","frutta","pera"},
-            {"Smoothie di frutta mista","frutta","arancia,sedano,cetriolo,menta,zucchero di canna"},
+            {"Crema di fagioli con pasta","first","pasta,fagioli borlotti,carota,cipolla"},
+            {"Crema di patate e porri","first","patate,porro,aglio,sale"},
+            {"Crema di piselli con riso","first","piselli,patate,riso,olio d'oliva,olio di semi di girasole,sale"},
+            {"Gnocchi al pomodoro","first","gnocchi di patate,pomodoro,carota,cipolla,olio d’oliva,sale,basilico"},
+            {"Pasta ai broccoli","first","pasta,broccoli,latte,farina,sale"},
+            {"Orzotto con zucchine e asiago","first","orzo,zucchine,latte,asiago,olio di semi di girasole,farina,sale"},
+            {"Pasta al ragù","first","pasta,pomodoro,manzo,pollo,carota,cipolla,sedano,olio d'oliva,sale"},
+            {"Pizza margherita","first","farina,acqua,olio di semi di girasole,lievito,sale,zucchero,pomodoro,mozzarella,olio d'oliva,origano,sale"},
+            {"Riso alla milanese","first","riso,olio d'oliva,burro,zafferano,sale"},
+            {"Riso alla zucca","first","riso,zucca,latte,farina,olio d'oliva,sale"},
+            {"Riso alle zucchine","first","riso,zucchine,latte,farina,olio d'oliva,sale"},
+            {"Arrosto di tacchino al forno","second","tacchino,carota,sedano,cipolla,olio di semi di girasole,patate,sale"},
+            {"Bastoncini fil. merluzzo","second","merluzzo,farina,olio di semi di girasole,grano,mais,lievito,sale,zucchero,spezie,sali minerali"},
+            {"Bocconcini di Vitellone in umido","second","vitello,pomodoro,carote,sedano,cipolla,olio d'oliva,sale,patate,erbe aromatiche"},
+            {"Fettina di maiale alla piastra","second","maiale,olio d'oliva,sale,pepe"},
+            {"Fettina di tacchino alla piastra","second","fesa di tacchino,olio di semi di girasole,olio d'oliva,sale"},
+            {"Filetto di merluzzo alla pizzaiola","second","merluzzo,pomodoro,olio di semi di girasole,olio d'oliva,erbe aromatiche,sale"},
+            {"Petto di pollo alla piastra","second","pollo,olio d'oliva,sale,pepe"},
+            {"Sovracosce di pollo al forno","second","pollo,olio di semi di girasole,erbe aromatiche"},
+            {"Tonno sott’olio","second","tonno"},
+            {"Formaggio caciotta","second","latte,fermenti,caglio,sale"},
+            {"Yogurt","dessert","latte"},
+            {"Brownies fatti in casa","dessert","cacao,burro,cioccolato,farina,lievito"},
+            {"Crostatina alla fragola","dessert","farina,burro,zucchero,uova,limone,latte,pana,vaniglia,fragole"},
+            {"Strudel","dessert","limone,cannella,uvetta,mela,rum,pangrattato,pinoli,olio di semi di girasole "},
+            {"Budino al cioccolato","dessert","cacao,farina,burro,latte,vaniglia,rum"},
+            {"Macedonia di fruit","fruit","banana,mela,arancia,uva bianca"},
+            {"Mela","fruit","mela"},
+            {"Banana","fruit","banana"},
+            {"Pera","fruit","pera"},
+            {"Smoothie di fruit mista","fruit","arancia,sedano,cetriolo,menta,zucchero di canna"},
         };
         return meals;
     }

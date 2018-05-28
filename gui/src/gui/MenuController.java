@@ -33,27 +33,28 @@ public class MenuController implements Initializable {
     @FXML private TableView<GuiCanteenUser> tableUsers;    
     
     private Client mClient;
+    private HashMap<String, ArrayList<String>> mCourses;
     
     private void initItems() {
-        HashMap<String, ArrayList<String>> val = mClient.getCourses();
-        long num = val.get("First").size() + val.get("Second").size() +
-                    val.get("Dessert").size() + val.get("Fruit").size();
+        mCourses = mClient.getCourses();
+        long num = mCourses.get("First").size() + mCourses.get("Second").size() 
+              + mCourses.get("Dessert").size() + mCourses.get("Fruit").size();
         
         cboFirst.getItems().clear();
-        cboFirst.setItems(FXCollections.observableList(val.get("First")));
+        cboFirst.setItems(FXCollections.observableList(mCourses.get("First")));
         
         cboSecond.getItems().clear();
-        cboSecond.setItems(FXCollections.observableList(val.get("Second")));
+        cboSecond.setItems(FXCollections.observableList(mCourses.get("Second")));
         
         cboDessert.getItems().clear();
-        cboDessert.setItems(FXCollections.observableList(val.get("Dessert")));
+        cboDessert.setItems(FXCollections.observableList(mCourses.get("Dessert")));
                 
         cboFruit.getItems().clear();
-        cboFruit.setItems(FXCollections.observableList(val.get("Fruit")));
+        cboFruit.setItems(FXCollections.observableList(mCourses.get("Fruit")));
         
         tableUsers.getItems().clear();
         
-        labNotif.setText(num + " meals have been updated from data base");
+        labNotif.setText(num + " courses loaded from database");
     }
 
     
@@ -92,6 +93,11 @@ public class MenuController implements Initializable {
             notif += i + "\n";
         labDescription.setText(notif);
         tableUsers.getItems().clear();
+        
+        // dessert and fruit mutually exclusive
+        cboFruit.setValue("Fruit");
+        //cboFruit.getItems().clear();
+        //cboFruit.setItems(FXCollections.observableList(mCourses.get("Fruit")));
     }
     
     @FXML
@@ -104,6 +110,11 @@ public class MenuController implements Initializable {
             notif += i + "\n";
         labDescription.setText(notif);
         tableUsers.getItems().clear();
+        
+        // dessert and fruit mutually exclusive
+        cboDessert.setValue("Dessert");
+        //cboDessert.getItems().clear();
+        //cboDessert.setItems(FXCollections.observableList(mCourses.get("Dessert")));
     }
     
     @FXML
@@ -111,8 +122,12 @@ public class MenuController implements Initializable {
         Menu menu = new Menu();
         menu.setCourse(cboFirst.getValue(), Course.Type.First);
         menu.setCourse(cboSecond.getValue(), Course.Type.Second);
-        menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
-        menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        // dessert and fruit mutually exclusive
+        if (cboDessert.getValue().equals("Dessert"))
+            menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        else 
+            menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
+
         ArrayList<CanteenUser> users = mClient.getAllergicUsers(menu);
         for (CanteenUser user : users ) {
             tableUsers.getItems().add(new GuiCanteenUser(user));
@@ -128,14 +143,31 @@ public class MenuController implements Initializable {
             labNotif.setText("error in saving: missing date");
             return ;
         }
+        if (cboFirst.getValue().equals("First course")) {
+            labNotif.setText("error in saving: missing first course");
+            return ;
+        }
+        if (cboSecond.getValue().equals("Second course")) {
+            labNotif.setText("error in saving: missing second course");
+            return ;
+        }
+        if (cboDessert.getValue().equals("Dessert") && 
+            cboFruit.getValue().equals("Fruit")) {
+            labNotif.setText("error in saving: missing either dessert or fruit");
+            return ;
+        }
+        
         String date = dtpDate.getValue().format(DateTimeFormatter.ISO_DATE);
         Menu menu = new Menu();
         menu.setName(name);
         menu.setDate(date);
         menu.setCourse(cboFirst.getValue(), Course.Type.First);
         menu.setCourse(cboSecond.getValue(), Course.Type.Second);
-        menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
-        menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        // dessert and fruit mutually exclusive
+        if (cboDessert.getValue().equals("Dessert"))
+            menu.setCourse(cboFruit.getValue(), Course.Type.Fruit);
+        else
+            menu.setCourse(cboDessert.getValue(), Course.Type.Dessert);
         if (mClient.saveMenu(menu))
             labNotif.setText("menu saved");
         else
@@ -146,8 +178,6 @@ public class MenuController implements Initializable {
     private void onRefresh(ActionEvent event) {
         initItems();
     }
-
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

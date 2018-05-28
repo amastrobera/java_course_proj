@@ -11,26 +11,26 @@ public class Course implements Serializable {
     public static String typeToString(Type type) {
         switch(type){
             case First:
-                return "primo";
+                return "first";
             case Second:
-                return "secondo";
+                return "second";
             case Dessert:
-                return "dolce";
+                return "dessert";
             case Fruit:
-                return "frutta";
+                return "fruit";
         }
         return "";
     }
     
     public static Type strToType(String type) {
         String t = type.toLowerCase();
-        if (t.equals("primo"))
+        if (t.equals("first"))
             return Type.First;
-        if (t.equals("secondo"))
+        if (t.equals("second"))
             return Type.Second;
-        if (t.equals("dolce"))
+        if (t.equals("dessert"))
             return Type.Dessert;
-        if (t.equals("frutta"))
+        if (t.equals("fruit"))
             return Type.Fruit;
         return Type.Unknown;
     }
