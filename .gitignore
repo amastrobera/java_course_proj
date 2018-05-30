@@ -5,3 +5,5 @@ data/*
 /server/build/
 /server/dist/
 /client/dist/
+/gui/build/
+/gui/dist/
