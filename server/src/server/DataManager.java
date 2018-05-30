@@ -5,6 +5,7 @@ import canteen.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Base class for accessing the data. It was built to extensible by using 
@@ -26,6 +27,11 @@ public abstract class DataManager {
     */
     public abstract ArrayList<CanteenUser> getAllergicUsers(Menu menu);
 
+    /**
+    * @return Set of Menus ordered by date
+    */
+    public abstract HashSet<Menu> getMenus();
+    
     /**
      * 
      * @param <type> "student", "professor", or "" for all users

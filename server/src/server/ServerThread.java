@@ -54,11 +54,22 @@ class ServerThread implements Runnable {
 
             ViewCourseInfoResponse res = new ViewCourseInfoResponse();
             Course course = mDataManager.findCourse(req.getParam("Name"));
+            res.setCourse(course);
             res.setStatus((!course.name.isEmpty()? 
                             Response.Status.SUCCESS : 
                             Response.Status.FAILURE));
             output.writeObject(res);
             System.out.println("sending back: " + res.toString());
+
+        } else if (type.equals("ViewMenus")) {
+            
+            ViewMenusResponse res = new ViewMenusResponse();
+            res.setMenus(mDataManager.getMenus());
+            res.setStatus((!res.getMenus().isEmpty() ? Response.Status.SUCCESS : 
+                            Response.Status.FAILURE));
+            output.writeObject(res);
+            System.out.println("sending back: " + res.toString());
+
             
         } else if (type.equals("ViewAllergicUsers")) {
 

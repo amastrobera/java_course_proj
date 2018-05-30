@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="APaneMain" prefHeight="500" prefWidth="800" 
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller" >
+    <children >
+        <TabPane fx:id="tabsMain" prefHeight="500" prefWidth="800" >
+            <tabs>
+                <Tab fx:id="tabMenu" text="Menu">
+                    <fx:include fx:id="pageMenu" source="Menu.fxml"/>
+                </Tab>
+                <Tab fx:id="tabCourse" text="Courses">
+                    <fx:include fx:id="pageCourses" source="Course.fxml"/>
+                </Tab>
+                <Tab fx:id="tabMenuPlan" text="MenuPlan">
+                    <fx:include fx:id="pageMenuPlan" source="MenuPlan.fxml"/>
+                </Tab>
+                <Tab fx:id="tabUsers" text="Users">
+                    <fx:include fx:id="pageUsers" source="Users.fxml"/>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

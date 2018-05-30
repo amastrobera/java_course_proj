@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class Client {
@@ -90,6 +91,19 @@ public class Client {
         return new ArrayList<CanteenUser>();
     }
     
+    public HashSet<Menu> getMenus() {
+        sendRequest("ViewMenus");
+        try {
+            ViewMenusResponse response = 
+                                (ViewMenusResponse)mInput.readObject();
+            System.out.println("received response: " + response);
+            return response.getMenus();
+        } catch (Exception ex) {
+            System.err.println("getCourses failed: " + ex);
+        }
+        return new HashSet<>();
+    }
+    
     public HashMap<String, ArrayList<String>> getCourses() {
         sendRequest("ViewCourses");
         try {
@@ -101,9 +115,8 @@ public class Client {
             System.err.println("getCourses failed: " + ex);
         }
         return new HashMap<>();
-
     }
-
+    
     public Course getCourseInfo(String name) {        
         try {
             Request req = new Request("ViewCourseInfo");

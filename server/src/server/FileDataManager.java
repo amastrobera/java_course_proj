@@ -69,6 +69,32 @@ public class FileDataManager extends DataManager {
         newFile.renameTo(new File(oldFilePath));
     }
 
+    /**
+    * @return Set of Menus ordered by date
+    */
+    public HashSet<Menu> getMenus() {
+        HashMap<String, ArrayList<String>> ret = new HashMap<>();
+        
+        if (mReaders.containsKey("menus")) {
+           
+            DSVReader reader = mReaders.get("menus");
+           
+            HashSet<Menu> menus = new HashSet<>();
+            HashMap<String,String> line = new HashMap<>();
+            while (reader.getNextLine(line)) {
+                if (line.size() > 0) {
+                    Menu menu = new Menu();
+                    menu.fromMap(line);
+                    menus.add(menu);
+                    line = new HashMap<>();
+                }
+            }
+            reader.reset(); // the file pointer goes back to the top
+            return menus;
+        }        
+        return new HashSet<>();
+    }
+    
     /** 
      * @param <none>
      * @return Array of all courses in our databases

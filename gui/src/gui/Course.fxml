@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import gui.CourseController?>
+
+<AnchorPane id="APaneMeal" prefHeight="500" prefWidth="800" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="gui.CourseController">
+    <children>
+
+        <ComboBox fx:id="cboType" layoutX="30" layoutY="30" prefWidth="350" 
+                promptText="Course type" onAction="#onTypeChanged"/> 
+
+        <ComboBox fx:id="cboName" layoutX="30" layoutY="60" prefWidth="350" 
+                promptText="Name of a saved course" onAction="#onNameChanged" /> 
+                
+        <TextField fx:id="txtName" layoutX="30" layoutY="90" prefWidth="350" 
+                promptText="Name of a new dish" />
+        
+        <TextArea fx:id="txtIngredients" layoutX="30" layoutY="120" 
+                prefWidth="350" prefHeight="250" 
+                promptText="Ingredient 1, Ingredient 2 ..." />
+
+                
+        <Button fx:id="btnRefresh" layoutX="410" layoutY="30" prefWidth="120"
+                text="Refresh"  onAction="#onRefresh" />  
+        
+        <Button fx:id="btnSave" layoutX="410" layoutY="60" prefWidth="120"
+                text="Save"  onAction="#onSave" />  
+
+        <Label fx:id="labNotif" layoutX="30" layoutY="400" prefWidth="600"/>  
+        
+    </children>
+</AnchorPane>
+

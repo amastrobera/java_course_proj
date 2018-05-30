@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Menu implements Packable, Serializable{
+public class Menu implements Packable, Serializable, Comparable {
     
     private String mName;
     private Date mDate;
@@ -152,6 +152,15 @@ public class Menu implements Packable, Serializable{
         Menu comp = (Menu) obj;
         return comp.date().equals(date());
     }
+    
+    @Override 
+    public int compareTo(Object obj) {
+        if (obj == this) return -1;
+        if (!(obj instanceof Menu)) return -1;
+        Menu comp = (Menu) obj;
+        return date().compareTo(comp.date());
+    }
+
     
 }
 

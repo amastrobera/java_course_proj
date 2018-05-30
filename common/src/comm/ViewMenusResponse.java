@@ -1,23 +1,22 @@
 package comm;
 
 import canteen.Menu;
-import java.util.Date;
-import java.util.TreeMap;
+import java.util.HashSet;
 
 public class ViewMenusResponse extends Response{
     
-    private TreeMap<Date, Menu> mMenus;
+    private HashSet<Menu> mMenus;
     
     public ViewMenusResponse() {
         super("ViewMenus");
-        mMenus = new TreeMap<>();
+        mMenus = new HashSet<>();
     }
    
-    public TreeMap<Date, Menu> getMenus() {
+    public HashSet<Menu> getMenus() {
         return mMenus;
     }
     
-    public void setMenus(TreeMap<Date, Menu> menus) {
+    public void setMenus(HashSet<Menu> menus) {
         mMenus = menus;
     }
     
