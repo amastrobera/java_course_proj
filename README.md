@@ -13,6 +13,7 @@ In Netbeans load and build these ones with `F11`, in this order:
 1. common (library)
 2. server (app, with library *common.jar* attached in build.xml)
 3. client (lib + test-app, as above)
+4. gui (app)
 
 #### Build the data
 
@@ -31,5 +32,24 @@ The server needs to know where the data is stored and what port of the (localhos
 This **just a tests** to see whether the client can communicate with server properly. We use the gui to work. Client is eventually a library used by a gui or other program.
 
 	java -jar client/dist/client.jar 
+
+
+#### Run the GUI
+
+This is your own interface. Launch it as :
+
+    java -jar gui/dist/gui.jar
+
+It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
+
+[Menu View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menu_tab.png)
+
+[Courses View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/courses_tab.png)
+
+[Menu Plan View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menuplan_tab.png)
+
+[Users View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/users_tab.png)
+
+
 
 
