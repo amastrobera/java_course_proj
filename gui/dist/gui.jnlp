@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="gui.jnlp">
+  <information>
+    <title>gui</title>
+    <vendor>angelo</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="gui.jar" size="22082" download="eager" />
+    <jar href="lib/client.jar" size="20425" download="eager" />
+    <jar href="lib/common.jar" size="65774" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="gui" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="gui.Gui"  name="gui" />
+  <update check="always"/>
+</jnlp>
