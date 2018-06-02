@@ -13,17 +13,29 @@ import java.util.ArrayList;
 class ServerThread implements Runnable {
 
     private final String mDataPath;
+    private final String mDataBase, mUser, mPass;
     private Socket mClient;
     private Semaphore mSemaphore;
     private DataManager mDataManager;
 
     public ServerThread(String dataPath, Socket client, Semaphore sem) {
         mDataPath = dataPath;
+        mDataBase = mUser = mPass = "";
         mClient = client;
         mSemaphore = sem;
-        mDataManager = new SQLDataManager("meals_and_allergies", 
-                                            "angelo", "angelo");
-                        //new FileDataManager(mDataPath);
+        mDataManager = new FileDataManager(mDataPath);
+    }
+    
+    public ServerThread(String database, String user, String pass, 
+                        Socket client, Semaphore sem) {
+        mDataPath = "";
+        mDataBase = database;
+        mUser = user;
+        mPass = pass;
+        mClient = client;
+        mSemaphore = sem;
+        mDataManager = new SQLDataManager(mDataBase, mUser, mPass);
+
     }
     
     public ServerThread(Socket client) {

@@ -1,4 +1,4 @@
-Prova
+======= Prima Prova ==========
 
 Si progetti e si realizzi in java una mensa scolastica distribuita per gestire le informazioni relative ai pasti di studenti e docenti di una scuola. 
 Degli studenti si gestisce nome, cognome, numero telefonico di casa, numero di cellulare dei genitori, indirizzo (via, CAP, città) e un campo note. 
@@ -7,3 +7,12 @@ Di tutti si gestiscono le allergie ad alimenti specifici.
 Il programma permette di inserire il menù del giorno scegliendo tra piatti precaricati. Ogni piatto è classificato come primo, secondo, frutta o dolce. Ogni giorno devono essere offerti un primo, un secondo e uno tra dolce o frutta. Di ogni piatto si conosce la lista degli ingredienti.
 Una volta inserito il menu del giorno deve essere possibile vedere la lista degli utenti allergici a qualcuno degli ingredienti dei piatti inseriti specificando quale dei tre piatti non può mangiare. 
 Si realizzino client e server del programma.
+
+
+
+======= Seconda Prova =========
+
+Si arricchisca il software progettato per la prima prova in modo che i dati siano memorizzati in un database MySQL (di cui si dovrà consegnare il dump) e che il server interagisca con questo database.
+
+Si testino le classi del programma con opportuni test JUnit.
+Si realizzino inoltre i diagrammi UML (da consegnare in formato pdf) per descrivere le classi dell’applicazione e il suo funzionamento (class diagram e sequence diagram).

@@ -54,20 +54,32 @@ Unit tests are collected into the **test** module. It imports and tests *most* o
 
 #### Run the server
 
-The server needs to know where the data is stored and what port of the (localhost) to server to, say 8080. 
+The server needs to know where the data is stored and what port of the (localhost) to server to. You can choose the type of server you want to use (database or  file system) when you launch it.
 
-	java -jar server/dist/server.jar /path/to/data 8080
+##### (a) using MySQL and JDBC Connector
+
+I used port-number 8080, database "meals_and_allergies", user "angelo", pass "angelo".
+
+	java -jar server/dist/server.jar port-number database-name user passwd
+
+
+##### (b) Using a flat file system
+
+I used port-number 8080.
+
+	java -jar server/dist/server.jar port-number /path/to/data
+
 
 #### Run the client
 
-This **just a tests** to see whether the client can communicate with server properly. We use the gui to work. Client is eventually a library used by a gui or other program.
+This **just a tests** to see whether the client can communicate with server properly. We use the gui to work. Client is eventually a library used by a gui or other program. I used host *localhost* and port-number *8080*.
 
-	java -jar client/dist/client.jar 
+	java -jar client/dist/client.jar host port-number
 
 
 #### Run the GUI
 
-This is your own interface. Launch it as :
+This is your own interface. *localhost* and *8080* are hardcoded in the software. 
 
     java -jar gui/dist/gui.jar
 

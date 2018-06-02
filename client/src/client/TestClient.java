@@ -391,8 +391,8 @@ class TestClient implements Runnable {
     
     private Client mClient; 
     
-    public TestClient() {
-        mClient = new Client("localhost", 8080);
+    public TestClient(String host, int port) {
+        mClient = new Client(host, port);
     }
     
     @Override
@@ -413,12 +413,18 @@ class TestClient implements Runnable {
 
         System.out.println("--- Test Client --- ");
 
+        if (args.length != 2) {
+            System.err.println("wrong number of arguments");
+            System.err.println("$ java Client host port-number");
+            System.exit(1);
+        }
+        
         // multiple clients requests
         int numThreads = 1;
         ArrayList<Thread> testPool = new ArrayList<>(numThreads);
         for (int j = 0; j < numThreads; ++j)
-            testPool.add(new Thread(new TestClient()));
-        
+            testPool.add(new Thread(new TestClient(args[0], 
+                                                Integer.parseInt(args[1]))));
         for (int j = 0; j < numThreads; ++j)
             testPool.get(j).start();
         for (int j = 0; j < numThreads; ++j)

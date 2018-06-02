@@ -8,8 +8,12 @@ import java.util.concurrent.Semaphore;
 
 
 public class Server implements Runnable {
+
+    enum Type { Files, Database };
     
+    private final Type mType;
     private final String mDataPath;
+    private final String mDataBase, mUser, mPass;
     private int mPort;
     private ServerSocket mServer;
     private Semaphore mSemaphore;
@@ -17,11 +21,26 @@ public class Server implements Runnable {
     
     public Server(String dataPath, int port, int numThreads) {
         mDataPath = dataPath;
-        mPort = port;
-        mServer = null;
-        mSemaphore = new Semaphore(numThreads);
-        mClients = new LinkedList<>();
-        
+        mDataBase =  mUser = mPass = "";
+        mType = Type.Files;
+        init(port, numThreads);
+    }
+
+    public Server(String database, String user, String pass, 
+                  int port, int numThreads) {
+        mDataPath = "";
+        mDataBase = database;
+        mUser = user;
+        mPass = pass;
+        mType = Type.Database;
+        init(port, numThreads);
+    }
+    
+    private void init(int port, int numThreads){
+            mPort = port;
+            mServer = null;
+            mSemaphore = new Semaphore(numThreads);
+            mClients = new LinkedList<>();
         try {
             mServer = new ServerSocket(mPort);
             System.out.println("--- starting server ---");
@@ -67,8 +86,20 @@ public class Server implements Runnable {
                 mClients.add(client);
                 System.out.println("... accepted client connection");
                 
-                Thread tServer = new Thread(
+                Thread tServer;
+                switch (mType) {
+                    case Files:
+                        tServer = new Thread(
                             new ServerThread(mDataPath, client, mSemaphore));
+                        break;
+                    case Database:
+                        tServer = new Thread(
+                            new ServerThread(mDataBase, mUser, mPass, 
+                                                client, mSemaphore));
+                    break;
+                    default:
+                        throw new RuntimeException("unknown server type");
+                }
                 tServer.start();
 
             } catch (Exception ex) {
@@ -84,22 +115,29 @@ public class Server implements Runnable {
 
         
         System.out.println("--- Server --- ");
-        
-        if (args.length < 2) {
-            System.err.println("missing arguments");
-            System.out.println("$ java Server /data/path port-number");
-            System.exit(1);
-        }
 
         Server server = null;
         try {
             // launches a server with 4 parallel threads serving requests
-            server = new Server(args[0], Integer.parseInt(args[1]), 4);
+            switch (args.length) {
+                case 2:
+                    server = new Server(args[1], Integer.parseInt(args[0]), 4); 
+                    break;
+                case 4:
+                    server = new Server(args[1], args[2], args[3], 
+                                    Integer.parseInt(args[0]), 4);
+                    break;
+                default:
+                    System.err.println("wrong number of arguments");
+                    System.out.println("$ java Server port-number /data/path");
+                    System.out.println("            or");
+                    System.out.println("$ java Server port-number database-name user pass");
+                    System.exit(1);
+            }
             server.run();
         } catch (Exception ex) {
             server.close();
         }
-            
     }
     
 }
