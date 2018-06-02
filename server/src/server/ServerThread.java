@@ -21,7 +21,9 @@ class ServerThread implements Runnable {
         mDataPath = dataPath;
         mClient = client;
         mSemaphore = sem;
-        mDataManager = new FileDataManager(mDataPath);
+        mDataManager = new SQLDataManager("meals_and_allergies", 
+                                            "angelo", "angelo");
+                        //new FileDataManager(mDataPath);
     }
     
     public ServerThread(Socket client) {

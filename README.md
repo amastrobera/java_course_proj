@@ -17,9 +17,40 @@ In Netbeans load and build these ones with `F11`, in this order:
 
 #### Build the data
 
+You can do it in two ways, depending on the **server** using **SQLDataManager** or **FileDataManager** to retrieve the data. 
+
+##### (a) using MySQL and JDBC Connector
+
+Install MySQL if you haven't yet. You can do it directly from the command line.
+
+    sudo apt-get install mysql-server -y 
+    
+*Optional*. Install a GUI to use it. I used MySQL Workbench. [Download](https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-6.3.10-1ubuntu16.04-amd64.deb)
+
+    sudo dpkg -i mysql-workbench-community-6.3.10-1ubuntu16.04-amd64.deb
+    sudo apt-get -f install
+    
+Install MySQL Connector for Java. [Download](https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java_8.0.11-1ubuntu16.04_all.deb)
+
+    sudo dpkg -i mysql-connector-java_8.0.11-1ubuntu16.04_all.deb
+    sudo apt-get -f install 
+    sudo apt autoremove #may be required
+
+Run the queries in */sql/data_setup.sql* to create the database schema *meals_and_allergies* and insert the test data (100 users, 31 courses, 2 menu planned). 
+
+The library has been added to the *server* project from netbeans, so it should already be in the build.xml. If not, add it as`Projects-> server -> Properties -> Libraries -> Add Library : MySQL JDBC Driver`. 
+
+##### (b) Using a flat file system
+
 Flat files (newlines) are platform dependent. To avoid this problem data are automatically generated on your side with the  **common.io.DataGenerator** class. If there isn't already one in the main directory, create a folder called **data**, and execute this. 
 
 	java -jar common/dist/common.jar /path/to/data
+
+
+#### JUNIT
+
+Unit tests are collected into the **test** module. It imports and tests *most* of the other modules, common, client, server. This project uses JUNIT tests. It required a library added in the build.xml as `Projects-> tests -> Properties -> Libraries -> Add Library : JUNIT`, so it could be *imported* in each java module. 
+
 
 #### Run the server
 
@@ -49,7 +80,4 @@ It will give you the following options to view/save menus, view allergic users, 
 [Menu Plan View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menuplan_tab.png)
 
 [Users View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/users_tab.png)
-
-
-
 

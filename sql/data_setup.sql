@@ -409,10 +409,10 @@ insert into meals_and_allergies.users(id,name,surname,type,phone,address,parent1
 
 
 /* courses */
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(1,"Crema di fagioli con pasta","first","pasta,fagioli borlotti,carota,cipolla");
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(2,"Crema di patate e porri","first","patate,porro,aglio,sale");
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(3,"Crema di piselli con riso","first","piselli,patate,riso,olio d'oliva,olio di semi di girasole,sale"); /*'*/
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(4,"Gnocchi al pomodoro","first","gnocchi di patate,pomodoro,carota,cipolla,olio d’oliva,sale,basilico");
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(1,"Crema di fagiolo con pasta","first","pasta,fagiolo,carota,cipolla");
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(2,"Crema di patata e porri","first","patata,porro,aglio,sale");
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(3,"Crema di piselli con riso","first","piselli,patata,riso,olio d'oliva,olio di semi di girasole,sale"); /*'*/
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(4,"Gnocchi al pomodoro","first","gnocchi di patata,pomodoro,carota,cipolla,olio d’oliva,sale,basilico");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(5,"Pasta ai broccoli","first","pasta,broccoli,latte,farina,sale");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(6,"Orzotto con zucchine e asiago","first","orzo,zucchine,latte,asiago,olio di semi di girasole,farina,sale");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(7,"Pasta al ragù","first","pasta,pomodoro,manzo,pollo,carota,cipolla,sedano,olio d'oliva,sale");/*'*/
@@ -420,9 +420,9 @@ insert into meals_and_allergies.courses(id,name, type, ingredients) values(8,"Pi
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(9,"Riso alla milanese","first","riso,olio d'oliva,burro,zafferano,sale");/*'*/
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(10,"Riso alla zucca","first","riso,zucca,latte,farina,olio d'oliva,sale");/*'*/
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(11,"Riso alle zucchine","first","riso,zucchine,latte,farina,olio d'oliva,sale");/*'*/
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(12,"Arrosto di tacchino al forno","second","tacchino,carota,sedano,cipolla,olio di semi di girasole,patate,sale");
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(12,"Arrosto di tacchino al forno","second","tacchino,carota,sedano,cipolla,olio di semi di girasole,patata,sale");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(13,"Bastoncini fil. merluzzo","second","merluzzo,farina,olio di semi di girasole,grano,mais,lievito,sale,zucchero,spezie,sali minerali");
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(14,"Bocconcini di Vitellone in umido","second","vitello,pomodoro,carote,sedano,cipolla,olio d'oliva,sale,patate,erbe aromatiche");/*'*/
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(14,"Bocconcini di Vitellone in umido","second","vitello,pomodoro,carota,sedano,cipolla,olio d'oliva,sale,patata,erbe aromatiche");/*'*/
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(15,"Fettina di maiale alla piastra","second","maiale,olio d'oliva,sale,pepe");/*'*/
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(16,"Fettina di tacchino alla piastra","second","fesa di tacchino,olio di semi di girasole,olio d'oliva,sale");/*'*/
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(17,"Filetto di merluzzo alla pizzaiola","second","merluzzo,pomodoro,olio di semi di girasole,olio d'oliva,erbe aromatiche,sale");/*'*/
@@ -435,7 +435,7 @@ insert into meals_and_allergies.courses(id,name, type, ingredients) values(23,"B
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(24,"Crostatina alla fragola","dessert","farina,burro,zucchero,uova,limone,latte,pana,vaniglia,fragole");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(25,"Strudel","dessert","limone,cannella,uvetta,mela,rum,pangrattato,pinoli,olio di semi di girasole ");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(26,"Budino al cioccolato","dessert","cacao,farina,burro,latte,vaniglia,rum");
-insert into meals_and_allergies.courses(id,name, type, ingredients) values(27,"Macedonia di fruit","fruit","banana,mela,arancia,uva bianca");
+insert into meals_and_allergies.courses(id,name, type, ingredients) values(27,"Macedonia di frutta","fruit","banana,mela,arancia,uva bianca");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(28,"Mela","fruit","mela");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(29,"Banana","fruit","banana");
 insert into meals_and_allergies.courses(id,name, type, ingredients) values(30,"Pera","fruit","pera");
@@ -454,13 +454,13 @@ values("2018-05-12","pranzo di lunedì",11,16,27);
 /* getUsers*/
 select u.name, u.surname, u.type, u.phone, 
 	   concat(a.street, ",", a.postcode, ",", a.city) as address, 
-       concat(p1.name, " ", p1.surname, " ", p1.phone, ",", 
-			  p2.name, " ", p2.surname, " ", p2.phone) as parents,
+       concat(p1.name, " ", p1.surname, " ", coalesce(p1.phone,""), ",", 
+			  p2.name, " ", p2.surname, " ", coalesce(p2.phone,"")) as parents,
        u.allergies
 from users as u 
-left join addresses as a on u.address = a.id 
-left join parents as p1 on u.parent1 = p1.id
-left join parents as p2 on u.parent2 = p2.id
+left join addresses as a on a.id = u.address
+left join parents as p1 on p1.id = u.parent1
+left join parents as p2 on p2.id = u.parent2
 ;
 
 /* getMenus */ 
@@ -490,9 +490,18 @@ where c.name like 'Crema di %'
 */
 select c.name, c.type, c.ingredients
 from courses as c
-where c.name = 'Crema di fagioli con pasta'
+where c.name = 'Crema di fagiolo con pasta'
 ;
 
 
-
+/* getMenu */
+select c.name, c.type, c.ingredients 
+ from courses as c 
+ where ( 
+ c.name = 'Riso alle zucchine' or 
+ c.name = 'Fettina di tacchino alla piastra' 
+ or c.name = 'Strudel' or 
+ c.name = 'Macedonia di frutta')
+ 
+ 
 
