@@ -92,11 +92,11 @@ This is your own interface. *localhost* and *8080* are hardcoded in the software
 
 It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
 
-[Menu View](tmp/menu_tab.png)
+![Menu View](tmp/menu_tab.png)
 
 ![](tmp/courses_tab.png)
 
-[Menu Plan View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menuplan_tab.png)
+![](tmp/menuplan_tab.png)
 
-![](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/users_tab.png)
+![](tmp/users_tab.png)
 
