@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="canteen">
+  <ClassDiagramComponents>
+    <Class name="Course" package="canteen" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="name" type="String" visibility="public"/>
+        <Field name="type" type="Type" visibility="public"/>
+        <Field name="ingredients" type="LinkedList&lt;String&gt;" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="typeToString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Type" name="type"/>
+        </Method>
+        <Method name="strToType" returnType="Type" visibility="public" isStatic="true">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Menu" package="canteen" visibility="public" xPosition="478.0" yPosition="20.0">
+      <Fields>
+        <Field name="mName" type="String" visibility="private"/>
+        <Field name="mDate" type="Date" visibility="private"/>
+        <Field name="mCourseNames" type="ArrayList&lt;String&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="name" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="date" returnType="String" visibility="public"/>
+        <Method name="setDate" returnType="boolean" visibility="public">
+          <Argument type="String" name="date"/>
+        </Method>
+        <Method name="setDate" returnType="boolean" visibility="public">
+          <Argument type="String" name="date"/>
+          <Argument type="String" name="format"/>
+        </Method>
+        <Method name="courses" returnType="ArrayList&lt;String&gt;" visibility="public"/>
+        <Method name="getCourse" returnType="String" visibility="public">
+          <Argument type="Course.Type" name="type"/>
+        </Method>
+        <Method name="setCourse" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="Course.Type" name="type"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="compareTo" returnType="int" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="canteen.Menu" target="canteen.Course" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

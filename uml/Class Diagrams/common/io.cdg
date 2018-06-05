@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="io">
+  <ClassDiagramComponents>
+    <Class name="SerialReader" package="io" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="mFilePath" type="String" visibility="private" isFinal="true"/>
+        <Field name="mFile" type="FileInputStream" visibility="private"/>
+        <Field name="mBuffer" type="ObjectInputStream" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="filePath"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="finalize" returnType="void" visibility="protected"/>
+        <Method name="open" returnType="boolean" visibility="public"/>
+        <Method name="close" returnType="void" visibility="public"/>
+        <Method name="reset" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="getNextLine" returnType="T" visibility="public"/>
+        <Method name="find" returnType="long" visibility="public">
+          <Argument type="T" name="objToFind"/>
+        </Method>
+        <Method name="findObj" returnType="T" visibility="public">
+          <Argument type="T" name="objToFind"/>
+        </Method>
+        <Method name="findAt" returnType="T" visibility="public">
+          <Argument type="long" name="lineNo"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="DataGenerator" package="io" visibility="public" xPosition="574.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="generateParents" returnType="Person[]" visibility="private" isStatic="true">
+          <Argument type="String" name="surname"/>
+          <Argument type="Random" name="seed"/>
+        </Method>
+        <Method name="generatePhone" returnType="String" visibility="private" isStatic="true">
+          <Argument type="Random" name="seed"/>
+        </Method>
+        <Method name="generateAddress" returnType="Address" visibility="private" isStatic="true">
+          <Argument type="Random" name="seed"/>
+        </Method>
+        <Method name="generateAllergies" returnType="HashSet&lt;String&gt;" visibility="private" isStatic="true">
+          <Argument type="Random" name="seed"/>
+        </Method>
+        <Method name="readMenuPlan" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+          <Argument type="boolean" name="printAll"/>
+        </Method>
+        <Method name="generateMenus" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+        </Method>
+        <Method name="readMeals" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+          <Argument type="boolean" name="printAll"/>
+        </Method>
+        <Method name="generateCourses" returnType="String[][]" visibility="private" isStatic="true"/>
+        <Method name="generateMeals" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+        </Method>
+        <Method name="readUsers" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+          <Argument type="boolean" name="printAll"/>
+        </Method>
+        <Method name="switchFiles" returnType="void" visibility="private" isStatic="true">
+          <Argument type="String" name="newFilePath"/>
+          <Argument type="String" name="oldFilePath"/>
+        </Method>
+        <Method name="getUserAtLine" returnType="CanteenUser" visibility="private" isStatic="true">
+          <Argument type="String" name="filePath"/>
+          <Argument type="int" name="lineNo"/>
+        </Method>
+        <Method name="replaceARandomUser" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+        </Method>
+        <Method name="generateNames" returnType="String[]" visibility="private" isStatic="true"/>
+        <Method name="generateSurnames" returnType="String[]" visibility="private" isStatic="true"/>
+        <Method name="generateTypes" returnType="String[]" visibility="private" isStatic="true"/>
+        <Method name="generateUser" returnType="CanteenUser" visibility="private" isStatic="true">
+          <Argument type="Random" name="seed"/>
+        </Method>
+        <Method name="generateUsers" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filePath"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SerialWriter" package="io" visibility="public" xPosition="283.0" yPosition="20.0">
+      <Fields>
+        <Field name="mFilePath" type="String" visibility="private" isFinal="true"/>
+        <Field name="mFile" type="FileOutputStream" visibility="private"/>
+        <Field name="mBuffer" type="ObjectOutputStream" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="filePath"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="open" returnType="void" visibility="private"/>
+        <Method name="close" returnType="void" visibility="public"/>
+        <Method name="finalize" returnType="void" visibility="protected"/>
+        <Method name="reset" returnType="void" visibility="private" isSynchronized="true"/>
+        <Method name="writeNextLine" returnType="boolean" visibility="public" isSynchronized="true">
+          <Argument type="T" name="line"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>

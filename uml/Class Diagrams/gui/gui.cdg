@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="gui">
+  <ClassDiagramComponents>
+    <Class name="Gui" package="gui" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public">
+          <Argument type="Stage" name="stage"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Controller" package="gui" visibility="public" xPosition="497.0" yPosition="20.0">
+      <Fields>
+        <Field name="mCourseController" type="CourseController" visibility="private"/>
+        <Field name="mMenuController" type="MenuController" visibility="private"/>
+        <Field name="mMenuPlanController" type="MenuPlanController" visibility="private"/>
+        <Field name="mUserController" type="UsersController" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="initialize" returnType="void" visibility="public">
+          <Argument type="URL" name="url"/>
+          <Argument type="ResourceBundle" name="rb"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GuiCourse" package="gui" visibility="public" xPosition="333.0" yPosition="870.0">
+      <Fields>
+        <Field name="name" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="type" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="ingredients" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Course" name="course"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fName"/>
+        </Method>
+        <Method name="getType" returnType="String" visibility="public"/>
+        <Method name="setType" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fType"/>
+        </Method>
+        <Method name="getIngredients" returnType="String" visibility="public"/>
+        <Method name="setIngredients" returnType="void" visibility="public" isFinal="true">
+          <Argument type="LinkedList&lt;String&gt;" name="fIngredients"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="CourseController" package="gui" visibility="public" xPosition="361.0" yPosition="333.0">
+      <Fields>
+        <Field name="txtName" type="TextField" visibility="private"/>
+        <Field name="txtIngredients" type="TextArea" visibility="private"/>
+        <Field name="cboType" type="ComboBox&lt;String&gt;" visibility="private"/>
+        <Field name="labNotif" type="Label" visibility="private"/>
+        <Field name="mCourses" type="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="private"/>
+        <Field name="mClient" type="Client" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="initItems" returnType="void" visibility="private"/>
+        <Method name="onTypeChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onNameChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onRefresh" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onSave" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="public">
+          <Argument type="URL" name="url"/>
+          <Argument type="ResourceBundle" name="rb"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GuiMenu" package="gui" visibility="public" xPosition="48.0" yPosition="870.0">
+      <Fields>
+        <Field name="name" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="date" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="first" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="second" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="dessert" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="fruit" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fName"/>
+        </Method>
+        <Method name="getDate" returnType="String" visibility="public"/>
+        <Method name="setDate" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fDate"/>
+        </Method>
+        <Method name="getFirst" returnType="String" visibility="public"/>
+        <Method name="setFirst" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="rFirst"/>
+        </Method>
+        <Method name="getSecond" returnType="String" visibility="public"/>
+        <Method name="setSecond" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="rSecond"/>
+        </Method>
+        <Method name="getDessert" returnType="String" visibility="public"/>
+        <Method name="setDessert" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="rDessert"/>
+        </Method>
+        <Method name="getFruit" returnType="String" visibility="public"/>
+        <Method name="setFruit" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="rFruit"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GuiCanteenUser" package="gui" visibility="public" xPosition="775.0" yPosition="870.0">
+      <Fields>
+        <Field name="name" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="surname" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="type" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="phone" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="address" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="allergies" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="father" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="mother" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+        <Field name="notes" type="SimpleStringProperty" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="CanteenUser" name="user"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fName"/>
+        </Method>
+        <Method name="getSurname" returnType="String" visibility="public"/>
+        <Method name="setSurname" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fSurname"/>
+        </Method>
+        <Method name="getType" returnType="String" visibility="public"/>
+        <Method name="setType" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fType"/>
+        </Method>
+        <Method name="getPhone" returnType="String" visibility="public"/>
+        <Method name="setPhone" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fPhone"/>
+        </Method>
+        <Method name="getAddress" returnType="Address" visibility="public"/>
+        <Method name="setAddress" returnType="void" visibility="public" isFinal="true">
+          <Argument type="Address" name="fAddress"/>
+        </Method>
+        <Method name="getAllergies" returnType="String" visibility="public"/>
+        <Method name="setAllergies" returnType="void" visibility="public" isFinal="true">
+          <Argument type="HashSet&lt;String&gt;" name="fAllergies"/>
+        </Method>
+        <Method name="getFather" returnType="String" visibility="public" isFinal="true"/>
+        <Method name="setFather" returnType="void" visibility="public" isFinal="true">
+          <Argument type="Person" name="rFather"/>
+        </Method>
+        <Method name="getMother" returnType="String" visibility="public" isFinal="true"/>
+        <Method name="setMother" returnType="void" visibility="public" isFinal="true">
+          <Argument type="Person" name="rMother"/>
+        </Method>
+        <Method name="setParents" returnType="void" visibility="public" isFinal="true">
+          <Argument type="Person[]" name="fParents"/>
+        </Method>
+        <Method name="getNotes" returnType="String" visibility="public"/>
+        <Method name="setNotes" returnType="void" visibility="public" isFinal="true">
+          <Argument type="String" name="fNotes"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="MenuController" package="gui" visibility="public" xPosition="759.0" yPosition="333.0">
+      <Fields>
+        <Field name="labDescription" type="Label" visibility="private"/>
+        <Field name="cboFirst" type="ComboBox&lt;String&gt;" visibility="private"/>
+        <Field name="txtName" type="TextField" visibility="private"/>
+        <Field name="dtpDate" type="DatePicker" visibility="private"/>
+        <Field name="tableUsers" type="TableView&lt;GuiCanteenUser&gt;" visibility="private"/>
+        <Field name="mClient" type="Client" visibility="private"/>
+        <Field name="mCourses" type="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="initItems" returnType="void" visibility="private"/>
+        <Method name="onFirstChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onSecondChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onDessertChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onFruitChanged" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onGetUsers" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onSave" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onRefresh" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="public">
+          <Argument type="URL" name="url"/>
+          <Argument type="ResourceBundle" name="rb"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="UsersController" package="gui" visibility="public" xPosition="1183.0" yPosition="333.0">
+      <Fields>
+        <Field name="labNotif" type="Label" visibility="private"/>
+        <Field name="tableUsers" type="TableView&lt;GuiCanteenUser&gt;" visibility="private"/>
+        <Field name="txtName" type="TextField" visibility="private"/>
+        <Field name="txtSurname" type="TextField" visibility="private"/>
+        <Field name="cboType" type="ComboBox&lt;String&gt;" visibility="private"/>
+        <Field name="txtPhone" type="TextField" visibility="private"/>
+        <Field name="txtStreet" type="TextField" visibility="private"/>
+        <Field name="txtPostcode" type="TextField" visibility="private"/>
+        <Field name="txtCity" type="TextField" visibility="private"/>
+        <Field name="txtFather" type="TextField" visibility="private"/>
+        <Field name="txtMother" type="TextField" visibility="private"/>
+        <Field name="txtAllergies" type="TextField" visibility="private"/>
+        <Field name="mClient" type="Client" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getUsers" returnType="void" visibility="private"/>
+        <Method name="initItems" returnType="void" visibility="private"/>
+        <Method name="onSave" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onRefresh" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="public">
+          <Argument type="URL" name="url"/>
+          <Argument type="ResourceBundle" name="rb"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MenuPlanController" package="gui" visibility="public" xPosition="20.0" yPosition="333.0">
+      <Fields>
+        <Field name="labNotif" type="Label" visibility="private"/>
+        <Field name="tableMenus" type="TableView&lt;GuiMenu&gt;" visibility="private"/>
+        <Field name="mClient" type="Client" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="initItems" returnType="void" visibility="private"/>
+        <Method name="getMenus" returnType="void" visibility="private"/>
+        <Method name="onRefresh" returnType="void" visibility="private">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="initialize" returnType="void" visibility="public">
+          <Argument type="URL" name="url"/>
+          <Argument type="ResourceBundle" name="rb"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="mCourseController" source="gui.Controller" target="gui.CourseController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="tableUsers" source="gui.MenuController" target="gui.GuiCanteenUser" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mUserController" source="gui.Controller" target="gui.UsersController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="tableMenus" source="gui.MenuPlanController" target="gui.GuiMenu" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mMenuPlanController" source="gui.Controller" target="gui.MenuPlanController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="tableUsers" source="gui.UsersController" target="gui.GuiCanteenUser" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mMenuController" source="gui.Controller" target="gui.MenuController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

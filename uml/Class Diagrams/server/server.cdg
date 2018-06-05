@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="server">
+  <ClassDiagramComponents>
+    <Class name="Server" package="server" visibility="public" xPosition="17.0" yPosition="20.0">
+      <Fields>
+        <Field name="mType" type="Type" visibility="private" isFinal="true"/>
+        <Field name="mDataPath" type="String" visibility="private" isFinal="true"/>
+        <Field name="mDataBase" type="String" visibility="private" isFinal="true"/>
+        <Field name="mPort" type="int" visibility="private"/>
+        <Field name="mServer" type="ServerSocket" visibility="private"/>
+        <Field name="mSemaphore" type="Semaphore" visibility="private"/>
+        <Field name="mClients" type="LinkedList&lt;Socket&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="dataPath"/>
+          <Argument type="int" name="port"/>
+          <Argument type="int" name="numThreads"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="database"/>
+          <Argument type="String" name="user"/>
+          <Argument type="String" name="pass"/>
+          <Argument type="int" name="port"/>
+          <Argument type="int" name="numThreads"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="init" returnType="void" visibility="private">
+          <Argument type="int" name="port"/>
+          <Argument type="int" name="numThreads"/>
+        </Method>
+        <Method name="close" returnType="void" visibility="public"/>
+        <Method name="finalize" returnType="void" visibility="public"/>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ServerThread" package="server" visibility="public" xPosition="581.0" yPosition="20.0">
+      <Fields>
+        <Field name="mDataPath" type="String" visibility="private" isFinal="true"/>
+        <Field name="mDataBase" type="String" visibility="private" isFinal="true"/>
+        <Field name="mClient" type="Socket" visibility="private"/>
+        <Field name="mSemaphore" type="Semaphore" visibility="private"/>
+        <Field name="mDataManager" type="DataManager" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="dataPath"/>
+          <Argument type="Socket" name="client"/>
+          <Argument type="Semaphore" name="sem"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="database"/>
+          <Argument type="String" name="user"/>
+          <Argument type="String" name="pass"/>
+          <Argument type="Socket" name="client"/>
+          <Argument type="Semaphore" name="sem"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Socket" name="client"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="prepareResponse" returnType="void" visibility="private">
+          <Argument type="ObjectOutputStream" name="output"/>
+          <Argument type="Request" name="req"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="FileDataManager" package="server" visibility="public" xPosition="17.0" yPosition="659.0">
+      <Fields>
+        <Field name="mDataPath" type="String" visibility="private" isFinal="true"/>
+        <Field name="mUserReader" type="SerialReader&lt;CanteenUser&gt;" visibility="private"/>
+        <Field name="mUserWriter" type="SerialWriter&lt;CanteenUser&gt;" visibility="private"/>
+        <Field name="mCourseReader" type="SerialReader&lt;Course&gt;" visibility="private"/>
+        <Field name="mCourseWriter" type="SerialWriter&lt;Course&gt;" visibility="private"/>
+        <Field name="mMenuReader" type="SerialReader&lt;Menu&gt;" visibility="private"/>
+        <Field name="mMenuWriter" type="SerialWriter&lt;Menu&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="dataPath"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="initUsers" returnType="void" visibility="private"/>
+        <Method name="initCourses" returnType="void" visibility="private"/>
+        <Method name="initMenus" returnType="void" visibility="private"/>
+        <Method name="switchFiles" returnType="void" visibility="private">
+          <Argument type="String" name="newFilePath"/>
+          <Argument type="String" name="oldFilePath"/>
+        </Method>
+        <Method name="getCourses" returnType="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="public"/>
+        <Method name="findCourse" returnType="Course" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getMenus" returnType="HashSet&lt;Menu&gt;" visibility="public"/>
+        <Method name="findMenu" returnType="ArrayList&lt;Course&gt;" visibility="public">
+          <Argument type="ArrayList&lt;String&gt;" name="menu"/>
+        </Method>
+        <Method name="getUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public"/>
+        <Method name="getAllergicUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="getNumberOfUsers" returnType="long" visibility="public">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="saveObjet" returnType="boolean" visibility="private">
+          <Argument type="String" name="filePath"/>
+          <Argument type="SerialReader&lt;T&gt;" name="reader"/>
+          <Argument type="SerialWriter&lt;T&gt;" name="writer"/>
+          <Argument type="T" name="targetToSave"/>
+        </Method>
+        <Method name="saveMenu" returnType="boolean" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="saveCourse" returnType="boolean" visibility="public">
+          <Argument type="Course" name="course"/>
+        </Method>
+        <Method name="saveUser" returnType="boolean" visibility="public">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="DataManager" package="server" visibility="public" isAbstract="true" xPosition="596.0" yPosition="337.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="getUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public" isAbstract="true"/>
+        <Method name="getAllergicUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public" isAbstract="true">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="getNumberOfUsers" returnType="long" visibility="public" isAbstract="true">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="getCourses" returnType="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="public" isAbstract="true"/>
+        <Method name="getMenus" returnType="HashSet&lt;Menu&gt;" visibility="public" isAbstract="true"/>
+        <Method name="findMenu" returnType="ArrayList&lt;Course&gt;" visibility="public" isAbstract="true">
+          <Argument type="ArrayList&lt;String&gt;" name="menu"/>
+        </Method>
+        <Method name="findCourse" returnType="Course" visibility="public" isAbstract="true">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="saveMenu" returnType="boolean" visibility="public" isAbstract="true">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="saveCourse" returnType="boolean" visibility="public" isAbstract="true">
+          <Argument type="Course" name="course"/>
+        </Method>
+        <Method name="saveUser" returnType="boolean" visibility="public" isAbstract="true">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SQLDataManager" package="server" visibility="public" xPosition="733.0" yPosition="659.0">
+      <Fields>
+        <Field name="mConnection" type="Connection" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="database"/>
+          <Argument type="String" name="user"/>
+          <Argument type="String" name="pass"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="close" returnType="void" visibility="public"/>
+        <Method name="finalize" returnType="void" visibility="public"/>
+        <Method name="getCourses" returnType="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="public"/>
+        <Method name="findCourse" returnType="Course" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getMenus" returnType="HashSet&lt;Menu&gt;" visibility="public"/>
+        <Method name="findMenu" returnType="ArrayList&lt;Course&gt;" visibility="public">
+          <Argument type="ArrayList&lt;String&gt;" name="menu"/>
+        </Method>
+        <Method name="makeUser" returnType="CanteenUser" visibility="private">
+          <Argument type="ResultSet" name="rs"/>
+        </Method>
+        <Method name="getUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public"/>
+        <Method name="reformatCommas" returnType="String" visibility="private">
+          <Argument type="String" name="input"/>
+        </Method>
+        <Method name="getAllergicUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="countItems" returnType="long" visibility="private">
+          <Argument type="String" name="table"/>
+        </Method>
+        <Method name="getNumberOfUsers" returnType="long" visibility="public">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="saveMenu" returnType="boolean" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="saveCourse" returnType="boolean" visibility="public">
+          <Argument type="Course" name="course"/>
+        </Method>
+        <Method name="findUser" returnType="long" visibility="private">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+        <Method name="findAddress" returnType="long" visibility="private">
+          <Argument type="Address" name="address"/>
+        </Method>
+        <Method name="findLastId" returnType="long" visibility="private">
+          <Argument type="String" name="table"/>
+        </Method>
+        <Method name="findParent" returnType="long" visibility="private">
+          <Argument type="Person" name="parent"/>
+        </Method>
+        <Method name="saveAddress" returnType="boolean" visibility="private">
+          <Argument type="Address" name="address"/>
+        </Method>
+        <Method name="editParent" returnType="boolean" visibility="private">
+          <Argument type="Person" name="parent"/>
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="saveParent" returnType="boolean" visibility="private">
+          <Argument type="Person" name="parent"/>
+        </Method>
+        <Method name="addAddress" returnType="long" visibility="private">
+          <Argument type="Address" name="address"/>
+        </Method>
+        <Method name="addParents" returnType="long[]" visibility="private">
+          <Argument type="Person[]" name="parents"/>
+        </Method>
+        <Method name="saveNewUser" returnType="boolean" visibility="private">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+        <Method name="updateExistingUser" returnType="boolean" visibility="private">
+          <Argument type="CanteenUser" name="user"/>
+          <Argument type="long" name="id"/>
+        </Method>
+        <Method name="saveUser" returnType="boolean" visibility="public">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="mDataManager" source="server.ServerThread" target="server.DataManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="server.FileDataManager" target="server.DataManager"/>
+    <IsRelation name="is" source="server.SQLDataManager" target="server.DataManager"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

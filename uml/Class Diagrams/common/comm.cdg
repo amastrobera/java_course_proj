@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="comm">
+  <ClassDiagramComponents>
+    <Class name="ViewMenusResponse" package="comm" visibility="public" xPosition="710.0" yPosition="957.0">
+      <Fields>
+        <Field name="mMenus" type="HashSet&lt;Menu&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getMenus" returnType="HashSet&lt;Menu&gt;" visibility="public"/>
+        <Method name="setMenus" returnType="void" visibility="public">
+          <Argument type="HashSet&lt;Menu&gt;" name="menus"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewAllergicUsersRequest" package="comm" visibility="public" xPosition="320.0" yPosition="415.0">
+      <Fields>
+        <Field name="mMenu" type="Menu" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMenu" returnType="Menu" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewCoursesResponse" package="comm" visibility="public" xPosition="307.0" yPosition="1188.0">
+      <Fields>
+        <Field name="mMeals" type="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getCouresLists" returnType="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="public"/>
+        <Method name="setUserList" returnType="void" visibility="public">
+          <Argument type="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" name="meals"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SaveUserRequest" package="comm" visibility="public" xPosition="669.0" yPosition="415.0">
+      <Fields>
+        <Field name="mUser" type="CanteenUser" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="CanteenUser" name="user"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getUser" returnType="CanteenUser" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SaveMenuRequest" package="comm" visibility="public" xPosition="997.0" yPosition="415.0">
+      <Fields>
+        <Field name="mMenu" type="Menu" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMenu" returnType="Menu" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewCourseInfoResponse" package="comm" visibility="public" xPosition="20.0" yPosition="1188.0">
+      <Fields>
+        <Field name="mFound" type="Course" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getCouse" returnType="Course" visibility="public"/>
+        <Method name="setCourse" returnType="void" visibility="public">
+          <Argument type="Course" name="course"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewAllergicUsersResponse" package="comm" visibility="public" xPosition="797.0" yPosition="1188.0">
+      <Fields>
+        <Field name="mUsers" type="ArrayList&lt;CanteenUser&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getUserList" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public"/>
+        <Method name="setUserList" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;CanteenUser&gt;" name="users"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Response" package="comm" visibility="public" xPosition="491.0" yPosition="606.0">
+      <Fields>
+        <Field name="mType" type="String" visibility="private" isFinal="true"/>
+        <Field name="mStatus" type="Status" visibility="private"/>
+        <Field name="mError" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="type"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="status" returnType="Status" visibility="public"/>
+        <Method name="setStatus" returnType="void" visibility="public">
+          <Argument type="Status" name="status"/>
+        </Method>
+        <Method name="error" returnType="String" visibility="public"/>
+        <Method name="setError" returnType="void" visibility="public">
+          <Argument type="String" name="msg"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewNumberOfUsersResponse" package="comm" visibility="public" xPosition="20.0" yPosition="957.0">
+      <Fields>
+        <Field name="mNumber" type="long" visibility="private"/>
+        <Field name="mType" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getNumber" returnType="long" visibility="public"/>
+        <Method name="setNumber" returnType="void" visibility="public">
+          <Argument type="long" name="num"/>
+        </Method>
+        <Method name="getType" returnType="String" visibility="public"/>
+        <Method name="setType" returnType="void" visibility="public">
+          <Argument type="String" name="type"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SaveCourseRequest" package="comm" visibility="public" xPosition="18.0" yPosition="415.0">
+      <Fields>
+        <Field name="mCourse" type="Course" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Course" name="course"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getCourse" returnType="Course" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ViewUsersResponse" package="comm" visibility="public" xPosition="320.0" yPosition="957.0">
+      <Fields>
+        <Field name="mUsers" type="ArrayList&lt;CanteenUser&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getUserList" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public"/>
+        <Method name="setUserList" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;CanteenUser&gt;" name="users"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Request" package="comm" visibility="public" xPosition="340.0" yPosition="20.0">
+      <Fields>
+        <Field name="mType" type="String" visibility="private" isFinal="true"/>
+        <Field name="mParams" type="HashMap&lt;String, String&gt;" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="type"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="type" returnType="String" visibility="public"/>
+        <Method name="setParam" returnType="void" visibility="public">
+          <Argument type="String" name="k"/>
+          <Argument type="String" name="v"/>
+        </Method>
+        <Method name="setParams" returnType="void" visibility="public">
+          <Argument type="HashMap&lt;String, String&gt;" name="packed"/>
+        </Method>
+        <Method name="getParam" returnType="String" visibility="public">
+          <Argument type="String" name="k"/>
+        </Method>
+        <Method name="params" returnType="HashMap&lt;String, String&gt;" visibility="public"/>
+        <Method name="getList" returnType="ArrayList&lt;String&gt;" visibility="public">
+          <Argument type="String" name="k"/>
+        </Method>
+        <Method name="setList" returnType="void" visibility="public">
+          <Argument type="String" name="k"/>
+          <Argument type="ArrayList&lt;String&gt;" name="v"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="comm.ViewAllergicUsersRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.SaveMenuRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.ViewNumberOfUsersResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.SaveCourseRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.SaveUserRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.ViewAllergicUsersResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewCourseInfoResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewCoursesResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewUsersResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewMenusResponse" target="comm.Response"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

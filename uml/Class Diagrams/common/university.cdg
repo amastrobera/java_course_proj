@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="university">
+  <ClassDiagramComponents>
+    <Class name="Student" package="university" visibility="public" xPosition="20.0" yPosition="757.0">
+      <Fields>
+        <Field name="mParents" type="Person[]" visibility="private"/>
+        <Field name="mNotes" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="surname"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="parents" returnType="Person[]" visibility="public"/>
+        <Method name="setParents" returnType="void" visibility="public">
+          <Argument type="Person[]" name="parents"/>
+        </Method>
+        <Method name="notes" returnType="String" visibility="public"/>
+        <Method name="setNotes" returnType="void" visibility="public">
+          <Argument type="String" name="notes"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Person" package="university" visibility="public" xPosition="233.0" yPosition="38.0">
+      <Fields>
+        <Field name="mName" type="String" visibility="protected"/>
+        <Field name="mAddress" type="Address" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="surname"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="setPhone" returnType="void" visibility="public">
+          <Argument type="String" name="phone"/>
+        </Method>
+        <Method name="setAddress" returnType="void" visibility="public">
+          <Argument type="Address" name="address"/>
+        </Method>
+        <Method name="name" returnType="String" visibility="public"/>
+        <Method name="surname" returnType="String" visibility="public"/>
+        <Method name="phone" returnType="String" visibility="public"/>
+        <Method name="address" returnType="Address" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Address" package="university" visibility="public" xPosition="660.0" yPosition="80.0">
+      <Fields>
+        <Field name="street" type="String" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="street"/>
+          <Argument type="String" name="postcode"/>
+          <Argument type="String" name="city"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="fromString" returnType="void" visibility="public">
+          <Argument type="String" name="rAddress"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="package"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Professor" package="university" visibility="public" xPosition="489.0" yPosition="757.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="surname"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CanteenUser" package="university" visibility="public" xPosition="250.0" yPosition="396.0">
+      <Fields>
+        <Field name="mFoodAllergies" type="HashSet&lt;String&gt;" visibility="protected"/>
+        <Field name="mType" type="String" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="surname"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="type" returnType="String" visibility="public"/>
+        <Method name="allergies" returnType="HashSet&lt;String&gt;" visibility="public"/>
+        <Method name="setAllergies" returnType="void" visibility="public">
+          <Argument type="HashSet&lt;String&gt;" name="allergies"/>
+        </Method>
+        <Method name="addAllergy" returnType="void" visibility="public">
+          <Argument type="String" name="food"/>
+        </Method>
+        <Method name="isAllergicTo" returnType="boolean" visibility="public">
+          <Argument type="String" name="food"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="university.Student" target="university.CanteenUser"/>
+    <HasRelation name="mAddress" source="university.Person" target="university.Address" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="university.CanteenUser" target="university.Person"/>
+    <UseRelation source="university.Student" target="university.Person" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="university.Professor" target="university.CanteenUser"/>
+    <UseRelation source="university.Person" target="university.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

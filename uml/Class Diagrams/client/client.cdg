@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="client">
+  <ClassDiagramComponents>
+    <Class name="TestClient" package="client" visibility="public" xPosition="682.0" yPosition="88.0">
+      <Fields>
+        <Field name="available" type="boolean" visibility="private" isStatic="true"/>
+        <Field name="mClient" type="Client" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="host"/>
+          <Argument type="int" name="port"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="testCourseInfo" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="testViewCourses" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="boolean" name="printCourseList"/>
+        </Method>
+        <Method name="testViewUsers" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="boolean" name="printUserList"/>
+        </Method>
+        <Method name="testViewMenus" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="boolean" name="printMenuList"/>
+        </Method>
+        <Method name="testViewAllergicUsers" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="boolean" name="printUserList"/>
+        </Method>
+        <Method name="testSaveMenu" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="testSaveCourse" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="testSaveUser" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Client" package="client" visibility="public" xPosition="58.0" yPosition="46.0">
+      <Fields>
+        <Field name="mHost" type="String" visibility="private"/>
+        <Field name="mPort" type="int" visibility="private"/>
+        <Field name="mClient" type="Socket" visibility="private"/>
+        <Field name="mOutput" type="ObjectOutputStream" visibility="private"/>
+        <Field name="mInput" type="ObjectInputStream" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="hostName"/>
+          <Argument type="int" name="port"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="sendSimpleRequest" returnType="void" visibility="private">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="sendSimpleRequest" returnType="void" visibility="private">
+          <Argument type="String" name="type"/>
+          <Argument type="HashMap&lt;String, String&gt;" name="params"/>
+        </Method>
+        <Method name="getUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public"/>
+        <Method name="getAllergicUsers" returnType="ArrayList&lt;CanteenUser&gt;" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="getCourses" returnType="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="public"/>
+        <Method name="getCourseInfo" returnType="Course" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getMenus" returnType="HashSet&lt;Menu&gt;" visibility="public"/>
+        <Method name="getNumberOfUsers" returnType="long" visibility="public"/>
+        <Method name="getNumberOfUsers" returnType="long" visibility="public">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="saveMenu" returnType="boolean" visibility="public">
+          <Argument type="Menu" name="menu"/>
+        </Method>
+        <Method name="saveCourse" returnType="boolean" visibility="public">
+          <Argument type="Course" name="course"/>
+        </Method>
+        <Method name="saveUser" returnType="boolean" visibility="public">
+          <Argument type="CanteenUser" name="user"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="mClient" source="client.TestClient" target="client.Client" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
