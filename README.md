@@ -51,6 +51,13 @@ Flat files (newlines) are platform dependent. To avoid this problem data are aut
 
 Unit tests are collected into the **test** module. It imports and tests *most* of the other modules, common, client, server. This project uses JUNIT tests. It required a library added in the build.xml as `Projects-> tests -> Properties -> Libraries -> Add Library : JUNIT`, so it could be *imported* in each java module. 
 
+#### UML
+
+A class diagram is available in the omonimous [folder](uml/). 
+
+##### Note
+It was created with the easyUML plugin of netbeans. `Projects -> New Project -> UML` called *uml*. `uml -> New folder` called *server*. `Projects -> Server -> server -> easyUML create class diagram -> uml/server`. 
+
 
 #### Run the server
 
@@ -85,11 +92,11 @@ This is your own interface. *localhost* and *8080* are hardcoded in the software
 
 It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
 
-[Menu View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menu_tab.png)
+[Menu View](tmp/menu_tab.png)
 
-[Courses View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/courses_tab.png)
+![](tmp/courses_tab.png)
 
 [Menu Plan View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/menuplan_tab.png)
 
-[Users View](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/users_tab.png)
+![](https://bitbucket.org/angelomastro/meals_and_allergies/src/master/tmp/users_tab.png)
 
