@@ -27,7 +27,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Menu" package="canteen" visibility="public" xPosition="478.0" yPosition="20.0">
+    <Class name="Menu" package="canteen" visibility="public" xPosition="421.0" yPosition="20.0">
       <Fields>
         <Field name="mName" type="String" visibility="private"/>
         <Field name="mDate" type="Date" visibility="private"/>

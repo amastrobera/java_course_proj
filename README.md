@@ -57,6 +57,29 @@ A class diagram is available in the omonimous [folder](uml/Class Diagrams).
 
 It was created with the easyUML plugin of netbeans. `Projects -> New Project -> UML` called *uml*. `uml -> New folder` called *server*. `Projects -> Server -> server -> easyUML create class diagram -> uml/server`. 
 
+##### UML : common library 
+
+![canteen](img/uml/common/canteen.png)
+
+![comm](img/uml/common/comm.png)
+
+![io](img/uml/common/io.png)
+
+![university](img/uml/common/university.png)
+
+##### UML : client
+
+![client](img/uml/client/client.png)
+
+##### UML : server
+
+![server](img/uml/server/server.png)
+
+
+##### UML: gui
+
+![gui](img/uml/gui/gui.png)
+
 
 #### Run the server
 
@@ -91,11 +114,11 @@ This is your own interface. *localhost* and *8080* are hardcoded in the software
 
 It will give you the following options to view/save menus, view allergic users, view / add courses, view / add / edit users to the database. 
 
-![Menu View](tmp/menu_tab.png)
+![Menu View](img/menu_tab.png)
 
-![Courses View](tmp/courses_tab.png)
+![Courses View](img/courses_tab.png)
 
-![Menu Plan View](tmp/menuplan_tab.png)
+![Menu Plan View](img/menuplan_tab.png)
 
-![Users View](tmp/users_tab.png)
+![Users View](img/users_tab.png)
 

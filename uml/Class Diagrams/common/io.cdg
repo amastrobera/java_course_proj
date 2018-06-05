@@ -30,7 +30,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="DataGenerator" package="io" visibility="public" xPosition="574.0" yPosition="20.0">
+    <Class name="DataGenerator" package="io" visibility="public" xPosition="75.0" yPosition="346.0">
       <Fields/>
       <Constructors/>
       <Methods>
