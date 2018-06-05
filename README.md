@@ -53,9 +53,8 @@ Unit tests are collected into the **test** module. It imports and tests *most* o
 
 #### UML
 
-A class diagram is available in the omonimous [folder](uml/). 
+A class diagram is available in the omonimous [folder](uml/Class Diagrams). 
 
-##### Note
 It was created with the easyUML plugin of netbeans. `Projects -> New Project -> UML` called *uml*. `uml -> New folder` called *server*. `Projects -> Server -> server -> easyUML create class diagram -> uml/server`. 
 
 
@@ -94,9 +93,9 @@ It will give you the following options to view/save menus, view allergic users, 
 
 ![Menu View](tmp/menu_tab.png)
 
-![](tmp/courses_tab.png)
+![Courses View](tmp/courses_tab.png)
 
-![](tmp/menuplan_tab.png)
+![Menu Plan View](tmp/menuplan_tab.png)
 
-![](tmp/users_tab.png)
+![Users View](tmp/users_tab.png)
 
