@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-import java.io.*; // for testing only, used in main()
-
 public class Request implements Serializable {
     
     private final String mType;    
@@ -72,51 +70,6 @@ public class Request implements Serializable {
     @Override
     public String toString(){
         return "Request " + mType + ", params: " + mParams;
-    }
-
-    
-    public static void main(String[] args) {
-        // this is a module-level test (not to be used)
-        
-        Request msg = new Request("ViewUsers");
-        ArrayList<String> users = new ArrayList<>(
-            Arrays.asList("John", "Paul", "George", "Ringo"));
-        msg.setList("UserList", users);
-        // Serialization
-        try {
-            FileOutputStream file = new FileOutputStream("../data/request.ser");
-            ObjectOutputStream out = new ObjectOutputStream(file);
-            out.writeObject(msg);
-            out.close();
-            file.close();
-            System.out.println("--- Object has been serialized ---");
-            System.out.println(msg);
-        } catch (IOException ex) {
-            System.out.println("IOException is caught");
-        }
-        
-        msg = null;
-        users = null;
-        
-        // Deserialization
-        try {
- 
-            // Reading the object from a file
-            FileInputStream file = new FileInputStream("../data/request.ser");
-            ObjectInputStream in = new ObjectInputStream(file);
-            msg = (Request)in.readObject();
-            users = msg.getList("UserList");
-            in.close();
-            file.close();
-            System.out.println("--- Object has been deserialized ---");
-            System.out.println(msg);
-            System.out.println("paramsToList: " + users);
-        } catch (IOException ex) {
-            System.out.println("IOException is caught");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("ClassNotFoundException is caught");
-        }
-        
     }
     
 }

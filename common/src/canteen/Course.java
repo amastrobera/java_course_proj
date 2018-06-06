@@ -65,17 +65,5 @@ public class Course implements Serializable {
         return comp.name.equals(name); 
                 //&& comp.type == type;
     }
-
-    
-    public static void main(String[] args){
-        
-        Course c = new Course();
-        c.name = "pasta al pomodoro";
-        c.type = Course.Type.First;
-        c.ingredients.add("pasta");
-        c.ingredients.add("pomodoro");
-        
-        System.out.println(c);
-    }
     
 }

@@ -47,14 +47,4 @@ public class Person implements Serializable {
                //&& comp.address().equals(mAddress);
     }
     
-    public static void main(String[] args){
-        // this is a module-level test (not to be used)
-        Person p = new Person("marco", "maggioli");
-        System.out.println(p);
-        
-        p = new Person("hamady", "ndiaye");
-        p.setPhone("043923841");
-        p.setAddress(new Address("Pala Del Mauro", "83100", "Avellino"));
-        System.out.println(p);
-    }
 }

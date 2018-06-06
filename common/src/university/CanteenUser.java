@@ -45,7 +45,7 @@ public class CanteenUser extends Person  {
             allergies += a + ",";
         if (allergies.length() > 1)
             allergies = allergies.substring(0, allergies.length()-1);
-        return super.toString() + "\nallergies: " + allergies;
+        return mType + "\n" + super.toString() + "\nallergies: " + allergies;
     }
 
     @Override 
