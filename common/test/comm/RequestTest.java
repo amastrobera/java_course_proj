@@ -1,70 +1,105 @@
 package comm;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class RequestTest {
+    
+    private Request r1, r2;
+    
+    private String filePath;
+    
+    private FileOutputStream fOutput;
+    private ObjectOutputStream oOutput;
+    private FileInputStream fInput;
+    private ObjectInputStream oInput;
     
     public RequestTest() {
     }
     
     @Before
     public void setUp() {
-        Request msg = new Request("ViewUsers");
-        ArrayList<String> users = new ArrayList<>(
-            Arrays.asList("John", "Paul", "George", "Ringo"));
-        msg.setList("UserList", users);
-        // Serialization
-        try {
-            FileOutputStream file = new FileOutputStream("../data/request.ser");
-            ObjectOutputStream out = new ObjectOutputStream(file);
-            out.writeObject(msg);
-            out.close();
-            file.close();
-            System.out.println("--- Object has been serialized ---");
-            System.out.println(msg);
-        } catch (IOException ex) {
-            System.out.println("IOException is caught");
-        }
         
-        msg = null;
-        users = null;
+        filePath = "../data/request.ser";
         
-        // Deserialization
+        // crete test file
         try {
- 
-            // Reading the object from a file
-            FileInputStream file = new FileInputStream("../data/request.ser");
-            ObjectInputStream in = new ObjectInputStream(file);
-            msg = (Request)in.readObject();
-            users = msg.getList("UserList");
-            in.close();
-            file.close();
-            System.out.println("--- Object has been deserialized ---");
-            System.out.println(msg);
-            System.out.println("paramsToList: " + users);
-        } catch (IOException ex) {
-            System.out.println("IOException is caught");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("ClassNotFoundException is caught");
+            File output = new File(filePath);
+            if (output.exists())
+                output.delete();
+            output.createNewFile();
+        } catch (Exception ex) {
+            System.err.println(ex);
         }
 
+        // fill initial request
+        r1 = new Request("ViewUsers");
+        r1.setParam("param1", "ciao");
+        ArrayList<String> users = new ArrayList<>(
+            Arrays.asList("John", "Paul", "George", "Ringo"));
+        r1.setList("UserList", users);
+        
     }
+
+
+    @Test
+    public void testFilling() {
+        Assert.assertEquals("ViewUsers", r1.type());
+        ArrayList<String> users = r1.getList("UserList");
+        Assert.assertEquals(4, users.size());
+        Assert.assertEquals("[John, Paul, George, Ringo]", users.toString());
+        Assert.assertEquals("ciao", r1.getParam("param1"));        
+    }
+    
+    @Test
+    public void testDeserialize() {
+        
+        // Serialization
+        try {
+            fOutput = new FileOutputStream(filePath);
+            oOutput = new ObjectOutputStream(fOutput);
+            oOutput.writeObject(r1);
+            oOutput.close();
+            fOutput.close();
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+        
+        // Deserialization
+        ArrayList<String> users = new ArrayList<>();
+        try {
+            fInput = new FileInputStream(filePath);
+            oInput = new ObjectInputStream(fInput);
+            
+            r2 = (Request)oInput.readObject();
+            users = r2.getList("UserList");
+            oInput.close();
+            fInput.close();
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+
+        Assert.assertEquals(4, users.size());
+        Assert.assertEquals("[John, Paul, George, Ringo]", users.toString());
+        Assert.assertEquals("ciao", r2.getParam("param1"));
+        
+}
     
     @After
     public void tearDown() {
+        File output = new File(filePath);
+        if (output.exists())
+            output.delete();
     }
-
 
 }

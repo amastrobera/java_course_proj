@@ -24,13 +24,15 @@ You can do it in two ways, depending on the **server** using **SQLDataManager** 
 Install MySQL if you haven't yet. You can do it directly from the command line.
 
     sudo apt-get install mysql-server -y 
-    
+
+MySQL Connector library is installed locally in the project, and contained in the folder **libs**.
+
 *Optional*. Install a GUI to use it. I used MySQL Workbench. [Download](https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-6.3.10-1ubuntu16.04-amd64.deb)
 
     sudo dpkg -i mysql-workbench-community-6.3.10-1ubuntu16.04-amd64.deb
     sudo apt-get -f install
     
-Install MySQL Connector for Java. [Download](https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java_8.0.11-1ubuntu16.04_all.deb)
+*Optional*. Install *your own library* MySQL Connector for Java. [Download](https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java_8.0.11-1ubuntu16.04_all.deb)
 
     sudo dpkg -i mysql-connector-java_8.0.11-1ubuntu16.04_all.deb
     sudo apt-get -f install 
@@ -49,7 +51,9 @@ Flat files (newlines) are platform dependent. To avoid this problem data are aut
 
 #### JUNIT
 
-Unit tests are collected into the **test** module. It imports and tests *most* of the other modules, common, client, server. This project uses JUNIT tests. It required a library added in the build.xml as `Projects-> tests -> Properties -> Libraries -> Add Library : JUNIT`, so it could be *imported* in each java module. 
+Unit **tests are per module**. If you want to run them, load the module (common, client, or server) in NetBeans, right click `Test` or `Alt+F6` on the module name. 
+
+They use JUNIT, which library is installed locally from the folder **libs**.
 
 #### UML
 
@@ -59,26 +63,26 @@ It was created with the easyUML plugin of netbeans. `Projects -> New Project -> 
 
 ##### UML : common library 
 
-![canteen](img/uml/common/canteen.png)
+![canteen](img/canteen.png)
 
-![comm](img/uml/common/comm.png)
+![comm](img/comm.png)
 
-![io](img/uml/common/io.png)
+![io](img/io.png)
 
-![university](img/uml/common/university.png)
+![university](img/university.png)
 
 ##### UML : client
 
-![client](img/uml/client/client.png)
+![client](img/client.png)
 
 ##### UML : server
 
-![server](img/uml/server/server.png)
+![server](img/server.png)
 
 
 ##### UML: gui
 
-![gui](img/uml/gui/gui.png)
+![gui](img/gui.png)
 
 
 #### Run the server

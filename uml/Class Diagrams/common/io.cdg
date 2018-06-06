@@ -30,7 +30,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="DataGenerator" package="io" visibility="public" xPosition="75.0" yPosition="346.0">
+    <Class name="DataGenerator" package="io" visibility="public" xPosition="104.0" yPosition="347.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -91,7 +91,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="SerialWriter" package="io" visibility="public" xPosition="283.0" yPosition="20.0">
+    <Class name="SerialWriter" package="io" visibility="public" xPosition="424.0" yPosition="20.0">
       <Fields>
         <Field name="mFilePath" type="String" visibility="private" isFinal="true"/>
         <Field name="mFile" type="FileOutputStream" visibility="private"/>
@@ -106,7 +106,7 @@
         <Method name="open" returnType="void" visibility="private"/>
         <Method name="close" returnType="void" visibility="public"/>
         <Method name="finalize" returnType="void" visibility="protected"/>
-        <Method name="reset" returnType="void" visibility="private" isSynchronized="true"/>
+        <Method name="reset" returnType="void" visibility="public" isSynchronized="true"/>
         <Method name="writeNextLine" returnType="boolean" visibility="public" isSynchronized="true">
           <Argument type="T" name="line"/>
         </Method>

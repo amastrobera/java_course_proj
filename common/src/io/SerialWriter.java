@@ -54,7 +54,7 @@ public class SerialWriter <T extends Object> {
         super.finalize();
     }
     
-    private synchronized void reset() {
+    public synchronized void reset() {
         close();
         open();
     }

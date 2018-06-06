@@ -2,7 +2,7 @@
 
 <ClassDiagram name="university">
   <ClassDiagramComponents>
-    <Class name="Student" package="university" visibility="public" xPosition="20.0" yPosition="757.0">
+    <Class name="Student" package="university" visibility="public" xPosition="458.0" yPosition="768.0">
       <Fields>
         <Field name="mParents" type="Person[]" visibility="private"/>
         <Field name="mNotes" type="String" visibility="private"/>
@@ -24,12 +24,9 @@
           <Argument type="String" name="notes"/>
         </Method>
         <Method name="toString" returnType="String" visibility="public"/>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
       </Methods>
     </Class>
-    <Class name="Person" package="university" visibility="public" xPosition="233.0" yPosition="38.0">
+    <Class name="Person" package="university" visibility="public" xPosition="230.0" yPosition="38.0">
       <Fields>
         <Field name="mName" type="String" visibility="protected"/>
         <Field name="mAddress" type="Address" visibility="protected"/>
@@ -55,12 +52,9 @@
         <Method name="equals" returnType="boolean" visibility="public">
           <Argument type="Object" name="obj"/>
         </Method>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
       </Methods>
     </Class>
-    <Class name="Address" package="university" visibility="public" xPosition="660.0" yPosition="80.0">
+    <Class name="Address" package="university" visibility="public" xPosition="637.0" yPosition="72.0">
       <Fields>
         <Field name="street" type="String" visibility="public"/>
       </Fields>
@@ -83,7 +77,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Professor" package="university" visibility="public" xPosition="489.0" yPosition="757.0">
+    <Class name="Professor" package="university" visibility="public" xPosition="24.0" yPosition="768.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -94,12 +88,9 @@
       </Constructors>
       <Methods>
         <Method name="toString" returnType="String" visibility="public"/>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
       </Methods>
     </Class>
-    <Class name="CanteenUser" package="university" visibility="public" xPosition="250.0" yPosition="396.0">
+    <Class name="CanteenUser" package="university" visibility="public" xPosition="163.0" yPosition="405.0">
       <Fields>
         <Field name="mFoodAllergies" type="HashSet&lt;String&gt;" visibility="protected"/>
         <Field name="mType" type="String" visibility="protected"/>
@@ -131,11 +122,11 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <IsRelation name="is" source="university.Student" target="university.CanteenUser"/>
-    <HasRelation name="mAddress" source="university.Person" target="university.Address" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="university.CanteenUser" target="university.Person"/>
-    <UseRelation source="university.Student" target="university.Person" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="university.Professor" target="university.CanteenUser"/>
     <UseRelation source="university.Person" target="university.Address" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mAddress" source="university.Person" target="university.Address" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="university.Student" target="university.CanteenUser"/>
+    <IsRelation name="is" source="university.Professor" target="university.CanteenUser"/>
+    <UseRelation source="university.Student" target="university.Person" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

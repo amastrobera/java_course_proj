@@ -22,12 +22,9 @@
         <Method name="equals" returnType="boolean" visibility="public">
           <Argument type="Object" name="obj"/>
         </Method>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
       </Methods>
     </Class>
-    <Class name="Menu" package="canteen" visibility="public" xPosition="421.0" yPosition="20.0">
+    <Class name="Menu" package="canteen" visibility="public" xPosition="425.0" yPosition="20.0">
       <Fields>
         <Field name="mName" type="String" visibility="private"/>
         <Field name="mDate" type="Date" visibility="private"/>

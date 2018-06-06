@@ -16,6 +16,10 @@ public class Response implements Serializable {
         mError = new String();
     }
     
+    public String type() {
+        return mType;
+    }
+    
     public Status status() {
         return mStatus;
     }

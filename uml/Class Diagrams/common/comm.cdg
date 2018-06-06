@@ -2,7 +2,7 @@
 
 <ClassDiagram name="comm">
   <ClassDiagramComponents>
-    <Class name="ViewMenusResponse" package="comm" visibility="public" xPosition="710.0" yPosition="957.0">
+    <Class name="ViewMenusResponse" package="comm" visibility="public" xPosition="764.0" yPosition="1258.0">
       <Fields>
         <Field name="mMenus" type="HashSet&lt;Menu&gt;" visibility="private"/>
       </Fields>
@@ -17,7 +17,7 @@
         <Method name="isEmpty" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewAllergicUsersRequest" package="comm" visibility="public" xPosition="320.0" yPosition="415.0">
+    <Class name="ViewAllergicUsersRequest" package="comm" visibility="public" xPosition="336.0" yPosition="383.0">
       <Fields>
         <Field name="mMenu" type="Menu" visibility="private" isFinal="true"/>
       </Fields>
@@ -31,7 +31,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewCoursesResponse" package="comm" visibility="public" xPosition="307.0" yPosition="1188.0">
+    <Class name="ViewCoursesResponse" package="comm" visibility="public" xPosition="9.0" yPosition="1258.0">
       <Fields>
         <Field name="mMeals" type="HashMap&lt;String, ArrayList&lt;String&gt;&gt;" visibility="private"/>
       </Fields>
@@ -46,7 +46,7 @@
         <Method name="isEmpty" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="SaveUserRequest" package="comm" visibility="public" xPosition="669.0" yPosition="415.0">
+    <Class name="SaveUserRequest" package="comm" visibility="public" xPosition="655.0" yPosition="383.0">
       <Fields>
         <Field name="mUser" type="CanteenUser" visibility="private" isFinal="true"/>
       </Fields>
@@ -60,7 +60,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="SaveMenuRequest" package="comm" visibility="public" xPosition="997.0" yPosition="415.0">
+    <Class name="SaveMenuRequest" package="comm" visibility="public" xPosition="728.0" yPosition="565.0">
       <Fields>
         <Field name="mMenu" type="Menu" visibility="private" isFinal="true"/>
       </Fields>
@@ -74,7 +74,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewCourseInfoResponse" package="comm" visibility="public" xPosition="20.0" yPosition="1188.0">
+    <Class name="ViewCourseInfoResponse" package="comm" visibility="public" xPosition="458.0" yPosition="1258.0">
       <Fields>
         <Field name="mFound" type="Course" visibility="private"/>
       </Fields>
@@ -89,7 +89,7 @@
         <Method name="isEmpty" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewAllergicUsersResponse" package="comm" visibility="public" xPosition="797.0" yPosition="1188.0">
+    <Class name="ViewAllergicUsersResponse" package="comm" visibility="public" xPosition="728.0" yPosition="998.0">
       <Fields>
         <Field name="mUsers" type="ArrayList&lt;CanteenUser&gt;" visibility="private"/>
       </Fields>
@@ -104,7 +104,7 @@
         <Method name="isEmpty" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Response" package="comm" visibility="public" xPosition="491.0" yPosition="606.0">
+    <Class name="Response" package="comm" visibility="public" xPosition="395.0" yPosition="675.0">
       <Fields>
         <Field name="mType" type="String" visibility="private" isFinal="true"/>
         <Field name="mStatus" type="Status" visibility="private"/>
@@ -116,6 +116,7 @@
         </Constructor>
       </Constructors>
       <Methods>
+        <Method name="type" returnType="String" visibility="public"/>
         <Method name="status" returnType="Status" visibility="public"/>
         <Method name="setStatus" returnType="void" visibility="public">
           <Argument type="Status" name="status"/>
@@ -127,7 +128,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewNumberOfUsersResponse" package="comm" visibility="public" xPosition="20.0" yPosition="957.0">
+    <Class name="ViewNumberOfUsersResponse" package="comm" visibility="public" xPosition="20.0" yPosition="998.0">
       <Fields>
         <Field name="mNumber" type="long" visibility="private"/>
         <Field name="mType" type="String" visibility="private"/>
@@ -146,7 +147,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="SaveCourseRequest" package="comm" visibility="public" xPosition="18.0" yPosition="415.0">
+    <Class name="SaveCourseRequest" package="comm" visibility="public" xPosition="20.0" yPosition="383.0">
       <Fields>
         <Field name="mCourse" type="Course" visibility="private" isFinal="true"/>
       </Fields>
@@ -160,7 +161,7 @@
         <Method name="toString" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ViewUsersResponse" package="comm" visibility="public" xPosition="320.0" yPosition="957.0">
+    <Class name="ViewUsersResponse" package="comm" visibility="public" xPosition="349.0" yPosition="998.0">
       <Fields>
         <Field name="mUsers" type="ArrayList&lt;CanteenUser&gt;" visibility="private"/>
       </Fields>
@@ -178,7 +179,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Request" package="comm" visibility="public" xPosition="340.0" yPosition="20.0">
+    <Class name="Request" package="comm" visibility="public" xPosition="329.0" yPosition="20.0">
       <Fields>
         <Field name="mType" type="String" visibility="private" isFinal="true"/>
         <Field name="mParams" type="HashMap&lt;String, String&gt;" visibility="protected"/>
@@ -209,9 +210,6 @@
           <Argument type="ArrayList&lt;String&gt;" name="v"/>
         </Method>
         <Method name="toString" returnType="String" visibility="public"/>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
       </Methods>
     </Class>
   </ClassDiagramComponents>
@@ -219,12 +217,12 @@
     <IsRelation name="is" source="comm.ViewAllergicUsersRequest" target="comm.Request"/>
     <IsRelation name="is" source="comm.SaveMenuRequest" target="comm.Request"/>
     <IsRelation name="is" source="comm.ViewNumberOfUsersResponse" target="comm.Response"/>
-    <IsRelation name="is" source="comm.SaveCourseRequest" target="comm.Request"/>
     <IsRelation name="is" source="comm.SaveUserRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.SaveCourseRequest" target="comm.Request"/>
+    <IsRelation name="is" source="comm.ViewMenusResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewUsersResponse" target="comm.Response"/>
+    <IsRelation name="is" source="comm.ViewCoursesResponse" target="comm.Response"/>
     <IsRelation name="is" source="comm.ViewAllergicUsersResponse" target="comm.Response"/>
     <IsRelation name="is" source="comm.ViewCourseInfoResponse" target="comm.Response"/>
-    <IsRelation name="is" source="comm.ViewCoursesResponse" target="comm.Response"/>
-    <IsRelation name="is" source="comm.ViewUsersResponse" target="comm.Response"/>
-    <IsRelation name="is" source="comm.ViewMenusResponse" target="comm.Response"/>
   </ClassDiagramRelations>
 </ClassDiagram>
