@@ -6,9 +6,10 @@ import university.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 
 import java.sql.*;
+import java.util.Arrays;
 
 
 public class SQLDataManager extends DataManager {
@@ -22,15 +23,29 @@ public class SQLDataManager extends DataManager {
         } catch (Exception ex ) {
             System.err.println("SQLDataManager() -> " + ex);
         }
-        
     }
-
+    
     public void close(){
         try {
             mConnection.close();
         } catch (Exception ex) {
             System.err.println("SQLDataManager::close -> " + ex);
         }
+    }
+    
+    
+    @Override
+    public boolean isReady() {
+        boolean opened;
+       
+        try {
+            opened = mConnection.isValid(2);
+        } catch (Exception ex) {
+            opened = false;
+            System.err.println(ex);
+        }
+        
+        return opened;
     }
     
     @Override
@@ -200,6 +215,37 @@ public class SQLDataManager extends DataManager {
         return ret;
     }
 
+    
+    private CanteenUser makeAllergicUser(ResultSet rs, 
+                                         ArrayList<Course> courses) {
+        
+        CanteenUser user = makeUser(rs);
+        
+        // set dishes the users is allergic to, instead of its ingredients
+        // add user to list if allergic to at 
+        // least one ingredient of one dish on the menu
+        // and make its "allergies" map contain the dishes he 
+        // is allergic to
+        
+        HashSet<String> allergicCourses = new HashSet<>();
+        Iterator<Course> cit = courses.iterator();
+        while (cit.hasNext()) {
+            Course course = cit.next();
+            for (String ingredient : course.ingredients) {
+                if (user.isAllergicTo(ingredient)) {
+                    allergicCourses.add(course.name);
+                    break;
+                }
+            }
+        }
+        
+        if (!allergicCourses.isEmpty()) {
+            user.setAllergies(allergicCourses);
+        }
+        
+        return user;
+    }
+    
     private CanteenUser makeUser(ResultSet rs) {
         
         try {
@@ -264,7 +310,7 @@ public class SQLDataManager extends DataManager {
     */
     @Override
     public ArrayList<CanteenUser> getUsers() {
-    
+            
         ArrayList<CanteenUser> ret = new ArrayList<>();
         
         String query = 
@@ -356,7 +402,7 @@ public class SQLDataManager extends DataManager {
             Statement stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                CanteenUser user = makeUser(rs);
+                CanteenUser user = makeAllergicUser(rs, courses);
                 ret.add(user);
             }
             rs.close();
@@ -413,18 +459,36 @@ public class SQLDataManager extends DataManager {
         
         return num;
     }
+
+    
+    public boolean keyExists(String table, String column, String value) {
         
-    /**
-    * @param menu a collection of four courses (only the name). It must
-    *               contain a reference Date (menu.setDate())
-    * 
-    * @return true/false corresponding to the success of the operation
-    */
-    @Override
-    public boolean saveMenu(Menu menu) {
+        long num = 0;
+        
+        String query = "select count(*) as num " + 
+                       "from " + table + " " +
+                       "where " + column + " = " + "'" + value + "'";
+        
+        try {
+            Statement stmt = mConnection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next())
+                num = rs.getLong("num");
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.err.println("keyExists: " + ex);
+        }
+        
+        return num > 0;
+    }
+
+    
+    
+    private long[] getCourseIdsFromMenu(Menu menu) {
         
         int idFirst = 0, idSecond = 0, idDessert = 0, idFruit = 0;
-
+        
         try {
             String first = reformatCommas(menu.getCourse(Course.Type.First));
             String second = reformatCommas(menu.getCourse(Course.Type.Second));
@@ -434,7 +498,7 @@ public class SQLDataManager extends DataManager {
             if (first.isEmpty() || second.isEmpty()) {
                 System.err.println("saveMenu: incomplete argumets " + 
                                    "(missing first or second, both needed)");
-                return false;
+                return new long[] {0,0,0,0};
             }
             
             String query = "select c1.id as first, c2.id as second, ";            
@@ -473,7 +537,7 @@ public class SQLDataManager extends DataManager {
             } else {
                 System.err.println("saveMenu: incomplete argumets " + 
                                    "(missing dessert and fruit, one needed)");
-                return false;
+                return new long[] {0,0,0,0};
             }
             Statement stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -489,9 +553,78 @@ public class SQLDataManager extends DataManager {
             stmt.close();
         } catch (Exception ex) {
             System.err.println("saveMenu: " + ex);
+            return new long[] {0,0,0,0};
+        }
+        
+        return new long[] {idFirst, idSecond, idDessert, idFruit};
+    }
+    
+    private boolean updateExistingMenu(Menu menu, 
+                 long idFirst, long idSecond, long idDessert, long idFruit){
+        
+        try {
+            String nameUpdate =  "update menus " + 
+                 "set name = '" + reformatCommas(menu.name()) + "' " +
+                  "where date = '" + menu.date() + "'";
+            String idFirstUpdate = "update menus " + 
+                    "set first = " + (idFirst == 0 ? "NULL" : idFirst) + " " + 
+                    "where date = '" + menu.date() + "'";
+            String idSecondUpdate = "update menus " + 
+                  "set second = " + (idSecond == 0 ? "NULL" : idSecond) + " " + 
+                  "where date = '" + menu.date() + "'";
+            String idDessertUpdate = "update menus " + 
+               "set dessert = " + (idDessert == 0 ? "NULL" : idDessert) + " " + 
+               "where date = '" + menu.date() + "'";
+            String idFruitUpdate = "update menus " + 
+                    "set fruit = " + (idFruit == 0 ? "NULL" : idFruit) + " " + 
+                    "where date = '" + menu.date() + "'";
+            mConnection.setAutoCommit(false);
+            Statement stmt = mConnection.createStatement();
+            stmt.executeUpdate(nameUpdate);
+            stmt.executeUpdate(idFirstUpdate);
+            stmt.executeUpdate(idSecondUpdate);
+            stmt.executeUpdate(idDessertUpdate);
+            stmt.executeUpdate(idFruitUpdate);
+            mConnection.commit();
+            mConnection.setAutoCommit(true);
+        }
+        catch (Exception ex) {
+            try { 
+                mConnection.rollback();
+                mConnection.setAutoCommit(true);
+            } catch (SQLException sqx) {}
+            System.err.println("updateExistingMenu: " + ex);
             return false;
         }
+        return true;
+    }
+    
+    
+    /**
+    * @param menu a collection of four courses (only the name). It must
+    *               contain a reference Date (menu.setDate())
+    * 
+    * @return true/false corresponding to the success of the operation
+    */
+    @Override
+    public boolean saveMenu(Menu menu) {
 
+        if (menu.date().isEmpty()) {
+            System.err.println("saveMenu: incomplete argumets (missing date)");
+            return false;
+        }
+        
+        long[] ids = getCourseIdsFromMenu(menu);
+        long idFirst, idSecond, idDessert, idFruit;
+        idFirst = ids[0];
+        idSecond = ids[1];
+        idDessert = ids[2];
+        idFruit = ids[3];
+        
+        if (keyExists("menus", "date", menu.date())) {
+            return updateExistingMenu(menu, 
+                                idFirst, idSecond, idDessert, idFruit);
+        }
         
         try {
             String query = "insert into menus " + 
@@ -555,7 +688,7 @@ public class SQLDataManager extends DataManager {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.err.println("saveMenu: " + ex);
+            System.err.println("saveCourse: " + ex);
             return false;
         }        
         
@@ -616,7 +749,7 @@ public class SQLDataManager extends DataManager {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.err.println("saveMenu: " + ex);
+            System.err.println("findUser: " + ex);
         }
         return index;
     }
@@ -635,7 +768,7 @@ public class SQLDataManager extends DataManager {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.err.println("saveMenu: " + ex);
+            System.err.println("findAddress: " + ex);
         }
         return index;
     }
@@ -651,7 +784,7 @@ public class SQLDataManager extends DataManager {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.err.println("saveMenu: " + ex);
+            System.err.println("findLastId: " + ex);
         }
         return index;
     }
@@ -669,7 +802,7 @@ public class SQLDataManager extends DataManager {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.err.println("saveMenu: " + ex);
+            System.err.println("findParent: " + ex);
         }
         return index;
     }
@@ -913,112 +1046,4 @@ public class SQLDataManager extends DataManager {
         return saveNewUser(user);
     }
     
-    
-    public static void main(String[] args){
-        // this is a module-level test (not to be used)
-        SQLDataManager manager = new SQLDataManager("meals_and_allergies",
-                                             "angelo", "angelo");
-        
-        
-        Course c = manager.findCourse("Crema di fagioli");
-        System.out.println("--- test: findCourse ----\n" + c);
-        
-        
-        ArrayList<Course> courseList = manager.findMenu(new ArrayList<String>(
-                    Arrays.asList("Riso alle zucchine", 
-                                  "Fettina di tacchino alla piastra",
-                                  "Strudel",
-                                  "Macedonia di frutta")));
-        System.out.println("--- test: findMenu ----");
-        for (Course course : courseList) {
-            System.out.println(course);
-        }
-        
-        HashSet<Menu> menus = manager.getMenus();
-        System.out.println("--- test: getMenus ----");
-        for (Menu m : menus) {
-            System.out.println(m);
-        }
-
-        HashMap<String, ArrayList<String>> allcourses = manager.getCourses();
-        System.out.println("--- test: getCourses ----");
-        if (allcourses.containsKey("First"))
-            System.out.println("         " + 
-                allcourses.get("First").size() + " first");
-        if (allcourses.containsKey("Second"))
-            System.out.println("         " + 
-                allcourses.get("Second").size() + " second");
-        if (allcourses.containsKey("Dessert"))
-            System.out.println("         " + 
-                allcourses.get("Dessert").size() + " dessert");
-        if (allcourses.containsKey("Fruit"))
-            System.out.println("         " + 
-                allcourses.get("Fruit").size() + " fruit");
-        
-        
-        ArrayList<CanteenUser> allUsers = manager.getUsers();
-        System.out.println("--- test: getUsers ----");
-        System.out.println("         found  " + allUsers.size() + " users");
-        System.out.println("         1.   " + allUsers.get(0));
-        System.out.println("         2.  " + allUsers.get(1));
-        System.out.println("         ... " );
-
-
-        Menu menu = new Menu();
-        menu.setCourse("Crema di fagioli con pasta", Course.Type.First);
-        menu.setCourse("Bocconcini di Vitellone in umido", Course.Type.Second);
-        menu.setCourse("Strudel", Course.Type.Dessert);
-        ArrayList<CanteenUser> allergicUsers = manager.getAllergicUsers(menu);
-        System.out.println("--- test: getAllergicUsers ----");
-        System.out.println("         found  " + allergicUsers.size() +" users");
-        System.out.println("         1.   " + allergicUsers.get(0));
-        System.out.println("         2.  " + allergicUsers.get(1));
-        System.out.println("         ... " );
-        
-        System.out.println("--- test: getNumberOfUsers ----");
-        long tot = manager.getNumberOfUsers("");
-        long stud = manager.getNumberOfUsers("student");
-        long prof = manager.getNumberOfUsers("professor");
-        System.out.println("         found " + tot +" totals");
-        System.out.println("         found " + stud +" student");
-        System.out.println("         found " + prof +" professors");
-        
-        
-        System.out.println("--- test: saveMenu ----");
-        // using a menu previously created
-        menu.setDate("2017-12-20");
-        menu.setName("pre-natale");
-        boolean retMenu = manager.saveMenu(menu); 
-        System.out.println("         ret: " + retMenu);
-        System.out.println(manager.getMenus());
-        
-        System.out.println("--- test: saveCourse ----");
-        Course newCourse = new Course();
-        newCourse.name = "Pasta e patate";
-        newCourse.type = Course.Type.First;
-        newCourse.ingredients.add("pasta");
-        newCourse.ingredients.add("patata");
-        newCourse.ingredients.add("cipolla");
-        newCourse.ingredients.add("olio d'oliva");
-        boolean retCourse = manager.saveCourse(newCourse);
-        System.out.println("         ret: " + retCourse);
-
-        System.out.println("--- test: saveUser ----");
-        CanteenUser user = new Student("Mario", "Panero");
-        user.setAddress(new Address("via Nappi 21", "83100", "Avellino"));
-        user.setPhone("212301204");
-        Person[] parents = new Person[2];
-        parents[0] = new Person("Franco", "Panero");
-        parents[0].setPhone("0932132423");
-        parents[1] = new Person("Antonietta", "Davanzo");
-        ((Student)user).setParents(parents);
-        user.addAllergy("cipolla");
-        user.addAllergy("patata");
-        user.addAllergy("burro");
-        boolean retUser = manager.saveUser(user);
-        System.out.println("         ret: " + retUser);
-        
-    }
-
-
 }

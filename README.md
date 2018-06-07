@@ -12,8 +12,8 @@ In Netbeans load and build these ones with `F11`, in this order:
 
 1. common (library)
 2. server (app, with library *common.jar* attached in build.xml)
-3. client (lib + test-app, as above)
-4. gui (app)
+3. client (library, depends on *common.jar*)
+4. gui (app, depends on *client.jar*)
 
 #### Build the data
 
@@ -38,7 +38,7 @@ MySQL Connector library is installed locally in the project, and contained in th
     sudo apt-get -f install 
     sudo apt autoremove #may be required
 
-Run the queries in */sql/data_setup.sql* to create the database schema *meals_and_allergies* and insert the test data (100 users, 31 courses, 2 menu planned). 
+Run the queries in database dump **/sql/data_setup.sql** to create the database schema *meals_and_allergies* and insert the test data (100 users, 31 courses, 2 menu planned). 
 
 The library has been added to the *server* project from netbeans, so it should already be in the build.xml. If not, add it as`Projects-> server -> Properties -> Libraries -> Add Library : MySQL JDBC Driver`. 
 
@@ -49,11 +49,13 @@ Flat files (newlines) are platform dependent. To avoid this problem data are aut
 	java -jar common/dist/common.jar /path/to/data
 
 
-#### JUNIT
+#### TEST with JUNIT
 
 Unit **tests are per module**. If you want to run them, load the module (common, client, or server) in NetBeans, right click `Test` or `Alt+F6` on the module name. 
 
 They use JUNIT, which library is installed locally from the folder **libs**.
+
+*Note*: the tests of the module **server** necessitate data to have been generated (the above paragraphs, points (a) and (b)).
 
 #### UML
 
@@ -101,13 +103,6 @@ I used port-number 8080, database "meals_and_allergies", user "angelo", pass "an
 I used port-number 8080.
 
 	java -jar server/dist/server.jar port-number /path/to/data
-
-
-#### Run the client
-
-This **just a tests** to see whether the client can communicate with server properly. We use the gui to work. Client is eventually a library used by a gui or other program. I used host *localhost* and port-number *8080*.
-
-	java -jar client/dist/client.jar host port-number
 
 
 #### Run the GUI

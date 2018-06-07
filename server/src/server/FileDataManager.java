@@ -7,7 +7,6 @@ import university.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.io.File;
 
@@ -52,6 +51,23 @@ public class FileDataManager extends DataManager {
         newFile.renameTo(new File(oldFilePath));
     }
 
+    
+    @Override
+    public boolean isReady() {
+        boolean opened = true;
+        
+        File u = new File(mDataPath + "/users.dat");
+        opened &= u.exists();
+        
+        File c = new File(mDataPath + "/courses.dat");
+        opened &= c.exists();
+        
+        File m = new File(mDataPath + "/menus.dat");
+        opened &= m.exists();   
+        
+        return opened;
+    }
+    
     /** 
      * @return Array of all courses in our databases
      */    
@@ -161,7 +177,7 @@ public class FileDataManager extends DataManager {
     public ArrayList<CanteenUser> getAllergicUsers(Menu menu) {
         
         ArrayList<CanteenUser> ret = new ArrayList<>();
-        ArrayList<Course> courses = findMenu(menu.courses());        
+        ArrayList<Course> courses = findMenu(menu.courses());
         
         if (courses.size() > 0 ) { 
             Iterator<Course> cit;
@@ -301,66 +317,5 @@ public class FileDataManager extends DataManager {
         return saveObjet(mDataPath + "/users.dat", mUserReader, 
                  mUserWriter, user);
     }
-    
-    
-    public static void main(String[] args){
-        // this is a module-level test (not to be used)
-        
-        System.out.println("--- test File Scanner (Courses) ---");
-        FileDataManager scanner = new FileDataManager("../data");
-        
-        // ---- test findCourse(String) ---- 
-        String cName = "Riso alla zucca";
-        System.out.println(">> searching for course: " + cName);
-        Course cFound = scanner.findCourse(cName);
-        System.out.println("   found: " + cFound);
-        
-        // ---- test findMenu(ArrayList<String>) ---- 
-        ArrayList<String> menu = new ArrayList<>(
-                  Arrays.asList("Riso alla zucca", 
-                                "Arrosto di tacchino al forno",
-                                "Budino al cioccolato",
-                                "Macedonia di frutta"));
-        System.out.println(">> searching for menu: " + menu);
-        ArrayList<Course> found = scanner.findMenu(menu);
-        System.out.println("   found " + found.size() + " courses");
-        found.forEach((s)-> {System.out.println(s);});
-        
-        // ---- test getCourses() ---- 
-        System.out.println(">> searching all meals ");
-        HashMap<String, ArrayList<String>> meals = scanner.getCourses();
-        System.out.println("   found " + meals.get("First").size() + " First");
-        //meals.get("First").forEach((s)-> {System.out.println(s);});
-        System.out.println("   found " + meals.get("Second").size() + " Second");
-        //meals.get("Second").forEach((s)-> {System.out.println(s);});        
-        System.out.println("   found " + meals.get("Dessert").size() + " Dessert");
-        //meals.get("Dessert").forEach((s)-> {System.out.println(s);});
-        System.out.println("   found " + meals.get("Fruit").size() + " Fruit");
-        //meals.get("Fruit").forEach((s)-> {System.out.println(s);});
-        
-        
-        System.out.println("--- test File Scanner (Users) ---");
-        ArrayList<CanteenUser> users = scanner.getUsers();
-        System.out.println("    > found " + users.size() + " users\n");
-        // for (CanteenUser user : users)
-        //     System.out.println(user);
-                
-        Menu menu2 = new Menu();
-        menu2.setName("pranzo del venerdì");
-        menu2.setCourse("Orzotto con zucchine e asiago", Course.Type.First);
-        menu2.setCourse("Bocconcini di Vitellone in umido", Course.Type.Second);
-        menu2.setCourse("Budino al cioccolato", Course.Type.Dessert);
-        menu2.setCourse("Smoothie di frutta mista", Course.Type.Fruit);
-        System.out.println(">> scanning users allergic to this menu: " + menu2);
-        
-        users = scanner.getAllergicUsers(menu2);
-        System.out.println("    > found " + users.size() + " allergic users\n");
-        //for (CanteenUser user : users)
-        //    System.out.println(user);
-    
-        
-    }
-
-    
-    
+       
 }

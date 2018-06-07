@@ -12,6 +12,13 @@ import java.util.HashSet;
  * either a File-System or a Data Base.
  */
 public abstract class DataManager {
+    
+    /**
+     * @return true/false if the source of data is available (file system 
+     *         reachable, or database connection working)
+     */
+    public abstract boolean isReady();
+    
     /**
     * @return Array of users in our database or file-system
     */

@@ -2,41 +2,7 @@
 
 <ClassDiagram name="client">
   <ClassDiagramComponents>
-    <Class name="TestClient" package="client" visibility="public" xPosition="682.0" yPosition="88.0">
-      <Fields>
-        <Field name="available" type="boolean" visibility="private" isStatic="true"/>
-        <Field name="mClient" type="Client" visibility="private"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="host"/>
-          <Argument type="int" name="port"/>
-        </Constructor>
-      </Constructors>
-      <Methods>
-        <Method name="testCourseInfo" returnType="void" visibility="public" isSynchronized="true"/>
-        <Method name="testViewCourses" returnType="void" visibility="public" isSynchronized="true">
-          <Argument type="boolean" name="printCourseList"/>
-        </Method>
-        <Method name="testViewUsers" returnType="void" visibility="public" isSynchronized="true">
-          <Argument type="boolean" name="printUserList"/>
-        </Method>
-        <Method name="testViewMenus" returnType="void" visibility="public" isSynchronized="true">
-          <Argument type="boolean" name="printMenuList"/>
-        </Method>
-        <Method name="testViewAllergicUsers" returnType="void" visibility="public" isSynchronized="true">
-          <Argument type="boolean" name="printUserList"/>
-        </Method>
-        <Method name="testSaveMenu" returnType="void" visibility="public" isSynchronized="true"/>
-        <Method name="testSaveCourse" returnType="void" visibility="public" isSynchronized="true"/>
-        <Method name="testSaveUser" returnType="void" visibility="public" isSynchronized="true"/>
-        <Method name="run" returnType="void" visibility="public"/>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String" name="args"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="Client" package="client" visibility="public" xPosition="58.0" yPosition="46.0">
+    <Class name="Client" package="client" visibility="public" xPosition="20.0" yPosition="20.0">
       <Fields>
         <Field name="mHost" type="String" visibility="private"/>
         <Field name="mPort" type="int" visibility="private"/>
@@ -83,7 +49,5 @@
       </Methods>
     </Class>
   </ClassDiagramComponents>
-  <ClassDiagramRelations>
-    <HasRelation name="mClient" source="client.TestClient" target="client.Client" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-  </ClassDiagramRelations>
+  <ClassDiagramRelations/>
 </ClassDiagram>

@@ -56,7 +56,7 @@ public class SerialReader <T extends Object> {
             T obj = (T)mBuffer.readObject();
             return obj;
         } catch (Exception ex) {
-            System.err.println("end of reader file " + mFilePath);
+            //System.err.println("end of reader file " + mFilePath);
         }
         return null;
     }
