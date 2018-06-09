@@ -1003,7 +1003,7 @@ public class SQLDataManager extends DataManager {
                      "set parent1 = " + idParents[0] + " " +
                      "where id = " + id;
                 parent2Update = "update users " + 
-                     "set parent1 = " + idParents[1] + " " +
+                     "set parent2 = " + idParents[1] + " " +
                      "where id = " + id;
             }
             String allergiesUpdate = "update users " + 

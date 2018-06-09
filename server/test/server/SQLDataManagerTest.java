@@ -24,7 +24,8 @@ public class SQLDataManagerTest {
     @Before
     public void setUp() {
 
-        manager = new SQLDataManager("meals_and_allergies", "angelo", "angelo");
+        manager = new SQLDataManager("meals_and_allergies", 
+                                      "10429624", "angelo");
         
         if (!manager.isReady()) {
             throw new RuntimeException(

@@ -314,8 +314,15 @@ public class FileDataManager extends DataManager {
      */
     @Override
     public boolean saveUser(CanteenUser user) {
-        return saveObjet(mDataPath + "/users.dat", mUserReader, 
-                 mUserWriter, user);
+        if (user.type().equals("student"))
+            return saveObjet(mDataPath + "/users.dat", mUserReader, 
+                     mUserWriter, (Student)user);
+        else if (user.type().equals("professor"))
+            return saveObjet(mDataPath + "/users.dat", mUserReader, 
+                     mUserWriter, (Professor)user);
+        else
+            return saveObjet(mDataPath + "/users.dat", mUserReader, 
+                     mUserWriter, user);
     }
        
 }

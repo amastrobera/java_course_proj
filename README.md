@@ -19,13 +19,17 @@ In Netbeans load and build these ones with `F11`, in this order:
 
 You can do it in two ways, depending on the **server** using **SQLDataManager** or **FileDataManager** to retrieve the data. 
 
-##### (a) using MySQL and JDBC Connector
+##### 1. MySQL and JDBC Connector
 
 Install MySQL if you haven't yet. You can do it directly from the command line.
 
     sudo apt-get install mysql-server -y 
 
 MySQL Connector library is installed locally in the project, and contained in the folder **libs**.
+
+Run the queries in database dump to create the database schema *meals_and_allergies* and insert the test data (100 users, 31 courses, 2 menu planned). 
+
+    mysql --user root --password < sql/data_setup.sql
 
 *Optional*. Install a GUI to use it. I used MySQL Workbench. [Download](https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-6.3.10-1ubuntu16.04-amd64.deb)
 
@@ -38,11 +42,18 @@ MySQL Connector library is installed locally in the project, and contained in th
     sudo apt-get -f install 
     sudo apt autoremove #may be required
 
-Run the queries in database dump **/sql/data_setup.sql** to create the database schema *meals_and_allergies* and insert the test data (100 users, 31 courses, 2 menu planned). 
+*Clean up at the end of the demo*. You can remove the user and database created with 
+
+    mysql --user root --password
+    Enter password: 
+    mysql> drop database meals_and_allergies;
+    mysql> drop user "10429624"@"localhost";
+    mysql> quit;
+    
 
 The library has been added to the *server* project from netbeans, so it should already be in the build.xml. If not, add it as`Projects-> server -> Properties -> Libraries -> Add Library : MySQL JDBC Driver`. 
 
-##### (b) Using a flat file system
+##### 2. Flat file system
 
 Flat files (newlines) are platform dependent. To avoid this problem data are automatically generated on your side with the  **common.io.DataGenerator** class. If there isn't already one in the main directory, create a folder called **data**, and execute this. 
 
@@ -55,7 +66,7 @@ Unit **tests are per module**. If you want to run them, load the module (common,
 
 They use JUNIT, which library is installed locally from the folder **libs**.
 
-*Note*: the tests of the module **server** necessitate data to have been generated (the above paragraphs, points (a) and (b)).
+*Note*: the tests of the module **server** necessitate data to have been generated (the above paragraphs, points (1) and (2)).
 
 #### UML
 
@@ -93,7 +104,7 @@ The server needs to know where the data is stored and what port of the (localhos
 
 ##### (a) using MySQL and JDBC Connector
 
-I used port-number 8080, database "meals_and_allergies", user "angelo", pass "angelo".
+I used port-number 8080, database "meals_and_allergies", user "10429624", pass "angelo".
 
 	java -jar server/dist/server.jar port-number database-name user passwd
 

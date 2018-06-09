@@ -1,8 +1,16 @@
 /* ==========  database schema =========== */
 
-CREATE DATABASE `meals_and_allergies` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE meals_and_allergies;
+
+CREATE USER '10429624'@'localhost' IDENTIFIED BY 'angelo';
+
+GRANT ALL PRIVILEGES ON meals_and_allergies.* TO '10429624'@'localhost' IDENTIFIED BY 'angelo';
+
+FLUSH PRIVILEGES;
 
 /* =========== tables schema =========== */
+
+USE meals_and_allergies;
 
 /* users data structure */
 
@@ -12,7 +20,7 @@ CREATE TABLE `meals_and_allergies`.`addresses` (
   `postcode` varchar(10) NOT NULL,
   `city` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 CREATE TABLE `meals_and_allergies`.`parents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,7 +28,7 @@ CREATE TABLE `meals_and_allergies`.`parents` (
   `surname` varchar(45) NOT NULL,
   `phone` varchar(15) NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 
 CREATE TABLE `meals_and_allergies`.`users` (
@@ -40,7 +48,7 @@ CREATE TABLE `meals_and_allergies`.`users` (
   CONSTRAINT `address` FOREIGN KEY (`address`) REFERENCES `addresses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `parent1` FOREIGN KEY (`parent1`) REFERENCES `parents` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `parent2` FOREIGN KEY (`parent2`) REFERENCES `parents` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 /* notes: a special table only for student users */
 CREATE TABLE `meals_and_allergies`.`notes` (
@@ -54,7 +62,7 @@ CREATE TABLE `meals_and_allergies`.`notes` (
     REFERENCES `meals_and_allergies`.`users` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 
 /* menus data structure */
@@ -65,7 +73,7 @@ CREATE TABLE `meals_and_allergies`.`courses` (
   `type` varchar(10) NOT NULL,
   `ingredients` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 
 CREATE TABLE `meals_and_allergies`.`menus` (
@@ -83,13 +91,12 @@ CREATE TABLE `meals_and_allergies`.`menus` (
   CONSTRAINT `dessert` FOREIGN KEY (`dessert`) REFERENCES `courses` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `first` FOREIGN KEY (`first`) REFERENCES `courses` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fruit` FOREIGN KEY (`fruit`) REFERENCES `courses` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `second` FOREIGN KEY (`second`) REFERENCES `courses` (`id`) ON UPDATE CASCADE,
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `second` FOREIGN KEY (`second`) REFERENCES `courses` (`id`) ON UPDATE CASCADE
+);
 
 ALTER TABLE `meals_and_allergies`.`menus`
 ADD CONSTRAINT `DessertOfFruit`
 CHECK ( (`dessert` IS NULL)  OR (`fruit` IS NULL) );
-
 
 /* =========== inserting data =========== */
 
@@ -501,7 +508,11 @@ select c.name, c.type, c.ingredients
  c.name = 'Riso alle zucchine' or 
  c.name = 'Fettina di tacchino alla piastra' 
  or c.name = 'Strudel' or 
- c.name = 'Macedonia di frutta')
- 
- 
+ c.name = 'Macedonia di frutta');
+
+/* clear database, users, data  */
+/*
+drop database meals_and_allergies; 
+drop user "10429624"@"localhost";
+*/
 
