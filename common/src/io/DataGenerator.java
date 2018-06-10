@@ -12,6 +12,7 @@ import java.util.HashSet;
 
 import university.*;
 import canteen.*;
+import java.nio.file.Files;
 
 public class DataGenerator {
 
@@ -420,18 +421,26 @@ public class DataGenerator {
             System.exit(1);
         }
         
-        System.out.println("... writing to " + args[0]);
+        String dataPath = args[0];
         
-        DataGenerator.generateUsers(args[0] + "/users.dat");
-        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
-        DataGenerator.replaceARandomUser(args[0] + "/users.dat");
-        DataGenerator.readUsers(args[0] + "/users.dat", false); // data check
+        System.out.println("... writing to " + dataPath);
+        
+        File dir = new File(dataPath);
+        if (!dir.exists()) {
+            System.out.println("... creating dir " + dataPath);
+            dir.mkdir();
+        }
 
-        DataGenerator.generateMeals(args[0] + "/courses.dat");
-        DataGenerator.readMeals(args[0] + "/courses.dat", false); // data check
+        DataGenerator.generateUsers(dataPath + "/users.dat");
+        DataGenerator.readUsers(dataPath + "/users.dat", false); // data check
+        DataGenerator.replaceARandomUser(dataPath + "/users.dat");
+        DataGenerator.readUsers(dataPath + "/users.dat", false); // data check
+
+        DataGenerator.generateMeals(dataPath + "/courses.dat");
+        DataGenerator.readMeals(dataPath + "/courses.dat", false); // data check
         
-        DataGenerator.generateMenus(args[0] + "/menus.dat");
-        DataGenerator.readMenuPlan(args[0] + "/menus.dat", false); // data check
+        DataGenerator.generateMenus(dataPath + "/menus.dat");
+        DataGenerator.readMenuPlan(dataPath + "/menus.dat", false); // data check
         
     }
     
