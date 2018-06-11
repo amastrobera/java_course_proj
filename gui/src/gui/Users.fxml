@@ -102,12 +102,15 @@
                    promptText="città" />
 
 
-        <TextField fx:id="txtFather" layoutX="30" layoutY="360" prefWidth="300"
+        <TextField fx:id="txtFather" layoutX="30" layoutY="360" prefWidth="270"
                    promptText="padre: nome cognome (numero)" />
         
-        <TextField fx:id="txtMother" layoutX="410" layoutY="360" prefWidth="300"
+        <TextField fx:id="txtMother" layoutX="320" layoutY="360" prefWidth="270"
                    promptText="madre: nome cognome (numero)" />
-        
+
+        <TextField fx:id="txtNotes" layoutX="610" layoutY="360" prefWidth="140"
+                   promptText="note ..." />
+
         
         <TextField fx:id="txtAllergies" layoutX="30" layoutY="390" 
                    prefWidth="600" promptText="allergie ','-separated" />

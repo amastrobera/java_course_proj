@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import java.sql.*;
-import java.util.Arrays;
 
 
 public class SQLDataManager extends DataManager {
@@ -282,6 +281,8 @@ public class SQLDataManager extends DataManager {
                         parents[1] = null;
                     
                     ((Student)user).setParents(parents);
+
+                    ((Student)user).setNotes(rs.getString("notes"));
                     
                 } else if (type.equals("professor"))
                     user = new Professor(name, surname);
@@ -317,12 +318,13 @@ public class SQLDataManager extends DataManager {
           "select u.name, u.surname, u.type, u.phone, " +
           "concat(a.street, ',', a.postcode, ',', a.city) as address, " +
           "concat(p1.name, ' ', p1.surname, ' ', coalesce(p1.phone,''), ', '," +
-          "p2.name, ' ', p2.surname, ' ', coalesce(p2.phone,'')) as parents, "+
-           "u.allergies "+
+          "p2.name, ' ', p2.surname, ' ', coalesce(p2.phone,'')) as parents, " +
+           "u.allergies, coalesce(n.note,'') as notes " +
            "from users as u "+
            "left join addresses as a on u.address = a.id " +
            "left join parents as p1 on u.parent1 = p1.id "+
-           "left join parents as p2 on u.parent2 = p2.id";
+           "left join parents as p2 on u.parent2 = p2.id " + 
+           "left join notes as n on n.student = u.id ";
         
         try {
             Statement stmt = mConnection.createStatement();
@@ -382,11 +384,12 @@ public class SQLDataManager extends DataManager {
                 "concat(a.street, ',', a.postcode, ',', a.city) as address, " +
           "concat(p1.name, ' ', p1.surname, ' ', coalesce(p1.phone,''), ', ', "+
           "p2.name, ' ', p2.surname, ' ', coalesce(p2.phone,'')) as parents, " +
-                "u.allergies " +
+          "u.allergies, coalesce(n.note,'') as notes " +
                 "from users as u " + 
                 "left join addresses as a on u.address = a.id " +
                 "left join parents as p1 on u.parent1 = p1.id " +
                 "left join parents as p2 on u.parent2 = p2.id " +
+                "left join notes as n on n.student = u.id " + 
                 "where " +
                 "( ";
                 int max = ingredients.size();
@@ -735,6 +738,23 @@ public class SQLDataManager extends DataManager {
         return true;
     }
 
+    
+    private long findNote(long userId) {
+        long index = 0;
+        try {
+            String query = "select id from notes where student = " + userId;
+            Statement stmt = mConnection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next())
+                index = rs.getInt("id");
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.err.println("findNote: " + ex);
+        }
+        return index;
+    }
+    
     private long findUser(CanteenUser user) {
         long index = 0;
         try {
@@ -972,6 +992,47 @@ public class SQLDataManager extends DataManager {
     }
     
     
+    private boolean saveNote(Student user, long id) {
+        try {
+            String query = "insert into notes(student,note) " +
+                "values(" + id + ",'" + reformatCommas(user.notes()) + "')";
+            mConnection.setAutoCommit(false);
+            Statement stmt = mConnection.createStatement();
+            stmt.executeUpdate(query);
+            mConnection.commit();
+            mConnection.setAutoCommit(true);
+        } catch (Exception ex) {
+            try { 
+                mConnection.rollback();
+                mConnection.setAutoCommit(true);
+            } catch (SQLException sqx) {}
+            System.err.println("saveNote: " + ex);
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean updateNote(Student user, long noteId) {
+        try {
+            String query = "update notes " + 
+                 "set note = '" + reformatCommas(user.notes()) + "' " +
+                 "where id = " + noteId;
+            mConnection.setAutoCommit(false);
+            Statement stmt = mConnection.createStatement();
+            stmt.executeUpdate(query);
+            mConnection.commit();
+            mConnection.setAutoCommit(true);
+        } catch (Exception ex) {
+            try { 
+                mConnection.rollback();
+                mConnection.setAutoCommit(true);
+            } catch (SQLException sqx) {}
+            System.err.println("updateNote: " + ex);
+            return false;
+        }
+        return true;        
+    }
+    
     private boolean updateExistingUser(CanteenUser user, long id) {
                     
         long idAddress = addAddress(user.address());
@@ -1027,7 +1088,7 @@ public class SQLDataManager extends DataManager {
                 mConnection.rollback();
                 mConnection.setAutoCommit(true);
             } catch (SQLException sqx) {}
-            System.err.println("saveNewUser: " + ex);
+            System.err.println("updateExistingUser: " + ex);
             return false;
         }        
         return true;
@@ -1040,10 +1101,26 @@ public class SQLDataManager extends DataManager {
      */
     @Override
     public boolean saveUser(CanteenUser user) {
-        long userId = findUser(user);        
-        if (userId > 0 )
-            return updateExistingUser(user, userId);
-        return saveNewUser(user);
+ 
+        boolean ret = true;
+        
+        long userId = findUser(user);
+        if (userId > 0)
+            ret &= updateExistingUser(user, userId);
+        else
+            ret &= saveNewUser(user);
+                
+        if (user.type().equals("student")) {
+            if (userId == 0)
+                userId = findUser(user);
+            long noteId = findNote(userId);
+            if (noteId > 0)
+                ret &= updateNote((Student)user, noteId);
+            else 
+                ret &= saveNote((Student)user, userId);
+        }
+        
+        return ret;
     }
     
 }

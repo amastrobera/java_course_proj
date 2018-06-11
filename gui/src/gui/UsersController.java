@@ -34,6 +34,7 @@ public class UsersController implements Initializable {
     @FXML private TextField txtCity;
     @FXML private TextField txtFather;
     @FXML private TextField txtMother;
+    @FXML private TextField txtNotes;
     @FXML private TextField txtAllergies;
     
     private Client mClient;
@@ -63,6 +64,7 @@ public class UsersController implements Initializable {
                     txtFather.setText(newSelection.getFather());
                     txtMother.setText(newSelection.getMother());
                     txtAllergies.setText(newSelection.getAllergies());
+                    txtNotes.setText(newSelection.getNotes());
                 }
             }
         );
@@ -94,6 +96,9 @@ public class UsersController implements Initializable {
         txtAllergies.clear();
         txtAllergies.setText("");
         
+        txtNotes.clear();
+        txtNotes.setText("");
+        
         if (cboType.getItems().isEmpty()) {
             cboType.getItems().clear();
             cboType.setItems(FXCollections.observableList(
@@ -115,6 +120,7 @@ public class UsersController implements Initializable {
         String city = txtCity.getText().trim();
         String father = txtFather.getText().trim();
         String mother = txtMother.getText().trim();
+        String notes = txtNotes.getText().trim();
         String allergies = txtAllergies.getText();
         
         if (type.isEmpty() || type.equals("User Type")) {
@@ -178,6 +184,9 @@ public class UsersController implements Initializable {
                     parents[1].setPhone(arrMother[2]);
             }
             ((Student)user).setParents(parents);
+            
+            ((Student)user).setNotes(notes);
+            
         } else {
             user = new Professor(name, surname);
         }

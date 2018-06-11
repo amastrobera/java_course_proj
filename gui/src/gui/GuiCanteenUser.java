@@ -31,6 +31,7 @@ public class GuiCanteenUser {
         if (user.type().equals("student")) {
             Student s = (Student)user;
             setParents(s.parents());
+            setNotes(s.notes());
         }
     }
 
