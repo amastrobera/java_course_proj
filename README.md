@@ -71,35 +71,6 @@ They use JUNIT, which library is installed locally from the folder **libs**.
 
 *Note*: the tests of the module **server** necessitate data to have been generated (the above paragraphs, points (1) and (2)).
 
-#### UML
-
-A class diagram is available in the omonimous [folder](uml/Class Diagrams). 
-
-It was created with the easyUML plugin of netbeans. `Projects -> New Project -> UML` called *uml*. `uml -> New folder` called *server*. `Projects -> Server -> server -> easyUML create class diagram -> uml/server`. 
-
-##### UML : common library 
-
-![canteen](img/canteen.png)
-
-![comm](img/comm.png)
-
-![io](img/io.png)
-
-![university](img/university.png)
-
-##### UML : client
-
-![client](img/client.png)
-
-##### UML : server
-
-![server](img/server.png)
-
-
-##### UML: gui
-
-![gui](img/gui.png)
-
 
 #### Run the server
 
@@ -134,4 +105,73 @@ It will give you the following options to view/save menus, view allergic users, 
 ![Menu Plan View](img/menuplan_tab.png)
 
 ![Users View](img/users_tab.png)
+
+
+#### UML
+
+A **sequence diagram** was created manually, and added in **uml** folder as a pdf. 
+
+A **class diagram** is available in the same folder. It was created with the easyUML plugin of netbeans. `Projects -> New Project -> UML` called *uml*. `uml -> New folder` called *server*. `Projects -> Server -> server -> easyUML create class diagram -> uml/server`. 
+
+
+##### sequence diagram : Menu View
+
+![menu_select](img/menu_view_select.png)
+
+![menu_allergic](img/menu_view_allergic.png)
+
+![menu_save](img/menu_view_save.png)
+
+![menu_refresh](img/menu_view_refresh.png)
+
+
+##### sequence diagram : Course View
+
+![course_refresh](img/course_view_refresh.png)
+
+![course_save](img/course_view_save.png)
+
+
+##### sequence diagram : MenuPlan View
+
+![menuplan_refresh](img/menuplan_view_refresh.png)
+
+
+##### sequence diagram : Users View
+
+![user_save](img/user_view_save.png)
+
+![user_refresh](img/user_view_refresh.png)
+
+
+##### class diagram : common library 
+
+Canteen
+
+![canteen](img/canteen.png)
+
+Comm
+
+![comm](img/comm.png)
+
+Io
+
+![io](img/io.png)
+
+University
+
+![university](img/university.png)
+
+##### class diagram : client
+
+![client](img/client.png)
+
+##### class diagram : server
+
+![server](img/server.png)
+
+
+##### class diagram: gui
+
+![gui](img/gui.png)
 
